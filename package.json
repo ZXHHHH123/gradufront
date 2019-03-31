@@ -1,0 +1,40 @@
+{
+  "name": "gradufront",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "16.8.3",
+    "react-native": "0.59.1",
+    "react-native-gesture-handler": "^1.1.0",
+    "react-navigation": "^3.5.1",
+    "@ant-design/react-native": "^3.1.0",
+    "@babel/plugin-proposal-decorators": "^7.4.0",
+    "mobx": "^4.3.1",
+    "mobx-react": "^5.1.0",
+    "react-dom": "^16.7.0",
+    "react-native-tab-navigator": "^0.3.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/runtime": "^7.4.0",
+    "@react-native-community/eslint-config": "^0.0.3",
+    "babel-jest": "^24.5.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.5.0",
+    "metro-react-native-babel-preset": "^0.53.1",
+    "react-test-renderer": "16.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "axios": "^0.18.0",
+    "babel-preset-mobx": "^2.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
