@@ -4,7 +4,8 @@
 import React, {Component} from 'react'
 import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight} from 'react-native'
 import axios from 'axios'
-import axiosUtil from '../../../graduFront/config/system'
+import axiosUtil from '../../config/system'
+// import Button from '@ant-design/react-native/lib/button';
 import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
 
 class allCompanys extends Component {
@@ -12,6 +13,7 @@ class allCompanys extends Component {
     super(props);
   }
   intoConpanyDetail() {
+    console.log(axiosUtil);
     this.props.navigation.navigate('companyDetail');
   }
   render() {

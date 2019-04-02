@@ -13,13 +13,7 @@ const MainStackNavigator = createStackNavigator({
     screen: JobDetail
   }
 }, {
-  initialRouteName: 'jobDetail',
-  // headerMode: 'none',
-  // defaultNavigationOptions: {
-  //   header: null
-  // }
+  initialRouteName: 'jobDetail'
 });
-
-
 
 export default MainStackNavigator;

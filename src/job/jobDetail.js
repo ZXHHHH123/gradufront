@@ -5,7 +5,7 @@ import React, {Component} from 'react'
 import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight} from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
-import Button from "@ant-design/react-native/es/button/index.d";
+import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;

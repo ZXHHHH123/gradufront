@@ -6,18 +6,21 @@
  * @flow
  */
 
-import Root from './routeConfig/rootConfig';
+import RootFront from './routeConfig/rootConfig';
+import Root from './route'
+import AllCompany from './src/company/allCompanys'
+import Login from './src/account/login'
+
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 
 
 
 
-type Props = {};
 export default class App extends Component<Props> {
   render() {
     return (
-        <Root/>
+        <RootFront/>
     );
   }
 }

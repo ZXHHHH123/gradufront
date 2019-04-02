@@ -6,7 +6,7 @@ import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import Home from '../home'
-import UserStore from './../../mobx/userStore'
+// import UserStore from './../../mobx/userStore'
 // import Button from '@ant-design/react-native/lib/button';
 import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
 
@@ -80,7 +80,7 @@ class Login extends Component {
       console.log('拿到数据');
       if(res.data.code === 200) {
         ToastAndroid.show('登录成功', ToastAndroid.SHORT);
-        that.props.navigation.navigate('Main',  {
+        that.props.navigation.push('Main',  {
           itemId: 86,
           otherParam: 'anything you want here',
         });
