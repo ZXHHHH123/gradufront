@@ -4,6 +4,10 @@
 import React, {Component} from 'react'
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, Image} from 'react-native'
 import {Button, Flex, WhiteSpace, WingBlank} from '@ant-design/react-native';
+import axios from 'axios'
+import systemConfig from '../../config/system'
+import UserStore from './../../mobx/userStore'
+
 
 
 class AccountRegister extends Component {
@@ -13,28 +17,91 @@ class AccountRegister extends Component {
     this.state = {
       userName: '',
       pwd: '',
-      smsCode: ''
+      smsCode: '',
+      smsCodeText: '获取验证码',
+      axiosUrl: systemConfig.axiosUrl,
+      timeNum: systemConfig.timeNum,
+      isDisabled: false,
     }
   }
   
   _test() {
     console.log(123);
   }
-  
-  _earnSmsCode(phone) {
+  //判断是否为手机号码
+  _isPhone(phone) {
+    console.log(phone);
+    let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+    console.log(myreg.test(phone));
+    return myreg.test(phone)
+  }
+  _earnSmsCode() {
     console.log('abc');
+    console.log(this.state.phone);
+    let phone = this.state.phone;
+    if(!this._isPhone(phone)) {
+      ToastAndroid.show('请正确输入手机号', ToastAndroid.SHORT);
+      return;
+    }
+    this.setState({
+      isDisabled: true
+    });
+    let timeNum = this.state.timeNum;
+    if(timer){
+      clearInterval(timer);
+    }
+    let timer = setInterval(() =>{
+      timeNum--;
+      if(timeNum === 0){
+        clearInterval(timer);
+        this.setState({
+          smsCodeText: '获取验证码',
+          timeNum: this.state.timeNum,
+          isDisabled: false
+        });
+        return;
+      }
+      console.log(timeNum);
+      this.setState({
+        smsCodeText: `重新发送${timeNum}s`,
+      })
+    }, 1000);
     
+    axios.post(systemConfig.axiosUrl + 'user/getVarifyCode', {phone}).then(res =>{
+      console.log('获取验证码后端传回参数' + JSON.stringify(res));
+    }).catch(err =>{
+      console.log('接口报错' + err);
+    })
+    
+  };
+  _registerAccount() {
+    console.log('注册账户');
+    let {phone, pwd, smsCode} = this.state;
+    if(!(phone && pwd && smsCode)){
+      ToastAndroid.show('请输入完整信息', ToastAndroid.SHORT);
+      return;
+    }
+    let accountObj = {
+      phone,
+      pwd,
+      smsCode
+    };
+    console.log(systemConfig.axiosUrl);
+    axios.post(systemConfig.axiosUrl + 'user/register', accountObj).then(() =>{
+      console.log(res)
+    }).catch(err => {
+      console.log('接口报错' + JSON.stringify(err));
+    })
   }
   
   
   render() {
+    let axiosUrl = systemConfig.axiosUrl;
+    console.log('9999' + UserStore.api);
     return (
         <View style={styles.register_box}>
-          
-          <Image source={require('./../image/logo.png')}/>
-          <Text style={styles.register_title}>人才招聘</Text>
-          
-          
+          <Image style={styles.register_logo} source={require('./../image/logo.png')}/>
+          <Text style={styles.register_title}>Boss招聘</Text>
           <Flex style={styles.register_main} direction="row">
             <View style={styles.register_item}>
               <TextInput
@@ -49,23 +116,27 @@ class AccountRegister extends Component {
                       phone: newPhone
                     })
                   }}/>
-              <Text style={styles.register_earn_smscode_text} onPress={this._earnSmsCode.bind(this)}>获取验证码</Text>
+              <Button disabled={this.state.isDisabled} style={styles.register_earn_smscode_text} onPress={this._earnSmsCode.bind(this)}>{this.state.smsCodeText}</Button>
+            </View>
+            <View style={styles.register_item}>
+              <TextInput placeholder='请输入验证码'
+                         onChangeText={(smsCode) => {
+                           this.setState({
+                             smsCode: smsCode
+                           })
+                         }}/>
             </View>
             <View style={styles.register_item}>
               <TextInput
-                  placeholder='请输入验证码'
-                  
-                  // style={styles.}
-                  onChangeText={(phone) => {
+                  placeholder='请设置登录密码'
+                  onChangeText={(pwd) => {
                     this.setState({
-                      phone: phone
+                      pwd: pwd
                     })
                   }}/>
             </View>
+            <Button type="primary" style={styles.earn_smsCode} onPress={this._registerAccount.bind(this)}>确认</Button>
           </Flex>
-          
-          
-          <Button style={styles.earn_smsCode}>获取验证码</Button>
         </View>
     )
   }
@@ -75,17 +146,23 @@ const styles = StyleSheet.create({
   register_box: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#f5f5f5',
     // borderColor: 'red',
     // borderWidth: 5,
     // borderStyle: 'solid'
   },
   register_title: {
-    fontSize: 25,
+    fontSize: 20,
+    padding: 10,
+  },
+  register_logo: {
+    height: 100,
+    width: 100,
+    marginTop: 100,
   },
   register_main: {
     backgroundColor: 'white',
-    height: 300,
+    height: 390,
     width: 350,
     flexDirection: 'column',
     justifyContent: 'space-evenly'
@@ -106,13 +183,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   register_earn_smscode_text: {
-    fontSize: 13,
-    color: "#1ec959",
-    marginRight: 20,
-    
+    width: 140
   },
   earn_smsCode: {
-    backgroundColor: 'red'
+    // backgroundColor: 'red',
+    width: 300,
   }
 })
 

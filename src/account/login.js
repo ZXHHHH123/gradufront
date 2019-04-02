@@ -6,7 +6,7 @@ import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import Home from '../home'
-// import UserStore from './../../mobx/userStore'
+import UserStore from './../../mobx/userStore'
 // import Button from '@ant-design/react-native/lib/button';
 import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
 
@@ -50,7 +50,7 @@ class Login extends Component {
     const deviceW = Dimensions.get('window').width;
     console.log(deviceW);
     console.log(123);
-    // console.log(UserStore.changePhone(13755038432));
+    console.log(UserStore.changePhone(13755038432));
   };
   
   /*注册账号*/

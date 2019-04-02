@@ -6,21 +6,24 @@
  * @flow
  */
 
-import RootFront from './routeConfig/rootConfig';
-import Root from './route'
+import Root from './routeConfig/rootConfig';
 import AllCompany from './src/company/allCompanys'
 import Login from './src/account/login'
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import UserStore from './mobx/userStore'
+import systemConfig from './config/system'
+
 
 
 
 
 export default class App extends Component<Props> {
   render() {
+    UserStore.changeApi(systemConfig.axiosUrl);
     return (
-        <RootFront/>
+        <Root/>
     );
   }
 }

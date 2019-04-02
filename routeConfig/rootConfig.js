@@ -3,7 +3,6 @@
  */
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import LoginStack from './loginRouteConfig'
-import Animations from './../src/Animations'
 import AllJobs from './../src/job/allJobs'
 import AccountRegister from './../src/account/accountRegister';
 import AccountFixPwd from './../src/account/accountFixPwd';
