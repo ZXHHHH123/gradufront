@@ -2,8 +2,9 @@
  * Created by admin-pc on 2019/2/1.
  */
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, Image} from 'react-native'
+import {StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, Image } from 'react-native'
 import {Button, Flex, WhiteSpace, WingBlank} from '@ant-design/react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
 import systemConfig from '../../config/system'
 import UserStore from './../../mobx/userStore'
@@ -74,9 +75,29 @@ class AccountRegister extends Component {
     })
     
   };
+  _storeUserData = async (obj) => {
+    try {
+      await AsyncStorage.setItem('phone', obj.phone);
+      await AsyncStorage.setItem('pwd', obj.pwd);
+    } catch (e) {
+      // saving error
+    }
+  };
+  _retrieveData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('abcd');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  }
   _registerAccount() {
     console.log('注册账户');
     let {phone, pwd, smsCode} = this.state;
+    let SMSCode = smsCode;
     if(!(phone && pwd && smsCode)){
       ToastAndroid.show('请输入完整信息', ToastAndroid.SHORT);
       return;
@@ -84,11 +105,27 @@ class AccountRegister extends Component {
     let accountObj = {
       phone,
       pwd,
-      smsCode
+      SMSCode
     };
     console.log(systemConfig.axiosUrl);
-    axios.post(systemConfig.axiosUrl + 'user/register', accountObj).then(() =>{
-      console.log(res)
+    axios.post(systemConfig.axiosUrl + 'user/register', accountObj).then((res) =>{
+      console.log('注册号码then');
+      let {data} = res;
+      console.log(data);
+      switch (data.code){
+        case 200:
+          console.log('abcd' + phone);
+          ToastAndroid.show('注册成功需要登录操作', ToastAndroid.SHORT);
+          this.props.navigation.navigate('Main');
+          this._storeUserData(accountObj);
+          this._retrieveData();
+          break;
+        case 300: ToastAndroid.show('该账户号码已注册', ToastAndroid.SHORT); break;
+        case 301: ToastAndroid.show('验证码错误或已使用', ToastAndroid.SHORT); break;
+        case 302: ToastAndroid.show('验证码已过期', ToastAndroid.SHORT);break;
+        case 303: ToastAndroid.show('请获取验证码', ToastAndroid.SHORT); break;
+        default: ToastAndroid.show('系统错误---联系管理员', ToastAndroid.SHORT); break;
+      }
     }).catch(err => {
       console.log('接口报错' + JSON.stringify(err));
     })

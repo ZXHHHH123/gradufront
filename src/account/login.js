@@ -62,7 +62,10 @@ class Login extends Component {
   }
   /*修改密码*/
   _fixPwd() {
-    console.log('修改密码')
+    console.log('修改密码');
+    this.props.navigation.navigate('AccountFixPwd', {
+      testName: 'zchuhyy'
+    })
   }
   /*登录*/
   _pwdLogin() {
