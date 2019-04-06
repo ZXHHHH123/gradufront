@@ -42,6 +42,8 @@
 		976B70A0C3FB4A63B43C09A2 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C47183A28B249A287C6EDE5 /* libRNGestureHandler.a */; };
 		3BC7E33149274EF6B9C90607 /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4669EF49B47D4BFEB4258B29 /* libRNGestureHandler-tvOS.a */; };
 		C1CB91B2FF3944A082599D05 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45F442B071124246B681699D /* libRNCAsyncStorage.a */; };
+		3D95DD777365460EBC5B077A /* antfill.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B0E9D2ACB58A44F39FD5287D /* antfill.ttf */; };
+		5E138CAB4E4E4FA883E56A99 /* antoutline.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 86B18F43DAB544418663252E /* antoutline.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,6 +356,8 @@
 		4669EF49B47D4BFEB4258B29 /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; name = "libRNGestureHandler-tvOS.a"; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		9C316ED4719F475D843DF60C /* RNCAsyncStorage.xcodeproj */ = {isa = PBXFileReference; name = "RNCAsyncStorage.xcodeproj"; path = "../node_modules/@react-native-community/async-storage/ios/RNCAsyncStorage.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		45F442B071124246B681699D /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; name = "libRNCAsyncStorage.a"; path = "libRNCAsyncStorage.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		B0E9D2ACB58A44F39FD5287D /* antfill.ttf */ = {isa = PBXFileReference; name = "antfill.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antfill.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		86B18F43DAB544418663252E /* antoutline.ttf */ = {isa = PBXFileReference; name = "antoutline.ttf"; path = "../node_modules/@ant-design/icons-react-native/fonts/antoutline.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -597,6 +601,7 @@
 				00E356EF1AD99517003FC87E /* gradufrontTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				9240CF7C242C4D1CA2F82711 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -622,6 +627,16 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		9240CF7C242C4D1CA2F82711 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				B0E9D2ACB58A44F39FD5287D /* antfill.ttf */,
+				86B18F43DAB544418663252E /* antoutline.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1069,6 +1084,8 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				3D95DD777365460EBC5B077A /* antfill.ttf in Resources */,
+				5E138CAB4E4E4FA883E56A99 /* antoutline.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

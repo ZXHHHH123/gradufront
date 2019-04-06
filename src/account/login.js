@@ -9,6 +9,8 @@ import Home from '../home'
 import UserStore from './../../mobx/userStore'
 // import Button from '@ant-design/react-native/lib/button';
 import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 
@@ -45,7 +47,8 @@ class Login extends Component {
     console.log(1223);
   };
   
-  _testInput() {
+
+   _testInput() {
     console.log(`手机号码 === ${this.state.phone}`);
     const deviceW = Dimensions.get('window').width;
     console.log(deviceW);
@@ -67,6 +70,18 @@ class Login extends Component {
       testName: 'zchuhyy'
     })
   }
+  /*自动登录*/
+  _autoLogin = async() => {
+    console.log('自动登录获得本地存储的手机号码和密码');
+    let phone = await AsyncStorage.getItem('phone');
+    let pwd = await AsyncStorage.getItem('pwd');
+    console.log(phone, pwd);
+    this.setState({
+      phone: phone,
+      pwd: pwd,
+    });
+    this._pwdLogin();
+  };
   /*登录*/
   _pwdLogin() {
     console.log('pwdlogin');
@@ -95,6 +110,10 @@ class Login extends Component {
     })
   }
   
+  componentWillMount() {
+    console.log('进入login界面---等价于mounted');
+    this._autoLogin();
+  }
   
   render() {
     return (

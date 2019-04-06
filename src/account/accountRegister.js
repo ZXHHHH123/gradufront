@@ -14,7 +14,6 @@ import UserStore from './../../mobx/userStore'
 class AccountRegister extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       userName: '',
       pwd: '',
