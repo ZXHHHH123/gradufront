@@ -80,7 +80,9 @@ class Login extends Component {
       phone: phone,
       pwd: pwd,
     });
-    this._pwdLogin();
+    if(phone && pwd) {
+      this._pwdLogin();
+    }
   };
   /*登录*/
   _pwdLogin() {
@@ -93,6 +95,7 @@ class Login extends Component {
       pwd: this.state.pwd,
     };
     console.log(456666);
+    console.log(pwdObj);
     // console.log(this.props.navigation);
     axios.post(url + 'user/login', pwdObj).then(res => {
       console.log('拿到数据');
