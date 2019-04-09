@@ -94,9 +94,6 @@ class Login extends Component {
       phone: this.state.phone,
       pwd: this.state.pwd,
     };
-    console.log(456666);
-    console.log(pwdObj);
-    // console.log(this.props.navigation);
     axios.post(url + 'user/login', pwdObj).then(res => {
       console.log('拿到数据');
       if(res.data.code === 200) {

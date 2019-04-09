@@ -3,24 +3,29 @@
  */
 import React, {Component} from 'react'
 import {
-  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight
+  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, FlatList
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
-import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider} from '@ant-design/react-native';
+import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import {district} from 'antd-mobile-demo-data';
+import JobItemComp from './../component/JobItemComp'
 const data = require('@bang88/china-city-data');
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
+
 
 class allJobs extends Component {
   static navigationOptions = {
     title: 'alljobs',
   };
+  /*_keyExtractor用来设置列表的key值，不设置会有警告提示*/
+  _keyExtractor = (item, index) => item.id;
   
   constructor(props) {
     super(props);
+    this.JobItemComp = JobItemComp.bind(this);
     this.state = {
       data: [],
       value: [],
@@ -31,6 +36,7 @@ class allJobs extends Component {
         value: 3, label: '芙蓉区'
       }, {value: 4, label: '开福区'}, {value: 5, label: '天心区'}],
       cityValue: [0],
+      alljobData: [{key: 'a', id: '0'}, {key: 'b', id: '1'}, {key: 'c', id: '2'}, {key: 'd', id: '3'}, {key: 'e', id: '4'}, {key: 'f', id: '5'}]
     };
     this.onChange1 = reccomendValue => {
       this.setState({reccomendValue});
@@ -53,8 +59,13 @@ class allJobs extends Component {
   
   intoJobDetail() {
     console.log('点击进入jobdetail按钮');
-    this.props.navigation.navigate('jobDetail');
+    let params = {params: this.props.navigation};
+    this.props.navigation.push('jobDetail', params);
   }
+  
+  _testrenderItem= (data)=> {//自定义的渲染组件
+    return JobItemComp(data)
+  };
   
   render() {
     const {navigation} = this.props;
@@ -75,7 +86,6 @@ class allJobs extends Component {
             </Flex>
             {/*header end*/}
             {/*picker start*/}
-            
             <View>
               <List >
                 <Flex style={{paddingRight:20, width: deviceW}}>
@@ -123,9 +133,35 @@ class allJobs extends Component {
             
             {/*picker end*/}
             
-            <View>
-              <Button onPress={this.intoJobDetail.bind(this)} color="#941584">进入详情界面测试</Button>
+            
+            {/*工作岗位列表liststart*/}
+            <View style={styles.job_list}>
+              
+              <FlatList
+                  data={this.state.alljobData}
+                  renderItem={({item}) => (
+                      <TouchableOpacity onPress={this.intoJobDetail.bind(this)}>
+                      <JobItemComp item={item}/>
+                      </TouchableOpacity>
+                        )}
+                keyExtractor={this._keyExtractor}
+                // onEndReached={this._fetchMoreData.bind(this)}
+                // onEndReachedThreshold={1}
+                // ListHeaderComponent={this._renderHeader.bind(this)}
+                // ListFooterComponent={this._renderFooter.bind(this)}
+                  // renderItem=JobItemComp
+              />
+              
+              {/*<TouchableHighlight onPress={this.intoJobDetail.bind(this)}>*/}
+              {/*<JobItemComp style={styles.job_item}>*/}
+              
+              {/*</JobItemComp>*/}
+              {/*</TouchableHighlight>*/}
             </View>
+            {/*工作岗位列表listend*/}
+            {/*<View>*/}
+              {/*<Button onPress={this.intoJobDetail.bind(this)} color="#941584">进入详情界面测试</Button>*/}
+            {/*</View>*/}
           </View>
         </Provider>
     )
@@ -167,5 +203,17 @@ const styles = StyleSheet.create({
   header_picker2: {
     // right: 85,
   },
+  
+  
+  /*工作岗位列表*/
+  job_list: {
+    marginBottom: 210,
+    // borderColor: 'red',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
+  },
+  job_item: {
+    height: 100,
+  }
 });
 export default allJobs;

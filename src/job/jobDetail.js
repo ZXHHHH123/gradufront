@@ -6,6 +6,7 @@ import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank } from '@ant-design/react-native';
+import JobDetailHeader from './../component/JobDetaiHeader'
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
@@ -13,14 +14,17 @@ const deviceH = Dimensions.get('window').height;
 class jobDetail extends Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      aaa: '123bcd'
+    }
   };
 
  
   render() {
+    const {navigation} = this.props;
     return (
         <View>
-          <Text>jobDetail界面</Text>
+          <JobDetailHeader navigation={navigation}/>
         </View>
     )
   }

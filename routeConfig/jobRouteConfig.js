@@ -13,7 +13,9 @@ const MainStackNavigator = createStackNavigator({
     screen: JobDetail
   }
 }, {
-  initialRouteName: 'jobDetail'
+  initialRouteName: 'jobDetail',
+  mode: 'modal',
+  headerMode: 'none',
 });
 
 export default MainStackNavigator;
