@@ -4,6 +4,8 @@
 import {createStackNavigator, createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import AllJobs from './../src/job/allJobs';
 import JobDetail from './../src/job/jobDetail';
+import ComplainDetail from './../src/job/complainDetail';
+import ManageJobIntention from './../src/job/manageJobIntention';
 
 const MainStackNavigator = createStackNavigator({
   jobMain: {
@@ -11,6 +13,12 @@ const MainStackNavigator = createStackNavigator({
   },
   jobDetail: {
     screen: JobDetail
+  },
+  complainDetail: {
+    screen: ComplainDetail
+  },
+  manageJobIntention: {
+    screen: ManageJobIntention
   }
 }, {
   initialRouteName: 'jobDetail',

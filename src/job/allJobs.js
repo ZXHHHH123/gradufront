@@ -56,6 +56,11 @@ class allJobs extends Component {
       // }, 500);
     };
   };
+  /*点击主页右侧‘+’icon进入‘管理求职意向界面’*/
+  manageJobIntention(){
+    console.log('点击主页右侧‘+’icon进入‘管理求职意向界面’');
+    this.props.navigation.navigate('manageJobIntention');
+  }
   
   intoJobDetail() {
     console.log('点击进入jobdetail按钮');
@@ -75,9 +80,9 @@ class allJobs extends Component {
             {/*header start*/}
             <Flex direction="row" justify="between" align="center" style={styles.header}>
               <Text style={styles.header_text}> web前端</Text>
-              <View style={styles.header_right}>
+              <View>
                 <Flex>
-                  <Text style={styles.header_text}>+</Text>
+                  <Text onPress={this.manageJobIntention.bind(this)} style={styles.header_text}>+</Text>
                   <Text style={[styles.header_segment_line, styles.header_text]}>|</Text>
                   <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white"/>
                   {/*<Text style={styles.header_text}></Text>*/}
