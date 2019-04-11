@@ -6,6 +6,8 @@ import AllJobs from './../src/job/allJobs';
 import JobDetail from './../src/job/jobDetail';
 import ComplainDetail from './../src/job/complainDetail';
 import ManageJobIntention from './../src/job/manageJobIntention';
+import EditJobIntention from './../src/job/editJobIntention';
+
 
 const MainStackNavigator = createStackNavigator({
   jobMain: {
@@ -19,6 +21,9 @@ const MainStackNavigator = createStackNavigator({
   },
   manageJobIntention: {
     screen: ManageJobIntention
+  },
+  editJobIntention: {
+    screen: EditJobIntention
   }
 }, {
   initialRouteName: 'jobDetail',
