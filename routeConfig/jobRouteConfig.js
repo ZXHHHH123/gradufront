@@ -7,6 +7,10 @@ import JobDetail from './../src/job/jobDetail';
 import ComplainDetail from './../src/job/complainDetail';
 import ManageJobIntention from './../src/job/manageJobIntention';
 import EditJobIntention from './../src/job/editJobIntention';
+import JobType from './../src/job/jobType';
+import 	IndustryType from './../src/job/industryType';
+import CityType from './../src/job/cityType';
+import SalaryStage from './../src/job/salaryStage';
 
 
 const MainStackNavigator = createStackNavigator({
@@ -24,6 +28,18 @@ const MainStackNavigator = createStackNavigator({
   },
   editJobIntention: {
     screen: EditJobIntention
+  },
+  jobType: {
+    screen: JobType
+  },
+  industryType: {
+    screen: IndustryType
+  },
+  cityType: {
+    screen: CityType
+  },
+  salaryStage: {
+    screen: SalaryStage
   }
 }, {
   initialRouteName: 'jobDetail',

@@ -23,8 +23,13 @@ class EditJobIntention extends Component{
     console.log('返回');
     this.props.navigation.navigate('manageJobIntention');
   };
-  chooseJobType() {
-    console.log('进入选择工作岗位界面');
+  chooseType(type) {
+    console.log('进入选择工作岗位界面' + type);
+    this.props.navigation.navigate(type);
+    
+  };
+  saveJobIntention(){
+    console.log('保存求职意向func');
   }
   render() {
     return (
@@ -34,7 +39,7 @@ class EditJobIntention extends Component{
             <Flex justify="between"  style={styles.edit_job_intention_header}>
               <IconOutline name="left" style={styles.back_icon} onPress={this.backView.bind(this)}/>
               <Text style={styles.edit_job_intention_header_text_title}>编辑求职意向</Text>
-            <Text style={styles.edit_job_intention_header_text_save}>保存</Text>
+            <Text onPress={this.saveJobIntention.bind(this)} style={styles.edit_job_intention_header_text_save}>保存</Text>
             </Flex>
           </View>
           {/*edit_job_intention_box_header------end*/}
@@ -42,39 +47,39 @@ class EditJobIntention extends Component{
   
           {/*edit_job_intention_box_body_choose------start*/}
           <View>
-            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item}>
+            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item}  onPress={this.chooseType.bind(this, 'jobType')}>
               <View>
                 <Text style={styles.edit_job_intention_main_item_key}>期望职位</Text>
                 <Text style={styles.edit_job_intention_main_item_value}>web前端</Text>
               </View>
-              <IconOutline name="right" style={styles.right_icon} onPress={this.chooseJobType.bind(this)}/>
+              <IconOutline name="right" style={styles.right_icon}/>
 
             </Flex>
   
-            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item}>
+            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item} onPress={this.chooseType.bind(this, 'industryType')}>
               <View>
                 <Text style={styles.edit_job_intention_main_item_key}>期望行业</Text>
                 <Text style={styles.edit_job_intention_main_item_value}>不限</Text>
               </View>
-              <IconOutline name="right" style={styles.right_icon} onPress={this.chooseJobType.bind(this)}/>
+              <IconOutline name="right" style={styles.right_icon}/>
   
             </Flex>
   
-            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item}>
+            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item} onPress={this.chooseType.bind(this, 'cityType')}>
               <View>
                 <Text style={styles.edit_job_intention_main_item_key}>工作城市</Text>
                 <Text style={styles.edit_job_intention_main_item_value}>长沙</Text>
               </View>
-              <IconOutline name="right" style={styles.right_icon} onPress={this.chooseJobType.bind(this)}/>
+              <IconOutline name="right" style={styles.right_icon}/>
   
             </Flex>
   
-            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item}>
+            <Flex justify="between" align="center" style={styles.edit_job_intention_main_item} onPress={this.chooseType.bind(this, 'salaryStage')}>
               <View>
                 <Text style={styles.edit_job_intention_main_item_key}>薪资要求</Text>
                 <Text style={styles.edit_job_intention_main_item_value}>5k-8k</Text>
               </View>
-              <IconOutline name="right" style={styles.right_icon} onPress={this.chooseJobType.bind(this)}/>
+              <IconOutline name="right" style={styles.right_icon}/>
   
             </Flex>
 
