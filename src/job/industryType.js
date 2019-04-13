@@ -10,6 +10,8 @@ import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import HeaderComp from './../../util/headerComp'
+import IndustryBigType from './../../util/industryBigType'
+
 
 import {BoxShadow} from 'react-native-shadow'
 
@@ -21,9 +23,43 @@ class industryType extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      choosedIndustry: [1],
+      choosedIndustry: [],
     };
   };
+  
+  /*选择当前industryitem*/
+  chooseIndustryItem(item) {
+    let choosedIndustry = this.state.choosedIndustry;
+    if(choosedIndustry.length > 2) {
+      ToastAndroid.show('最多可选三个', ToastAndroid.SHORT);
+      return;
+    }
+    let index = choosedIndustry.indexOf(item);
+    if(index >= 0) {
+      ToastAndroid.show('已选择该行业', ToastAndroid.SHORT);
+      return;
+    }
+    choosedIndustry.push(item);
+    this.setState({
+      choosedIndustry: choosedIndustry,
+    });
+  };
+  deleteIndustryItem(item){
+    console.log(item);
+    let choosedIndustry = this.state.choosedIndustry;
+    console.log(choosedIndustry);
+  
+    let index = choosedIndustry.indexOf(item);
+    console.log(index);
+    choosedIndustry.splice(index, 1);
+    this.setState({
+      choosedIndustry: choosedIndustry
+    })
+  }
+  
+  componentWillMount() {
+
+  }
   
   render() {
     const shadowOpt = {
@@ -48,30 +84,50 @@ class industryType extends Component {
           <View style={styles.industry_type_choosed}>
             <Flex justify="between" style={styles.industry_type_header}>
               <Text style={{fontSize: 16, color: 'black',}}>已选行业</Text>
-              <Text><Text style={{color: '#5dd5c8'}}>2</Text>/3</Text>
+              <Text><Text style={{color: '#5dd5c8'}}>{this.state.choosedIndustry.length}</Text>/3</Text>
             </Flex>
             
             <View style={styles.industry_type_choosed_items}>
               {
                 this.state.choosedIndustry.length === 0 ? <Text>请选择行业，最多三个</Text> : <View>
                   <Flex wrap="wrap">
-                    <Flex justify="center" align="center" style={styles.industry_type_choosed_item}>
-                      <Text style={{color: '#5dd5c8'}}>span1</Text>
-                      <IconOutline name="close" style={{fontSize:16 }} color="#5dd5c8"/>
-                    </Flex>
-                    <Flex justify="center" align="center" style={styles.industry_type_choosed_item}>
-                      <Text style={{color: '#5dd5c8'}}>sfffffffffffffffffffffafdafdafdsafffffffpan1</Text>
-                      <IconOutline name="close" style={{fontSize:16 }} color="#5dd5c8"/>
-                    </Flex>
-                    <Flex justify="center" align="center" style={styles.industry_type_choosed_item}>
-                      <Text style={{color: '#5dd5c8'}}>span1</Text>
-                      <IconOutline name="close" style={{fontSize:16 }} color="#5dd5c8"/>
-                    </Flex>
+                    {this.state.choosedIndustry.map((item) => {
+                      return (
+                          <Flex justify="center" align="center" style={styles.industry_type_choosed_item} onPress={this.deleteIndustryItem.bind(this, item)}>
+                            <Text style={{color: '#5dd5c8'}}>{item}</Text>
+                            <IconOutline name="close" style={{fontSize: 16}} color="#5dd5c8"/>
+                          </Flex>
+                      )
+                    })}
+                   
                   </Flex>
                 </View>
               }
             </View>
           </View>
+          
+          {/*行业类别展示start*/}
+          <ScrollView>
+            <View style={styles.industry_type_choose_main}>
+              {IndustryBigType.data.map((items) => {
+                return (
+                    <View>
+                      <Text style={styles.industry_type_name} key={items.code}>{items.name}</Text>
+                      <View>
+                        <Flex wrap="wrap">
+                          {items.subLevelModelList.map((item, index) => {
+                            return (<Text key={index} style={styles.industry_type_item_name} onPress={this.chooseIndustryItem.bind(this, item)}>{item}</Text>)
+                          })}
+                        </Flex>
+                      </View>
+                    </View>
+                )
+              })}
+            
+            </View>
+          </ScrollView>
+          {/*行业类别展示end*/}
+        
         
         </View>
     )
@@ -108,6 +164,29 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 5,
     marginBottom: 5,
+  },
+  industry_type_choose_main: {
+    // borderColor: 'red',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
+    paddingHorizontal: 20,
+    marginBottom: 200,
+  },
+  industry_type_name: {
+    paddingTop: 20,
+    paddingBottom: 10,
+    fontSize: 14,
+  },
+  industry_type_item_name: {
+    color: 'black',
+    fontSize: 14,
+    paddingVertical: 3,
+    paddingHorizontal: 6,
+    marginRight: 3,
+    marginBottom: 3,
+    borderColor: '#f6f6f8',
+    borderWidth: 1,
+    borderStyle: 'solid',
   }
 });
 

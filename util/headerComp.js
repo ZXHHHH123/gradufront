@@ -25,7 +25,6 @@ class headerComp extends Component{
     console.log('保存所选按钮');
   }
   render() {
-    console.log(this.props);
     return (
         <View style={styles.comp_header}>
             <Flex justify="between"  style={styles.edit_job_intention_header}>
