@@ -13,6 +13,8 @@ class UserStore {
   @observable isShowcomplainModal = false;
   //投诉职位时所选的modal_item，即诸如‘广告、色情、传销等选项’
   @observable complainItemId = '';
+  @observable isShowTabOptionMask = false;
+  
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
     this.api = api;
@@ -30,6 +32,9 @@ class UserStore {
   @action changeComplainItemId(complainItemId) {
     this.complainItemId = complainItemId;
     console.log('mobx 更改 complainItem' + this.complainItemId);
+  }
+  @action changeIsShowTabOptionMask(value) {
+    this.isShowTabOptionMask = value;
   }
 }
 export default new UserStore();

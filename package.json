@@ -21,6 +21,8 @@
     "react-dom": "^16.8.6",
     "react-native": "0.59.1",
     "react-native-gesture-handler": "^1.1.0",
+    "react-native-shadow": "^1.2.2",
+    "react-native-svg": "^9.3.7",
     "react-native-tab-navigator": "^0.3.4",
     "react-navigation": "^3.5.1"
   },
