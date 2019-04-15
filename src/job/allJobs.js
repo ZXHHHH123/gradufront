@@ -40,7 +40,6 @@ class allJobs extends Component {
     };
     this.onChange1 = reccomendValue => {
       this.setState({reccomendValue});
-      console.log(reccomendValue);
     };
     this.onChange2 = cityValue => {
       this.setState({cityValue});
@@ -65,12 +64,13 @@ class allJobs extends Component {
   intoJobDetail() {
     console.log('点击进入jobdetail按钮');
     let params = {params: this.props.navigation};
-    this.props.navigation.push('jobDetail', params);
+    /*进入名字为jobdetail的栈*/
+    this.props.navigation.navigate('jobDetail', params);
+    /*进入栈中名字为jobdetail的screen*/
+    this.props.navigation.navigate('jobDetail', params);
   }
   
-  _testrenderItem= (data)=> {//自定义的渲染组件
-    return JobItemComp(data)
-  };
+ 
   
   render() {
     const {navigation} = this.props;
@@ -90,19 +90,31 @@ class allJobs extends Component {
               </View>
             </Flex>
             {/*header end*/}
+            
+            
             {/*picker start*/}
             <View>
-              <List >
-                <Flex style={{paddingRight:20, width: deviceW}}>
+              <List style={styles.alljob_box_plcker_list}>
+                {/*<Flex style={{paddingRight:20, width: deviceW}}>*/}
+                <Flex justify="between">
                   <Flex.Item>
                     <Picker data={this.state.reccomendData}
                             cols={1}
+                            extra="1"
                             value={this.state.reccomendValue}
                             onChange={this.onChange1}>
-                      <List.Item arrow="down" wrap onPress={this.onPress} key="recommend" align="middle"
-                                 style={styles.header_picker}>
+                      <Flex justify="center"  style={styles.header_picker}>
+                        <Text>
+                          {this.state.reccomendData[this.state.reccomendValue].label}
+                        </Text>
+                        <IconOutline name="right"  color="black"/>
+                      </Flex>
+                     
+                    
+                      {/*<List.Item  wrap onPress={this.onPress} key="recommend" align="middle"*/}
+                                 {/*style={styles.header_picker}>*/}
                         {/*推荐*/}
-                      </List.Item>
+                      {/*</List.Item>*/}
                     </Picker>
                   </Flex.Item>
                   
@@ -111,25 +123,27 @@ class allJobs extends Component {
                             cols={1}
                             value={this.state.cityValue}
                             onChange={this.onChange2}>
-                      <List.Item arrow="down" wrap onPress={this.onPress} key="city"
-                                 style={[styles.header_picker, styles.header_picker2]}>
-                      
-                      </List.Item>
+                      <Flex justify="center" style={styles.header_picker}>
+                        <Text>
+                          {this.state.cityData[this.state.cityValue].label}
+                        </Text>
+                        <IconOutline name="right"  color="black"/>
+                      </Flex>
                     </Picker>
                   </Flex.Item>
-  
                   <Flex.Item>
-                  <Picker data={this.state.cityData}
-                          cols={1}
-                          value={this.state.cityValue}
-                          onChange={this.onChange2}>
-                    <List.Item arrow="down" wrap onPress={this.onPress} key="city"
-                               style={[styles.header_picker, styles.header_picker2]}>
-    
-                    </List.Item>
-                  </Picker>
-                </Flex.Item>
-  
+                    <Picker data={this.state.cityData}
+                            cols={1}
+                            value={this.state.cityValue}
+                            onChange={this.onChange2}>
+                      <Flex justify="center" style={styles.header_picker}>
+                        <Text >
+                          推荐
+                        </Text>
+                        <IconOutline name="right"  color="black"/>
+                      </Flex>
+                    </Picker>
+                  </Flex.Item>
                 </Flex>
               </List>
             
@@ -196,12 +210,19 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  alljob_box_plcker_list: {
+    borderColor: '#f6f6f8',
+    borderWidth: 1,
+    borderStyle: 'solid'
+  },
   header_picker: {
-    // borderColor: 'red',
-    // borderWidth: 1,
-    // borderStyle: 'solid',
+    borderRightColor: '#f6f6f8',
+    borderRightWidth: 1,
+    borderStyle: 'solid',
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center',
+    paddingVertical: 10,
     // width: 140,
     // right: 20,
   },

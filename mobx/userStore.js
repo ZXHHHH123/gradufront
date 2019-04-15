@@ -14,6 +14,7 @@ class UserStore {
   //投诉职位时所选的modal_item，即诸如‘广告、色情、传销等选项’
   @observable complainItemId = '';
   @observable isShowTabOptionMask = false;
+  @observable isShowLeaveEditJobView = false;
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -35,6 +36,9 @@ class UserStore {
   }
   @action changeIsShowTabOptionMask(value) {
     this.isShowTabOptionMask = value;
+  }
+  @action changeConfirmLeaveEditJob(value) {
+    this.isShowLeaveEditJobView = value;
   }
 }
 export default new UserStore();

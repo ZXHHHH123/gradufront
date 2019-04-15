@@ -3,7 +3,8 @@
  */
 import React, {Component} from 'react'
 import {
-  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView
+  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView,
+  Platform, BackHandler
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
@@ -13,11 +14,14 @@ import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import {district} from 'antd-mobile-demo-data';
 import allCityData from './../../util/cityData';
 import allSalaryData from './../../util/salaryData';
+import {observer} from 'mobx-react';
+import UserStore from './../../mobx/userStore'
+
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
-
+@observer
 class EditJobIntention extends Component {
   constructor(props) {
     super(props);
@@ -33,7 +37,10 @@ class EditJobIntention extends Component {
   
   backView() {
     console.log('返回');
-    this.props.navigation.navigate('manageJobIntention');
+    UserStore.changeConfirmLeaveEditJob(true);
+    if(!(UserStore.isShowLeaveEditJobView)) {
+      this.props.navigation.navigate('manageJobIntention');
+    }
   };
   
   chooseType(type) {
@@ -81,7 +88,38 @@ class EditJobIntention extends Component {
     })
   }
   
+  
+  
+  onBackAndroid = () => {
+    UserStore.changeConfirmLeaveEditJob(true);
+    if(UserStore.isShowLeaveEditJobView) {
+      return true
+    }else {
+    
+    }
+  };
+  
+  componentWillMount() {
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  };
+  
+  componentWillUnmount() {
+    console.log('abcde');
+    if (Platform.OS === 'android') {
+      BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+    }
+  }
+  
   render() {
+    const footerButtons = [
+      {text: '点错了', onPress: () => UserStore.changeConfirmLeaveEditJob(false)},
+      {text: '放弃', onPress: () => {
+        UserStore.changeConfirmLeaveEditJob(false);
+        this.props.navigation.navigate('manageJobIntention');
+      }},
+    ];
     return (
         <Provider>
           <View style={styles.edit_job_intention_box}>
@@ -170,7 +208,8 @@ class EditJobIntention extends Component {
                       {this.state.chooseSalary[0] !== this.state.chooseSalary[1] ?
                           <Text style={styles.edit_job_intention_main_item_value}>{this.state.chooseSalary[0]}
                             ~ {this.state.chooseSalary[1]}</Text> :
-                          <Text style={styles.edit_job_intention_main_item_value}>{this.state.chooseSalary[0]}</Text>
+                          <Text
+                              style={styles.edit_job_intention_main_item_value}>{this.state.chooseSalary[0]}</Text>
                       }
                     </View>
                     <IconOutline name="right" style={styles.right_icon}/>
@@ -182,6 +221,23 @@ class EditJobIntention extends Component {
             </View>
             {/*edit_job_intention_box_body_choose------end*/}
           </View>
+          
+          <Modal
+              title="温馨提示"
+              transparent
+              onClose={() => UserStore.changeConfirmLeaveEditJob(false)}
+              maskClosable
+              visible={UserStore.isShowLeaveEditJobView}
+              closable
+              footer={footerButtons}
+          >
+            <View style={{paddingVertical: 20}}>
+              <Text style={{textAlign: 'center'}}>内容尚未保存，确定放弃？</Text>
+            </View>
+            <Button type="primary" onPress={this.onClose}>
+              close modal
+            </Button>
+          </Modal>
         </Provider>
     
     )

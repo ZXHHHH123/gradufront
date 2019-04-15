@@ -2,19 +2,21 @@
  * Created by admin-pc on 2019/4/11.
  */
 import React, {Component} from 'react'
-import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView} from 'react-native'
+import {
+  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView,
+  BackHandler
+} from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 
 
-
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
-class ManageJobIntention extends Component{
-  constructor(props){
+class ManageJobIntention extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       jobIntentionStatus: 0,
@@ -26,7 +28,7 @@ class ManageJobIntention extends Component{
       this.setState({
         jobIntentionStatus: value,
         presentStatus: this.state.statusArray[value]
-      }, ()=>{
+      }, () => {
         console.log(this.state.jobIntentionStatus);
         console.log(this.state.statusArray[1]);
       });
@@ -37,57 +39,76 @@ class ManageJobIntention extends Component{
     };
     this.showModalOperation = () => {
       Modal.operation([
-        { text: '离职-随时到岗', onPress: ()=>{this.fixjobIntentionStatus(0)}},
-        { text: '在职-月内到岗', onPress: () =>{this.fixjobIntentionStatus(1)} },
-        { text: '在职-考虑机会', onPress: () => {this.fixjobIntentionStatus(2)} },
-        { text: '在职-暂不考虑', onPress: () => this.fixjobIntentionStatus(3) },
+        {
+          text: '离职-随时到岗', onPress: () => {
+          this.fixjobIntentionStatus(0)
+        }
+        },
+        {
+          text: '在职-月内到岗', onPress: () => {
+          this.fixjobIntentionStatus(1)
+        }
+        },
+        {
+          text: '在职-考虑机会', onPress: () => {
+          this.fixjobIntentionStatus(2)
+        }
+        },
+        {text: '在职-暂不考虑', onPress: () => this.fixjobIntentionStatus(3)},
       ]);
     }
   };
+  
   backView() {
+    console.log(this.props.navigation)
     this.props.navigation.navigate('Main');
   };
+  
   editJobIntention() {
     console.log('进入编辑具体工作意向界面');
     this.props.navigation.navigate('editJobIntention');
   };
+  
   componentWillMount() {
     console.log('加载modal-operation');
     this.earnJobIntentionStatus();
   }
+  
   render() {
     return (
         <Provider>
           <ScrollView>
-        <View>
-          <View style={styles.manage_job_intention_header}>
-            <Flex align="center" justify="between">
-              <IconOutline name="left" style={styles.back_icon} onPress={this.backView.bind(this)}/>
-              <Text style={styles.manage_job_intention_title}>管理求职意向界面</Text>
-              <Text></Text>
-            </Flex>
-          </View>
-          
-          <View style={styles.manage_job_intention_status}>
-            <Flex justify="between">
-              <Text style={styles.manage_job_intention_status_text}>求职状态</Text>
-              <View>
-                <Flex>
-                  <Text>{this.state.presentStatus}</Text>
-                  <IconOutline name="right" style={styles.manage_job_intention_choose_status} onPress={this.showModalOperation}/>
+            <View>
+              <View style={styles.manage_job_intention_header}>
+                <Flex align="center" justify="between">
+                  <IconOutline name="left" style={styles.back_icon} onPress={this.backView.bind(this)}/>
+                  <Text style={styles.manage_job_intention_title}>管理求职意向界面</Text>
+                  <Text></Text>
                 </Flex>
               </View>
-            </Flex>
-          </View>
-          
-          
-          <View >
-            <Flex direction="column" justify="between" align="start" style={styles.manage_job_intention_account} onPress={this.editJobIntention.bind(this)}>
-              <Text style={styles.manage_job_intention_account_header}>[长沙]web前端</Text>
-              <Text>5k-8k不限</Text>
-            </Flex>
-          </View>
-        </View>
+              
+              <View style={styles.manage_job_intention_status}>
+                <Flex justify="between">
+                  <Text style={styles.manage_job_intention_status_text}>求职状态</Text>
+                  <View>
+                    <Flex>
+                      <Text>{this.state.presentStatus}</Text>
+                      <IconOutline name="right" style={styles.manage_job_intention_choose_status}
+                                   onPress={this.showModalOperation}/>
+                    </Flex>
+                  </View>
+                </Flex>
+              </View>
+              
+              
+              <View >
+                <Flex direction="column" justify="between" align="start" style={styles.manage_job_intention_account}
+                      onPress={this.editJobIntention.bind(this)}>
+                  <Text style={styles.manage_job_intention_account_header}>[长沙]web前端</Text>
+                  <Text>5k-8k不限</Text>
+                </Flex>
+              </View>
+            </View>
           </ScrollView>
         </Provider>
     )
@@ -115,7 +136,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderStyle: 'solid',
   },
-  manage_job_intention_status_text:{
+  manage_job_intention_status_text: {
     fontSize: 16,
     color: 'black'
   },
@@ -125,9 +146,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderStyle: 'solid',
     paddingVertical: 5,
-    paddingHorizontal:10
+    paddingHorizontal: 10
   },
-  manage_job_intention_account_header:{
+  manage_job_intention_account_header: {
     color: 'black',
     fontSize: 16,
   },
