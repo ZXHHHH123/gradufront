@@ -107,7 +107,7 @@ class allJobs extends Component {
                         <Text>
                           {this.state.reccomendData[this.state.reccomendValue].label}
                         </Text>
-                        <IconOutline name="right"  color="black"/>
+                        <IconOutline name="down"  color="#818182"/>
                       </Flex>
                      
                     
@@ -127,7 +127,7 @@ class allJobs extends Component {
                         <Text>
                           {this.state.cityData[this.state.cityValue].label}
                         </Text>
-                        <IconOutline name="right"  color="black"/>
+                        <IconOutline name="down"  color="#818182"/>
                       </Flex>
                     </Picker>
                   </Flex.Item>
@@ -140,7 +140,7 @@ class allJobs extends Component {
                         <Text >
                           推荐
                         </Text>
-                        <IconOutline name="right"  color="black"/>
+                        <IconOutline name="down"  color="#818182"/>
                       </Flex>
                     </Picker>
                   </Flex.Item>
