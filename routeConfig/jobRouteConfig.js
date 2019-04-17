@@ -42,7 +42,7 @@ const MainStackNavigator = createStackNavigator({
     screen: SalaryStage
   }
 }, {
-  // initialRouteName: 'jobDetail',
+  initialRouteName: 'jobDetail',
   mode: 'modal',
   headerMode: 'none',
 });

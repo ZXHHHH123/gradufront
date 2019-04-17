@@ -6,13 +6,15 @@ import AllCompanys from './../src/company/allCompanys';
 import CompanyDetail from './../src/company/companyDetail';
 
 const CompanyStackNavigator = createStackNavigator({
-  companyMain: {
-    screen: AllCompanys
-  },
+  // companyMain: {
+  //   screen: AllCompanys
+  // },
   companyDetail: {
     screen: CompanyDetail
   }
 }, {
-  initialRouteName: 'companyMain',
+  initialRouteName: 'companyDetail',
+  mode: 'modal',
+  headerMode: 'none',
 });
 export default CompanyStackNavigator;

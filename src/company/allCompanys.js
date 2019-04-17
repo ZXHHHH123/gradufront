@@ -3,17 +3,20 @@
  */
 import React, {Component} from 'react'
 import {
-  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, FlatList
+  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, FlatList, ScrollView
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
+import CompanyItemComp from './../component/CompanyItemComp'
+
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
 class allCompanys extends Component {
+  _keyExtractor = (item, index) => item.id;
   constructor(props) {
     super(props);
     this.state = {
@@ -23,12 +26,12 @@ class allCompanys extends Component {
       }, {value: 4, label: 'B轮'}, {value: 5, label: 'C轮'}, {value: 6, label: 'D轮及以上'}, {
         value: 7, label: '已上市'
       }, {value: 8, label: '不需要融资'}],
-      
+  
       sizeValue: [0],
       sizeData: [{value: 0, label: '全部'}, {value: 1, label: '0-20人'}, {value: 2, label: '20-99人'}, {
         value: 3, label: '100-499人'
       }, {value: 4, label: '500-999人'}, {value: 5, label: '1000-9999人'}, {value: 6, label: '10000人以上'}],
-      
+  
       industryValue: [0],
       industryData: [{value: 0, label: '全部'}, {value: 1, label: '电子商务'}, {value: 2, label: '游戏'}, {
         value: 3, label: '媒体'
@@ -45,7 +48,12 @@ class allCompanys extends Component {
       }, {value: 24, label: '物流/仓储'}, {value: 25, label: '贸易/进出口'}, {value: 26, label: '咨询'}, {
         value: 27, label: '工程施工'
       }, {value: 28, label: '汽车生产'}, {value: 29, label: '其他行业'}],
-    };
+  
+      allcompanyData: [{key: 'a', id: '0'}, {key: 'b', id: '1'}, {key: 'c', id: '2'}, {key: 'd', id: '3'}, {
+        key: 'e', id: '4'
+      }, {key: 'f', id: '5'}, {key: 'g', id: '6'}, {key: 'h', id: '7'}],
+    }
+    ;
     
     this.onChange1 = financingValue => {
       this.setState({financingValue});
@@ -58,9 +66,11 @@ class allCompanys extends Component {
     };
   }
   
-  intoConpanyDetail() {
-    console.log(axiosUtil);
-    this.props.navigation.navigate('companyDetail');
+  intoCompanyDetail() {
+    console.log(123);
+    let params = {params: this.props.navigation};
+    // let params = {params: this.props.navigation};
+    this.props.navigation.navigate('companyDetail', params);
   }
   
   render() {
@@ -123,6 +133,22 @@ class allCompanys extends Component {
               </List>
             
             </View>
+            
+            <View style={styles.company_list}>
+  
+              <FlatList
+                data={this.state.allcompanyData}
+                renderItem={({item}) => (
+                    <TouchableOpacity onPress={this.intoCompanyDetail.bind(this)}>
+                      <CompanyItemComp item={item}/>
+                    </TouchableOpacity>
+                )}
+                keyExtractor={this._keyExtractor}
+              />
+
+
+            </View>
+            
           
           </View>
         </Provider>
@@ -153,11 +179,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    paddingVertical: 10,
+    paddingTop: 10,
     overflow: 'hidden',
     // width: 140,
     // right: 20,
   },
   
-})
+  
+  company_list: {
+    /*避免被底部tab导航栏遮挡*/
+    marginBottom: 180,
+  }
+});
 export default allCompanys

@@ -67,7 +67,7 @@ class allJobs extends Component {
     /*进入名字为jobdetail的栈*/
     this.props.navigation.navigate('jobDetail', params);
     /*进入栈中名字为jobdetail的screen*/
-    this.props.navigation.navigate('jobDetail', params);
+    // this.props.navigation.navigate('jobDetail', params);
   }
   
  

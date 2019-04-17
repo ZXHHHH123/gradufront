@@ -3,8 +3,7 @@
  */
 import React, {Component} from 'react'
 import {
-  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView,
-  BackHandler
+  StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, ScrollView,Platform, BackHandler
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
@@ -60,7 +59,6 @@ class ManageJobIntention extends Component {
   };
   
   backView() {
-    console.log(this.props.navigation)
     this.props.navigation.navigate('Main');
   };
   
@@ -69,10 +67,18 @@ class ManageJobIntention extends Component {
     this.props.navigation.navigate('editJobIntention');
   };
   
+  onBackAndroid = () => {
+    this.props.navigation.goBack();
+  };
+  
   componentWillMount() {
     console.log('加载modal-operation');
     this.earnJobIntentionStatus();
+    if (Platform.OS === 'android') {
+      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+    }
   }
+
   
   render() {
     return (
