@@ -66,7 +66,7 @@ class jobType extends Component {
     return (
         <View style={styles.job_type_box}>
           {/*组件头部start*/}
-          <HeaderComp navigation={navigation} title="选择职位类型"/>
+          <HeaderComp navigation={navigation} title="选择职位类型" routeName="editJobIntention"/>
           {/*组件头部end*/}
   
           {

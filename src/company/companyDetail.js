@@ -15,6 +15,7 @@ import axiosUtil from '../../../graduFront/config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import ComplainItem from './../../util/complainItem.json'
+import JobItemComp from "../component/JobItemComp";
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
@@ -28,6 +29,8 @@ class CompanyDetail extends Component {
     this.state = {
       isShowComplainModal: false,
       isShowLeaderModal: false,
+      isShowAllBusinessInfo: false,
+      isShowAllJob: false,
       leaderInfo: {},
       allWelfareData: [{key: 'a', id: '0', label: '五险一金'}, {key: 'b', id: '1', label: '全勤奖'}, {
         key: 'c', id: '2', label: '带薪年假'
@@ -69,6 +72,8 @@ class CompanyDetail extends Component {
       this.setState({
         isShowComplainModal: false,
         isShowLeaderModal: false,
+        isShowAllBusinessInfo: false,
+        isShowAllJob: false,
       }, () => {
         console.log('打印isShowComplainModal' + this.state.isShowComplainModal)
       })
@@ -110,6 +115,27 @@ class CompanyDetail extends Component {
   
   intoCompanyWeb() {
     console.log('跳转到公司网站')
+  };
+  
+  earnAllBusinessInfo() {
+    console.log('点击查看所有工商信息功能');
+    this.setState({
+      isShowAllBusinessInfo: true,
+    })
+  };
+  showAllJobModal() {
+    console.log('点击查看所有招聘工作岗位');
+    this.setState({
+      isShowAllJob: true,
+    })
+  };
+  intoJobDetail() {
+    console.log('点击进入jobdetail按钮');
+    let params = {params: this.props.navigation};
+    /*进入名字为jobdetail的栈*/
+    this.props.navigation.navigate('jobDetail', params);
+    /*进入栈中名字为jobdetail的screen*/
+    // this.props.navigation.navigate('jobDetail', params);
   }
   
   render() {
@@ -258,6 +284,33 @@ class CompanyDetail extends Component {
                 {/*公司官网end*/}
                 
                 {/*公司工商信息start*/}
+                <View style={styles.companyDetail_business_info}>
+                  <Text style={styles.companyDetail_main_company_title}>工商信息</Text>
+                  <Flex justify="between" style={styles.companyDetail_business_info_item}>
+                    <Text style={styles.companyDetail_business_info_item_left}>公司全称</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>公司全称公司全称公司全称</Text>
+                  </Flex>
+                  <Flex justify="between" style={styles.companyDetail_business_info_item}>
+                    <Text style={styles.companyDetail_business_info_item_left}>公司法人</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>公司法人</Text>
+                  </Flex>
+                  <Flex justify="between" style={styles.companyDetail_business_info_item}>
+                    <Text style={styles.companyDetail_business_info_item_left}>注册时间</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>注册时间注册时间</Text>
+                  </Flex>
+                  <Flex justify="between" style={styles.companyDetail_business_info_item}>
+                    <Text style={styles.companyDetail_business_info_item_left}>注册资本</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>1000.00000万人民币</Text>
+                  </Flex>
+                  
+                  <Flex justify="between" style={styles.companyDetail_business_info_item}>
+                    <Text></Text>
+                    <Text style={styles.companyDetail_business_all_info_button}
+                          onPress={this.earnAllBusinessInfo.bind(this)}>查看全部</Text>
+                  </Flex>
+                
+                
+                </View>
                 {/*公司工商信息end*/}
                 
                 
@@ -288,7 +341,7 @@ class CompanyDetail extends Component {
                 </Modal>
                 
                 <Modal
-                    style={styles.companyDetail_leader_modal}
+                    style={styles.companyDetail_modal}
                     popup
                     visible={this.state.isShowLeaderModal}
                     animationType="slide-up"
@@ -306,8 +359,82 @@ class CompanyDetail extends Component {
                   </View>
                 </Modal>
                 
-                
-                <Text>显示公司具体信息界面</Text>
+                <Modal
+                    style={styles.companyDetail_modal}
+                    popup
+                    visible={this.state.isShowAllBusinessInfo}
+                    animationType="slide-up"
+                    onClose={this.ModalClose}
+                    maskClosable>
+                  <View>
+                    <Flex direction="column" style={{paddingHorizontal: 15, height: deviceH * 0.8}}>
+                      
+                        <Image style={styles.company_business_info_modal_photo}
+                               source={require('./../../src/image/company_logo.jpg')}/>
+                        <Text style={styles.company_business_info_modal_name}>公司名字公司名字公司名字</Text>
+                        <Text style={styles.company_business_info_modal_website}>公司官网网址</Text>
+                        
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>企业法人</Text>
+                        <Text>法人名字</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>注册资本</Text>
+                        <Text>1000.0000万人民币</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>成立时间</Text>
+                        <Text>2009-10-19</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>经营状态</Text>
+                        <Text>存续（在营、开业、在册）</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>注册地址</Text>
+                        <Text>湖南省长沙市岳麓区</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
+                        <Text>同一信用代码</Text>
+                        <Text>978956452312656</Text>
+                      </Flex>
+                      <Flex justify="between" style={styles.companyDetail_business_info_modal_item} wrap="wrap">
+                        <Text>经营范围：</Text>
+                        <Text>经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围</Text>
+                      </Flex>
+                      
+                      <Text style={{position: 'absolute', bottom: 0,}}>数据来源-天眼查</Text>
+                    </Flex>
+                  </View>
+                </Modal>
+  
+                <Modal
+                    style={[styles.companyDetail_modal]}
+                    popup
+                    visible={this.state.isShowAllJob}
+                    animationType="slide-up"
+                    onClose={this.ModalClose}
+                    maskClosable
+                >
+                  <View  style={{paddingTop: 30, height: deviceH * 0.85}}>
+                    <FlatList
+                        data={ComplainItem}
+                        keyExtractor={this._keyExtractor}
+                        renderItem={
+                          ({item, index}) => (
+                              <TouchableOpacity onPress={this.intoJobDetail.bind(this)}>
+                                <JobItemComp item={item}/>
+                              </TouchableOpacity>
+                          )
+                        }
+                    />
+                  </View>
+                </Modal>
+  
+  
+  
+  
+                <Text style={styles.companyDetail_alljob_gate} onPress={this.showAllJobModal.bind(this)}>公司所有在招职位</Text>
               </View>
             </ScrollView>
           </Provider>
@@ -345,9 +472,6 @@ const styles = StyleSheet.create({
   
   
   companyDetail_main_header: {
-    // borderColor: 'red',
-    // borderWidth: 1,
-    // borderStyle: 'solid',
     paddingHorizontal: 10,
     marginTop: 30
   },
@@ -469,6 +593,35 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   
+  companyDetail_business_info: {
+    // borderColor: 'red',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
+    marginTop: 45,
+  },
+  companyDetail_business_info_item: {
+    marginTop: 20,
+  },
+  companyDetail_business_info_item_left: {
+    color: '#9B9B9C',
+    fontSize: 14,
+  },
+  companyDetail_business_info_item_right: {
+    color: 'white',
+    fontSize: 14,
+  },
+  companyDetail_business_all_info_button: {
+    color: '#ADADAE',
+    fontSize: 14,
+  },
+  
+  companyDetail_alljob_gate: {
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+    color: 'white',
+    fontSize: 24,
+  },
+  
   
   companyDetail_modal_item: {
     padding: 10,
@@ -482,7 +635,7 @@ const styles = StyleSheet.create({
     color: 'blue'
   },
   
-  companyDetail_leader_modal: {
+  companyDetail_modal: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30
   },
@@ -507,6 +660,32 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 50,
     marginBottom: 40
+  },
+  
+  companyDetail_business_info_modal_item: {
+    marginBottom: 20,
+    width: deviceW * 0.8,
+  },
+  company_business_info_modal_photo: {
+    marginTop: 50,
+    height: 50,
+    width: 50,
+  },
+  company_business_info_modal_name: {
+    marginTop: 25,
+    marginBottom: 10,
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 15,
+  },
+  company_business_info_modal_website: {
+    marginTop: 15,
+    color: '#4483F8',
+    fontSize: 14,
+  },
+  
+  companyDetail_alljob_lists: {
+    height: deviceH * 0.8,
   }
 });
 

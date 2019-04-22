@@ -92,7 +92,7 @@ class AccountRegister extends Component {
     } catch (error) {
       // Error retrieving data
     }
-  }
+  };
   _registerAccount() {
     console.log('注册账户');
     let {phone, pwd, smsCode} = this.state;

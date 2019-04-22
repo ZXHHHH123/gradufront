@@ -84,6 +84,14 @@ class Login extends Component {
       this._pwdLogin();
     }
   };
+  _storeUserData = async (obj) => {
+    try {
+      await AsyncStorage.setItem('phone', obj.phone);
+      await AsyncStorage.setItem('pwd', obj.pwd);
+    } catch (e) {
+      // saving error
+    }
+  };
   /*登录*/
   _pwdLogin() {
     console.log('pwdlogin');
@@ -98,6 +106,8 @@ class Login extends Component {
       console.log('拿到数据');
       if(res.data.code === 200) {
         ToastAndroid.show('登录成功', ToastAndroid.SHORT);
+        let accountObj = pwdObj;
+        this._storeUserData(accountObj);
         that.props.navigation.push('Main',  {
           itemId: 86,
           otherParam: 'anything you want here',
@@ -105,7 +115,7 @@ class Login extends Component {
         console.log(99999)
       }
     }).catch(err => {
-      console.log('接口报错')
+      console.log('接口报错');
       console.log(err);
     })
   }

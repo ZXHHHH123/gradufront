@@ -77,7 +77,7 @@ class industryType extends Component {
     return (
         <View style={styles.industry_type_box}>
           {/*组件头部start*/}
-          <HeaderComp navigation={navigation} title="选择行业" rightText="保存"/>
+          <HeaderComp navigation={navigation} title="选择行业" routeName="editJobIntention" rightText="保存"/>
           {/*组件头部end*/}
           
           

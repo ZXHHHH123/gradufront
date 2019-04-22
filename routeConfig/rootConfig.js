@@ -10,19 +10,21 @@ import AccountFixPwd from './../src/account/accountFixPwd';
 
 import JobStackNavigator from './jobRouteConfig'
 import CompanyStackNavigator from './companyRouteConfig'
+// import PersonStackNavigator from './personRouteConfig'
 import Main from './tabRouteConfig'
 import JobDetail from './../src/job/jobDetail';
+
+
+import PersonSetting from './../src/me/personSetting';
+import HadChat from './../src/me/hadChat';
+import TodayInterview from './../src/me/todayInterview'
+import HadDeliver from './../src/me/hadDeliver'
+import InterestedJob from './../src/me/interestedJob'
 
 const RootStack = createStackNavigator({
   Login: {
     screen: LoginStack
   },
-  // AccountRegister: {
-  //   screen: AccountRegister,
-  // },
-  // AccountFixPwd: {
-  //   screen: AccountFixPwd
-  // },
   Main: {
     screen: Main
   },
@@ -37,7 +39,26 @@ const RootStack = createStackNavigator({
   //公司详情导航栏
   companyDetail: {
     screen: CompanyStackNavigator
-  }
+  },
+  // meDetail: {
+  //   screen: PersonStackNavigator
+  // },
+  /*个人中心界面------不能单独开stack，因为个人中心有好几种不同的路由跳转，如果开单独跳转物理返回键会有问题---可以取消上一行的注释然后点击个人中心进入任何一个详情界面，然后点击返回键。出现的问题想一下大概就知道了，主要和initialRouteName有关系*/
+  personSetting: {
+    screen: PersonSetting
+  },
+  hadChat: {
+    screen: HadChat
+  },
+  todayInterview: {
+    screen: TodayInterview
+  },
+  hadDeliver: {
+    screen: HadDeliver
+  },
+  interestedJob: {
+    screen: InterestedJob
+  },
 }, {
   mode: 'modal',
   headerMode: 'none',

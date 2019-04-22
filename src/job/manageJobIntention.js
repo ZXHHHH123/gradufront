@@ -94,13 +94,12 @@ class ManageJobIntention extends Component {
               </View>
               
               <View style={styles.manage_job_intention_status}>
-                <Flex justify="between">
+                <Flex justify="between" onPress={this.showModalOperation}>
                   <Text style={styles.manage_job_intention_status_text}>求职状态</Text>
                   <View>
                     <Flex>
                       <Text>{this.state.presentStatus}</Text>
-                      <IconOutline name="right" style={styles.manage_job_intention_choose_status}
-                                   onPress={this.showModalOperation}/>
+                      <IconOutline name="right" style={styles.manage_job_intention_choose_status}/>
                     </Flex>
                   </View>
                 </Flex>

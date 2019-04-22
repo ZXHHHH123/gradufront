@@ -18,8 +18,9 @@ class headerComp extends Component{
     };
   };
   backView() {
-    console.log('选择工作类型点击返回按钮');
-    this.props.navigation.navigate('editJobIntention');
+    console.log('选择工作类型点击返回按钮' + this.props.routeName);
+    // personCenter
+    this.props.navigation.navigate(this.props.routeName);
   };
   saveChooseIndustry() {
     console.log('保存所选按钮');
@@ -27,8 +28,8 @@ class headerComp extends Component{
   render() {
     return (
         <View style={styles.comp_header}>
-            <Flex justify="between"  style={styles.edit_job_intention_header}>
-              <IconOutline name="left" style={styles.back_icon} onPress={this.backView.bind(this)}/>
+            <Flex justify="between">
+              <IconOutline name="left" color="#818182" style={{fontSize: 20}} onPress={this.backView.bind(this)}/>
               <Text style={styles.comp_header_title}>{this.props.title}</Text>
               <Text style={styles.comp_header_text} onPress={this.saveChooseIndustry.bind(this)}>{this.props.rightText}</Text>
           </Flex>
@@ -39,15 +40,16 @@ class headerComp extends Component{
 
 const styles = StyleSheet.create({
   comp_header: {
+    backgroundColor: 'white',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    borderBottomColor: '#f6f6f8',
+    borderBottomColor: 'white',
     borderBottomWidth: 2,
     borderStyle: 'solid',
   },
   comp_header_title: {
     color: 'black',
-    fontSize: 16,
+    fontSize: 18,
   },
   comp_header_text: {
     color: 'black',
