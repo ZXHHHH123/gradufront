@@ -27,6 +27,10 @@ class personSetting extends Component{
   intoSettingDetail(types) {
     console.log('进入设置单个item详情界面，需要传参======' + types);
   };
+  changeStatus() {
+    console.log('点击切换身份item');
+    this.props.navigation.navigate('changeStatus');
+  }
   render(){
     const {navigation} = this.props;
     return (
@@ -56,7 +60,7 @@ class personSetting extends Component{
           
           {/*切换身份*/}
           <View style={styles.personSetting_box_lists}>
-            <Flex style={styles.personSetting_box_item} justify="between">
+            <Flex style={styles.personSetting_box_item} justify="between"  onPress={this.changeStatus.bind(this)}>
               <Text style={styles.personSetting_box_item_left}>切换身份</Text>
               <IconOutline name="right" color="#5dd5c8" style={{fontSize: 20}} onPress={this.intoSettingDetail.bind(this, 'changeStatus')}/>
             </Flex>

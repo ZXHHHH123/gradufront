@@ -5135,6 +5135,11 @@ react-native-gesture-handler@^1.1.0:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-image-crop-picker@^0.23.1:
+  version "0.23.1"
+  resolved "http://registry.npm.taobao.org/react-native-image-crop-picker/download/react-native-image-crop-picker-0.23.1.tgz#26c1b899dbe4358b9f2c98369109a42a8141682a"
+  integrity sha1-JsG4mdvkNYufLJg2kQmkKoFBaCo=
+
 react-native-modal-popover@^0.0.12:
   version "0.0.12"
   resolved "http://r.cnpmjs.org/react-native-modal-popover/download/react-native-modal-popover-0.0.12.tgz#5c0b5e9e0323490c3c5867821fc94b6582bfa3dc"

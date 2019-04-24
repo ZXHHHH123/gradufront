@@ -20,6 +20,11 @@ import HadChat from './../src/me/hadChat';
 import TodayInterview from './../src/me/todayInterview'
 import HadDeliver from './../src/me/hadDeliver'
 import InterestedJob from './../src/me/interestedJob'
+import ChangeStatus from './../src/me/changeStatus'
+import BossInfoDetail from './../src/me/bossInfoDetail'
+import PublishJob from './../src/publish/publishJob'
+
+
 
 const RootStack = createStackNavigator({
   Login: {
@@ -58,6 +63,15 @@ const RootStack = createStackNavigator({
   },
   interestedJob: {
     screen: InterestedJob
+  },
+  changeStatus: {
+    screen: ChangeStatus
+  },
+  bossInfoDetail: {
+    screen: BossInfoDetail
+  },
+  publishJob: {
+    screen: PublishJob
   },
 }, {
   mode: 'modal',

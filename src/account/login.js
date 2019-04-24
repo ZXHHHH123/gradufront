@@ -88,6 +88,7 @@ class Login extends Component {
     try {
       await AsyncStorage.setItem('phone', obj.phone);
       await AsyncStorage.setItem('pwd', obj.pwd);
+      await AsyncStorage.setItem('token', obj.sign);
     } catch (e) {
       // saving error
     }
@@ -104,9 +105,14 @@ class Login extends Component {
     };
     axios.post(url + 'user/login', pwdObj).then(res => {
       console.log('拿到数据');
+      console.log(res.data.sign);
       if(res.data.code === 200) {
         ToastAndroid.show('登录成功', ToastAndroid.SHORT);
         let accountObj = pwdObj;
+        Object.assign(accountObj, {
+          token: res.data.sign
+        });
+        UserStore.changeToken(res.data.sign);
         this._storeUserData(accountObj);
         that.props.navigation.push('Main',  {
           itemId: 86,

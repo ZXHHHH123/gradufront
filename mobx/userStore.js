@@ -15,6 +15,7 @@ class UserStore {
   @observable complainItemId = '';
   @observable isShowTabOptionMask = false;
   @observable isShowLeaveEditJobView = false;
+  @observable userToken = '';
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -39,6 +40,11 @@ class UserStore {
   }
   @action changeConfirmLeaveEditJob(value) {
     this.isShowLeaveEditJobView = value;
+  }
+  @action changeToken(value) {
+    console.log('修改token');
+    this.userToken = value;
+  
   }
 }
 export default new UserStore();
