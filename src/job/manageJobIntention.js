@@ -122,9 +122,9 @@ class ManageJobIntention extends Component {
 
 const styles = StyleSheet.create({
   manage_job_intention_header: {
-    borderColor: 'red',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    // borderColor: 'red',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
     paddingVertical: 15,
     paddingHorizontal: 15,
   },

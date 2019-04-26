@@ -48,7 +48,7 @@ class EditJobIntention extends Component {
     if (type === 'cityType' || type === 'salaryStage') {
       return;
     }
-    this.props.navigation.navigate(type);
+    this.props.navigation.navigate(type, {routeName: "editJobIntention"});
     
   };
   
@@ -141,7 +141,7 @@ class EditJobIntention extends Component {
                     onPress={this.chooseType.bind(this, 'jobType')}>
                 <View>
                   <Text style={styles.edit_job_intention_main_item_key}>期望职位</Text>
-                  <Text style={styles.edit_job_intention_main_item_value}>web前端</Text>
+                  {UserStore.chooseJob ? <Text style={styles.edit_job_intention_main_item_value}>{UserStore.chooseJob}</Text> : <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
                 </View>
                 <IconOutline name="right" style={styles.right_icon}/>
               

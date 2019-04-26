@@ -16,6 +16,8 @@ class UserStore {
   @observable isShowTabOptionMask = false;
   @observable isShowLeaveEditJobView = false;
   @observable userToken = '';
+  @observable chooseJob = '';
+  @observable bossPublishChooseJob = '';
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -44,7 +46,15 @@ class UserStore {
   @action changeToken(value) {
     console.log('修改token');
     this.userToken = value;
-  
   }
+  @action changeChooseJob(value) {
+    console.log('userStore -------- 修改chooseJob');
+    this.chooseJob = value;
+  }
+  @action changeBossPublishChooseJob(value) {
+    console.log('userStore -------- 修改bossPublishChooseJob' + value);
+    this.bossPublishChooseJob = value;
+  }
+  
 }
 export default new UserStore();

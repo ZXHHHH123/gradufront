@@ -9,7 +9,9 @@ import {
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import UserStore from './../../mobx/userStore';
-import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider, Toast, Portal} from '@ant-design/react-native';
+import {
+  Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider, Toast, Portal
+} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import HeaderComp from './../../util/headerComp'
 
@@ -35,76 +37,85 @@ class changeStatus extends Component {
       console.log('Load complete !!!');
     });
     
-    axios.post(url + 'user/userInfo',{}, {
+    axios.post(url + 'user/userInfo', {}, {
       headers: {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
     }).then((res) => {
-      console.log(res);
       let user = res.data.user;
-      let {unit, place, creditFrontSide, creditReverseSide, userCreditCode} = user;
-    
-      console.log('user===========');
-      console.log(user);
-      if(res.data.code === 200) {
+      let {nickName, image, unit, place, creditFrontSide, creditReverseSide, userCreditCode, userEmail} = user;
+      
+      if (res.data.code === 200) {
         console.log('userinfo成功');
         Portal.remove(toastKey);
-        let isBoss = unit&&place&&creditFrontSide&&creditReverseSide&&userCreditCode
-        if(!isBoss) {
-          this.props.navigation.navigate('bossInfoDetail');
-        }else {
+        let isBoss = unit && place && creditFrontSide && creditReverseSide && userCreditCode;
+        if (!isBoss) {
+          let userInfo = {
+            nickName,
+            image,
+            unit,
+            place,
+            creditFrontSide,
+            creditReverseSide,
+            userCreditCode,
+            userEmail,
+          };
+          this.props.navigation.navigate('bossInfoDetail', {userInfo});
+        } else {
           this.props.navigation.navigate('publishJob', {routeName: 'changeStatus'});
         }
       }
-      console.log(res)
+      console.log('~!~!~!~!~!');
     }).catch((err) => {
       console.log('userinfo报错');
       console.log(err);
     });
- 
-  
-  
+    
+    
   };
   
   
   backView() {
     this.props.navigation.navigate('personSetting');
   }
+  
   componentWillUnmount() {
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
   }
+  
   render() {
     const {navigation} = this.props;
     console.log(123456);
     return (
         <Provider>
-        <View style={styles.changeStatus_box}>
-          <Flex direction="column" justify="center">
-            <Text style={styles.changeStatus_box_title}>Boss直聘</Text>
-            
-            <Image style={styles.changeStatus_box_photo} source={require('./../image/changeStatus.png')}/>
-            
-            {this.state.presentStatus === 0 ?
-                <Text style={styles.changeStatus_box_present_status}>您当前的身份是“牛人”</Text> :
-                <Text style={styles.changeStatus_box_present_status}>您当前的身份是“BOSS”</Text>
-            }
-            
-            
-            <Flex justify="center" style={styles.changeStatus_box_change_button} onPress={this.changeStatusFunc.bind(this)}>
+          <View style={styles.changeStatus_box}>
+            <Flex direction="column" justify="center">
+              <Text style={styles.changeStatus_box_title}>Boss直聘</Text>
+              
+              <Image style={styles.changeStatus_box_photo} source={require('./../image/changeStatus.png')}/>
+              
               {this.state.presentStatus === 0 ?
-                  <Text style={styles.changeStatus_box_change_button_text}>切换为“BOSS”身份</Text> :
-                  <Text style={styles.changeStatus_box_change_button_text}>切换为“牛人”身份</Text>
+                  <Text style={styles.changeStatus_box_present_status}>您当前的身份是“牛人”</Text> :
+                  <Text style={styles.changeStatus_box_present_status}>您当前的身份是“BOSS”</Text>
               }
+              
+              
+              <Flex justify="center" style={styles.changeStatus_box_change_button}
+                    onPress={this.changeStatusFunc.bind(this)}>
+                {this.state.presentStatus === 0 ?
+                    <Text style={styles.changeStatus_box_change_button_text}>切换为“BOSS”身份</Text> :
+                    <Text style={styles.changeStatus_box_change_button_text}>切换为“牛人”身份</Text>
+                }
+              </Flex>
+              <Flex justify="center" style={styles.changeStatus_box_back_button} onPress={this.backView.bind(this)}>
+                <Text style={styles.changeStatus_box_button_back_text}>返回</Text>
+              </Flex>
+              {/*<HeaderComp navigation={navigation} title="沟通过的职位" routeName="personCenter"/>*/}
             </Flex>
-            <Flex justify="center" style={styles.changeStatus_box_back_button} onPress={this.backView.bind(this)}>
-              <Text style={styles.changeStatus_box_button_back_text}>返回</Text>
-            </Flex>
-            {/*<HeaderComp navigation={navigation} title="沟通过的职位" routeName="personCenter"/>*/}
-          </Flex>
-        </View>
+          </View>
         </Provider>
     )
   }

@@ -137,7 +137,7 @@ class AccountRegister extends Component {
     return (
         <View style={styles.register_box}>
           <Image style={styles.register_logo} source={require('./../image/logo.png')}/>
-          <Text style={styles.register_title}>Boss招聘</Text>
+          <Text style={styles.register_title}>招聘平台</Text>
           <Flex style={styles.register_main} direction="row">
             <View style={styles.register_item}>
               <TextInput
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // borderBottomColor: 'red',
     // borderBottomWidth: 2,
-    borderColor: 'red',
+    borderColor: '#f6f6f8',
     borderWidth: 2,
     borderStyle: 'solid',
     alignItems: 'center',

@@ -38,6 +38,7 @@ class AccountFixPwd extends Component {
     return myreg.test(phone)
   }
   _earnSmsCode() {
+    let url = systemConfig.axiosUrl;
     console.log(this.state.phone);
     let phone = this.state.phone;
     if(!this._isPhone(phone)) {
@@ -68,7 +69,7 @@ class AccountFixPwd extends Component {
       })
     }, 1000);
     
-    axios.post(systemConfig.axiosUrl + 'user/getVarifyCode', {phone}).then(res =>{
+    axios.post(url + 'user/getVarifyCode', {phone}).then(res =>{
       console.log('获取验证码后端传回参数' + JSON.stringify(res));
     }).catch(err =>{
       console.log('接口报错' + err);
@@ -93,7 +94,7 @@ class AccountFixPwd extends Component {
     } catch (error) {
       // Error retrieving data
     }
-  }
+  };
   _fixAccount() {
     console.log('更改密码');
     let {phone, newPwd1, newPwd2, smsCode} = this.state;
@@ -138,11 +139,10 @@ class AccountFixPwd extends Component {
   
   render() {
     let axiosUrl = systemConfig.axiosUrl;
-    console.log('9999' + UserStore.api);
     return (
         <View style={styles.fixpwd_box}>
           <Image style={styles.fixpwd_logo} source={require('./../image/logo.png')}/>
-          <Text style={styles.fixpwd_title}>Boss招聘</Text>
+          <Text style={styles.fixpwd_title}>招聘平台</Text>
           <Flex style={styles.fixpwd_main} direction="row">
             <View style={styles.fixpwd_item}>
               <TextInput
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // borderBottomColor: 'red',
     // borderBottomWidth: 2,
-    borderColor: 'red',
+    borderColor: '#f6f6f8',
     borderWidth: 2,
     borderStyle: 'solid',
     alignItems: 'center',

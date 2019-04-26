@@ -137,7 +137,7 @@ class Login extends Component {
           <View style={styles.login_top}>
             <View style={styles.login_logo_item}>
               <Image style={styles.login_logo} source={require('./../image/logo.png')} />
-              <Text style={styles.login_name}>Boss直聘</Text>
+              <Text style={styles.login_name}>招聘平台</Text>
             </View>
           </View>
           
@@ -175,19 +175,20 @@ class Login extends Component {
             />
           </View>
           <View style={styles.login_button}></View>
-          <Button
-              onPress={this._pwdLogin.bind(this)}
-              color="#841584"
-              accessibilityLabel="Learn more about this purple button"
-          >登录</Button>
+          {/*<View*/}
+              {/*style={{backgroundColor: '#5dd5c8', height: 50, width: deviceW* 0.85,marginLeft: deviceW*0.075 }}*/}
+              {/*onPress={this._pwdLogin.bind(this)}*/}
+          {/*><Text style={{color: 'white', textAlign: 'center',alignItems:'center', fontSize: 18,marginTop: 13}}>登录</Text></View>*/}
+  
+            <Button type="primary"  onPress={this._pwdLogin.bind(this)}>登录</Button>
           </View>
           
-          <Button
-              style={styles.test_button}
-              onPress={this._testInput.bind(this)}
-              color="black"
-              accessibilityLabel="Learn more about this purple button"
-          >测试setState</Button>
+          {/*<Button*/}
+              {/*style={styles.test_button}*/}
+              {/*onPress={this._testInput.bind(this)}*/}
+              {/*color="black"*/}
+              {/*accessibilityLabel="Learn more about this purple button"*/}
+          {/*>测试setState</Button>*/}
           <View style={styles.button_choose}>
             <Text style={styles.button_choose_text} onPress={this._registerAccount.bind(this)}>注册账号</Text>
             <Text style={styles.button_choose_text}>| </Text>
@@ -212,14 +213,14 @@ const styles = StyleSheet.create({
   },
   login_top: {
     justifyContent: 'space-between',
-    borderColor: '#ee282d',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    // borderColor: '#ee282d',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
   },
   login_main: {
-    borderColor: '#0b86ee',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    // borderColor: '#0b86ee',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
     shadowColor:'green',
     shadowOffset:{h:10,w:10},
     shadowRadius:3,
@@ -234,14 +235,15 @@ const styles = StyleSheet.create({
   },
   login_name:{
     fontSize: 20,
+    marginBottom: 15,
   },
   login_item: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
-    borderColor: '#cceeff',
-    borderWidth: 1,
-    borderStyle: 'solid',
+    // borderColor: '#cceeff',
+    // borderWidth: 1,
+    // borderStyle: 'solid',
     borderRadius: 4,
   },
   login_item_textview: {
@@ -272,7 +274,8 @@ const styles = StyleSheet.create({
   button_choose:  {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 40
+    margin: 40,
+    marginTop: 120,
   },
   button_choose_text: {
     fontSize: 16,
