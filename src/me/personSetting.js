@@ -26,11 +26,14 @@ class personSetting extends Component{
   };
   intoSettingDetail(types) {
     console.log('进入设置单个item详情界面，需要传参======' + types);
+    this.props.navigation.navigate(types);
   };
+ 
   changeStatus() {
     console.log('点击切换身份item');
     this.props.navigation.navigate('changeStatus');
-  }
+  };
+ 
   render(){
     const {navigation} = this.props;
     return (
@@ -39,14 +42,14 @@ class personSetting extends Component{
           
           {/*修改个人的基本信息*/}
           <View style={styles.personSetting_box_lists}>
-            <Flex style={styles.personSetting_box_item} justify="between">
+            <Flex style={styles.personSetting_box_item} justify="between" onPress={this.intoSettingDetail.bind(this, 'fixPhone')}>
               <Text style={styles.personSetting_box_item_left}>修改手机号</Text>
-              <IconOutline name="right" color="#5dd5c8" style={{fontSize: 20}} onPress={this.intoSettingDetail.bind(this, 'fixPhone')}/>
+              <IconOutline name="right" color="#5dd5c8" style={{fontSize: 20}} />
             </Flex>
   
-            <Flex style={styles.personSetting_box_item} justify="between">
+            <Flex style={styles.personSetting_box_item} justify="between" onPress={this.intoSettingDetail.bind(this, 'fixPwd')}>
               <Text style={styles.personSetting_box_item_left}>设置密码</Text>
-              <IconOutline name="right" color="#5dd5c8" style={{fontSize: 16}} onPress={this.intoSettingDetail.bind(this, 'fixPwd')}/>
+              <IconOutline name="right" color="#5dd5c8" style={{fontSize: 16}}/>
             </Flex>
           </View>
   

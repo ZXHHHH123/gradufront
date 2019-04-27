@@ -26,6 +26,7 @@ class bossInfoDetail extends Component {
     this.state = {
       userName: '',//用户姓名，同上，必填项
       userCompany: '',//初始为空，saveBossInfo提交必填项
+      userCompanyCode: '',//公司唯一认证码。初始为空，saveBossInfo提交必填项
       userPlace: '',//用户职务，saveBossInfo提交必填项
       userEmail: '',//选填项
       userCreditCode: '',//身份证号码
@@ -41,7 +42,8 @@ class bossInfoDetail extends Component {
     console.log('bossinfodetail--------');
     console.log(this.props.navigation.state.params.userInfo);
     let userInfo = this.props.navigation.state.params.userInfo;
-    this.setState({
+    // userCompanyCode: userInfo.companyCode,
+        this.setState({
       userName: userInfo.nickName,
       userCompany: userInfo.unit,
       userPlace: userInfo.place,
@@ -58,7 +60,7 @@ class bossInfoDetail extends Component {
   saveBossInfo() {
     console.log('点击保存按钮');
     let url = axiosUtil.axiosUrl;
-    let isSave = this.state.image && this.state.userName && this.state.userCompany && this.state.userPlace && this.state.creditReverseSide && this.state.creditFrontSide && this.state.userCreditCode;
+    let isSave = this.state.image && this.state.userName && this.state.userCompany && this.state.userCompanyCode && this.state.userPlace && this.state.creditReverseSide && this.state.creditFrontSide && this.state.userCreditCode;
     if (!isSave) {
       ToastAndroid.show('请完整填写Boss相关信息', ToastAndroid.SHORT);
       return;
@@ -72,6 +74,8 @@ class bossInfoDetail extends Component {
     formData.append("creditReverseSideFile", creditReverseSideFile);
     
     let userBossInfo = {
+      unit: this.state.userCompany,
+      companyCode: this.state.userCompanyCode,
       nickName: this.state.userName,
       place: this.state.userPlace,
       userEmail: this.state.userEmail,
@@ -162,6 +166,8 @@ class bossInfoDetail extends Component {
             >
               姓名
             </InputItem>
+  
+           
             
             <InputItem
                 defaultValue=""
@@ -175,6 +181,20 @@ class bossInfoDetail extends Component {
                 }}
             >
               公司名
+            </InputItem>
+  
+            <InputItem
+                defaultValue=""
+                clear
+                placeholder="请完整输入公司机构代码"
+                value={this.state.userCompanyCode}
+                onChange={value => {
+                  this.setState({
+                    userCompanyCode: value
+                  });
+                }}
+            >
+              公司代码
             </InputItem>
             <InputItem
                 defaultValue=""

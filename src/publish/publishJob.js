@@ -31,6 +31,8 @@ class publishJob extends Component {
       jobType: UserStore.bossPublishChooseJob,
       pickerRequirements: [],
       pickerRequirementsValue: [],
+      jobAddress: '',
+      
       JobRequirements: [{
         "id": "0",
         "label": "经验要求",
@@ -98,10 +100,68 @@ class publishJob extends Component {
     this.props.navigation.navigate(type, {publishJob: true, routeName: "publishJob"});
   };
   
+  /*选择*/
   choosePickerJobRequirement(infoId) {
     console.log('choosePickerJobRequirement');
     console.log(infoId);
   };
+  
+  /*点击职位描述按钮进入职位描述*/
+  jobAccount() {
+    console.log('进入职位描述');
+    this.props.navigation.navigate('jobAccount', {jobAccount: UserStore.jobAccount});
+  };
+  
+  /*发布职位*/
+  publishJob() {
+    let url = axiosUtil.axiosUrl;
+    console.log('点击发布职位按钮');
+    let job = UserStore.bossPublishChooseJob;
+    let jobAccount = UserStore.jobAccount;
+    let jobAddress = this.state.jobAddress;
+    let experienceRequire = this.state.pickerRequirementsValue[0];//经验要求
+    let studyRequire = this.state.pickerRequirementsValue[1];//学历要求
+    let floorMoney;
+    let upMoney;
+    if(studyRequire) {
+      let salaryStage = this.state.pickerRequirementsValue[2].split('~');
+      floorMoney = salaryStage[0];//工作所给工资上线
+      upMoney = salaryStage[1];//工作所给工资下限
+    }
+    
+    if(!(job && jobAccount && jobAddress && experienceRequire && studyRequire && upMoney && floorMoney)){
+      ToastAndroid.show('请详细填写岗位信息', ToastAndroid.SHORT);
+      return;
+    }
+    
+    let publishJob = {
+      job,
+      jobAccount,
+      jobAddress,
+      experienceRequire,
+      studyRequire,
+      upMoney,
+      floorMoney,
+    };
+    console.log(publishJob);
+    axios.post(url + 'publish/recruitjob', publishJob, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) =>{
+      console.log('publish/recruitjob========res');
+      console.log(res);
+      if(res.data.code === 200) {
+        ToastAndroid.show('发布成功', ToastAndroid.SHORT);
+      }else {
+        ToastAndroid.show('发布失败,请详细填写相关信息', ToastAndroid.SHORT);
+      }
+    }).catch(err =>{
+      console.log('publish/recruitjob===========err');
+      console.log(err);
+    })
+    // publish/recruitjob
+  }
   
   changeChooseData(v, index) {
     console.log('changeChooseData');
@@ -133,56 +193,98 @@ class publishJob extends Component {
     let routeName = this.props.navigation.state.params.routeName;
     return (
         <Provider>
-          <View style={styles.publishJob_box}>
+          <View >
             <HeaderComp navigation={navigation} title="发布职位" routeName={routeName}/>
-            <Text style={styles.publishJob_box_title}>发布职位</Text>
-            <Text style={styles.publishJob_box_title_account}>职位名称，职位类型和工作程式发布后不可修改</Text>
-            
-            <Flex justify="between" align="center" style={styles.publishJob_box_chooseItem}
-                  onPress={this.chooseType.bind(this, 'jobType')}>
-              <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
-                <Text style={{fontSize: 14, color: 'black'}}>我要招聘</Text>
-                {UserStore.bossPublishChooseJob ?
-                    <Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJob}</Text> :
-                    <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
+            <View style={styles.publishJob_box}>
+              <Text style={styles.publishJob_box_title}>发布职位</Text>
+              <Text style={styles.publishJob_box_title_account}>职位名称，职位类型和工作程式发布后不可修改</Text>
+              
+              <Flex justify="between" align="center" style={styles.publishJob_box_chooseItem}
+                    onPress={this.chooseType.bind(this, 'jobType')}>
+                <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
+                  <Text style={{fontSize: 14, color: 'black'}}>我要招聘</Text>
+                  {UserStore.bossPublishChooseJob ?
+                      <Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJob}</Text> :
+                      <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
+                </Flex>
+                <IconOutline name="right" style={styles.right_icon}/>
               </Flex>
-              <IconOutline name="right" style={styles.right_icon}/>
-            </Flex>
-            
-            
-            <Flex justify="around" align="center" style={styles.publishJob_box_job_requirements}>
-              {this.state.JobRequirements.map((info, index) => {
-                return (
-                    <Picker
-                        key={info.id}
-                        data={this.state.JobRequirements[index].children}
-                        cols={info.column}
-                        // value={this.state.pickerRequirementsValue}
-                        onChange={v => {
-                          console.log('onChange======================');
-                          console.log(index);
-                          this.changeChooseData(v, index);
-                          // this.setState({pickerOptionValue: v}, () => {
-                          //   this.changeChooseJob(this.state.pickerOptionValue, index);
-                          // })
-                        }}
-                        onOk={
-                          v => this.setState({pickerCityValue: v})
-                        }
-                    >
-                      <Flex direction="column" justify="around"
-                            style={styles.publishJob_box_job_requirements_item}
-                            onPress={this.choosePickerJobRequirement.bind(this, info.id)}
+              
+              
+              <Flex justify="around" align="center" style={styles.publishJob_box_job_requirements}>
+                {this.state.JobRequirements.map((info, index) => {
+                  return (
+                      <Picker
+                          key={info.id}
+                          data={this.state.JobRequirements[index].children}
+                          cols={info.column}
+                          // value={this.state.pickerRequirementsValue}
+                          onChange={v => {
+                            console.log('onChange======================');
+                            console.log(index);
+                            this.changeChooseData(v, index);
+                            // this.setState({pickerOptionValue: v}, () => {
+                            //   this.changeChooseJob(this.state.pickerOptionValue, index);
+                            // })
+                          }}
+                          onOk={
+                            v => this.setState({pickerCityValue: v})
+                          }
                       >
-                        <Text style={{color: '#818182', fontSize: 14,}}>{info.label}</Text>
-                        {this.state.pickerRequirementsValue[index] ? <Text
-                            style={{color: 'black', fontSize: 18}}>{this.state.pickerRequirementsValue[index]}</Text> :
-                            <Text style={{color: '#818182', fontSize: 18}}>请选择</Text>}
-                      </Flex>
-                    </Picker>
-                );
-              })}
-            </Flex>
+                        <Flex direction="column" justify="around"
+                              style={styles.publishJob_box_job_requirements_item}
+                              onPress={this.choosePickerJobRequirement.bind(this, info.id)}
+                        >
+                          <Text style={{color: '#818182', fontSize: 14,}}>{info.label}</Text>
+                          {this.state.pickerRequirementsValue[index] ? <Text
+                              style={{
+                                color: 'black', fontSize: 18
+                              }}>{this.state.pickerRequirementsValue[index]}</Text> :
+                              <Text style={{color: '#818182', fontSize: 18}}>请选择</Text>}
+                        </Flex>
+                      </Picker>
+                  );
+                })}
+              </Flex>
+              
+              <Flex justify="between" align="center" style={styles.publishJob_box_chooseItem}
+                    onPress={this.jobAccount.bind(this)}>
+                <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
+                  <Text style={{fontSize: 14, color: 'black'}}>职位描述</Text>
+                  {UserStore.jobAccount ?
+                      <Text numberOfLines={3}
+                            style={styles.publishJob_box_chooseItem_text}>{UserStore.jobAccount}</Text> :
+                      <Text style={styles.edit_job_intention_main_item_value}>请填写职位描述</Text>}
+                </Flex>
+                <IconOutline name="right" style={styles.right_icon}/>
+              </Flex>
+              
+              {/*<Flex justify="between" align="center" style={styles.publishJob_box_chooseItem}>*/}
+              {/*<Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>*/}
+              {/*<Text style={{fontSize: 14, color: 'black'}}>工作地点</Text>*/}
+              {/*<Text style={styles.publishJob_box_chooseItem_text}>湖南省长沙市岳麓区岳麓大道</Text>*/}
+              {/*/!*{UserStore.bossPublishChooseJob ?*!/*/}
+              {/*/!*<Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJob}</Text> :*!/*/}
+              {/*/!*<Text style={styles.edit_job_intention_main_item_value}>请填写工作地点</Text>}*!/*/}
+              {/*</Flex>*/}
+              {/*<IconOutline name="right" style={styles.right_icon}/>*/}
+              
+              <InputItem
+                  defaultValue=""
+                  placeholder="请填写工作地址"
+                  value={this.state.jobAddress}
+                  onChange={value => {
+                    this.setState({
+                      jobAddress: value
+                    });
+                  }}
+              >工作地点</InputItem>
+              {/*</Flex>*/}
+              
+              <Flex justify="center" align="center" style={styles.publishJob_box_publish_button}
+                    onPress={this.publishJob.bind(this)}><Text
+                  style={styles.publishJob_box_publish_button_text}>发布</Text></Flex>
+            </View>
           </View>
         </Provider>
     )
@@ -210,7 +312,7 @@ const styles = StyleSheet.create({
   },
   publishJob_box_chooseItem_text: {
     fontSize: 20,
-    color: 'black',
+    color: '#818182',
   },
   
   publishJob_box_job_requirements: {
@@ -231,6 +333,16 @@ const styles = StyleSheet.create({
     borderRightColor: '#f6f6f8',
     borderRightWidth: 1,
     borderStyle: 'solid'
+  },
+  publishJob_box_publish_button: {
+    marginTop: 35,
+    height: 40,
+    backgroundColor: '#5dd5c8',
+    borderRadius: 5,
+  },
+  publishJob_box_publish_button_text: {
+    fontSize: 18,
+    color: 'white'
   }
   
 });

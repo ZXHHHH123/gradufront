@@ -112,6 +112,7 @@ class Login extends Component {
         Object.assign(accountObj, {
           token: res.data.sign
         });
+        UserStore.changePhone(pwdObj.phone);
         UserStore.changeToken(res.data.sign);
         this._storeUserData(accountObj);
         that.props.navigation.push('Main',  {

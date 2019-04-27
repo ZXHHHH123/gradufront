@@ -18,6 +18,7 @@ class UserStore {
   @observable userToken = '';
   @observable chooseJob = '';
   @observable bossPublishChooseJob = '';
+  @observable jobAccount = '';
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -55,6 +56,11 @@ class UserStore {
     console.log('userStore -------- 修改bossPublishChooseJob' + value);
     this.bossPublishChooseJob = value;
   }
+  @action changeJobAccount(value) {
+    console.log('userStore -------- 修改JobAccount' + value);
+    this.jobAccount = value;
+  }
+  
   
 }
 export default new UserStore();

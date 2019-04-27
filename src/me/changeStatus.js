@@ -93,7 +93,7 @@ class changeStatus extends Component {
         <Provider>
           <View style={styles.changeStatus_box}>
             <Flex direction="column" justify="center">
-              <Text style={styles.changeStatus_box_title}>Boss直聘</Text>
+              <Text style={styles.changeStatus_box_title}>招聘平台</Text>
               
               <Image style={styles.changeStatus_box_photo} source={require('./../image/changeStatus.png')}/>
               

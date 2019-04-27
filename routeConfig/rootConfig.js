@@ -22,7 +22,10 @@ import HadDeliver from './../src/me/hadDeliver'
 import InterestedJob from './../src/me/interestedJob'
 import ChangeStatus from './../src/me/changeStatus'
 import BossInfoDetail from './../src/me/bossInfoDetail'
+import FixPhone from './../src/me/fixPhone'
 import PublishJob from './../src/publish/publishJob'
+import JobAccount from './../src/publish/jobAccount'
+
 
 
 
@@ -64,6 +67,9 @@ const RootStack = createStackNavigator({
   interestedJob: {
     screen: InterestedJob
   },
+  fixPhone: {
+    screen: FixPhone
+  },
   changeStatus: {
     screen: ChangeStatus
   },
@@ -73,6 +79,10 @@ const RootStack = createStackNavigator({
   publishJob: {
     screen: PublishJob
   },
+  jobAccount: {
+    screen: JobAccount
+  },
+  
 }, {
   mode: 'modal',
   headerMode: 'none',
