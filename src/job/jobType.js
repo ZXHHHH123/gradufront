@@ -140,7 +140,7 @@ class jobType extends Component {
           if(item1.value === v[1]) {
             console.log(item1);
             if(this.props.navigation.state.params.publishJob) {
-              UserStore.changeBossPublishChooseJob(item1.label);
+              UserStore.changeBossPublishChooseJob(item1.label, item1.value);
             }else {
               UserStore.changeChooseJob(item1.label);
             }

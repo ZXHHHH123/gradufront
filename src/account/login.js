@@ -39,7 +39,8 @@ class Login extends Component {
       phone: '',
       pwd: '',
       smsCode: '',
-      axiosUrl: axiosUtil.axiosUrl
+      axiosUrl: axiosUtil.axiosUrl,
+      isCompany: 0,
     }
   };
   
@@ -68,6 +69,36 @@ class Login extends Component {
     console.log('修改密码');
     this.props.navigation.navigate('AccountFixPwd', {
       testName: 'zchuhyy'
+    })
+  }
+  getUserInfo() {
+    console.log('~!!!!!!!!!!');
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'user/userInfo', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      if(res.data.code === 200) {
+        console.log('login----getuserinfo');
+        console.log(res.data.data);
+        console.log(res.data.data.isCompany);
+        if(res.data.data.isCompany === 1) {
+          UserStore.changeIsCompany(1);
+          this.props.navigation.push('BossMain',  {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          });
+        }else {
+          UserStore.changeIsCompany(0);
+          this.props.navigation.push('Main',  {
+            itemId: 86,
+            otherParam: 'anything you want here',
+          });
+        }
+      }
+    }).catch((err) =>{
+      console.log(err);
     })
   }
   /*自动登录*/
@@ -105,6 +136,7 @@ class Login extends Component {
     };
     axios.post(url + 'user/login', pwdObj).then(res => {
       console.log('拿到数据');
+      console.log(res);
       console.log(res.data.sign);
       if(res.data.code === 200) {
         ToastAndroid.show('登录成功', ToastAndroid.SHORT);
@@ -115,10 +147,13 @@ class Login extends Component {
         UserStore.changePhone(pwdObj.phone);
         UserStore.changeToken(res.data.sign);
         this._storeUserData(accountObj);
-        that.props.navigation.push('Main',  {
-          itemId: 86,
-          otherParam: 'anything you want here',
-        });
+        this.getUserInfo();
+  
+  
+        // that.props.navigation.push('Main',  {
+        //   itemId: 86,
+        //   otherParam: 'anything you want here',
+        // });
         console.log(99999)
       }
     }).catch(err => {

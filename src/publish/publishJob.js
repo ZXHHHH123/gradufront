@@ -28,7 +28,7 @@ class publishJob extends Component {
     super(props);
     this.state = {
       testData: 'abcd',
-      jobType: UserStore.bossPublishChooseJob,
+      jobType: UserStore.bossPublishChooseJobLabel,
       pickerRequirements: [],
       pickerRequirementsValue: [],
       jobAddress: '',
@@ -112,13 +112,21 @@ class publishJob extends Component {
     this.props.navigation.navigate('jobAccount', {jobAccount: UserStore.jobAccount});
   };
   
+  /*进入编写工作具体地址界面*/
+  intoEditJobAddress() {
+    console.log('进入编写工作具体地址');
+    this.props.navigation.navigate('jobAddress', {jobAddress: UserStore.detailAddress});
+  }
+  
   /*发布职位*/
   publishJob() {
     let url = axiosUtil.axiosUrl;
     console.log('点击发布职位按钮');
-    let job = UserStore.bossPublishChooseJob;
+    let jobLabel = UserStore.bossPublishChooseJobLabel;
+    let jobValue = UserStore.bossPublishChooseJobValue;
     let jobAccount = UserStore.jobAccount;
-    let jobAddress = this.state.jobAddress;
+    let {detailAddress, chooseCity, chooseCityValue} = UserStore;
+    let jobAddress = detailAddress;
     let experienceRequire = this.state.pickerRequirementsValue[0];//经验要求
     let studyRequire = this.state.pickerRequirementsValue[1];//学历要求
     let floorMoney;
@@ -129,22 +137,25 @@ class publishJob extends Component {
       upMoney = salaryStage[1];//工作所给工资下限
     }
     
-    if(!(job && jobAccount && jobAddress && experienceRequire && studyRequire && upMoney && floorMoney)){
+    if(!(jobLabel && jobAccount && jobAddress && chooseCity && experienceRequire && studyRequire && upMoney && floorMoney)){
       ToastAndroid.show('请详细填写岗位信息', ToastAndroid.SHORT);
       return;
     }
     
     let publishJob = {
-      job,
+      jobLabel,
+      jobValue,
       jobAccount,
       jobAddress,
+      chooseCity,
+      chooseCityValue,
       experienceRequire,
       studyRequire,
       upMoney,
       floorMoney,
     };
     console.log(publishJob);
-    axios.post(url + 'publish/recruitjob', publishJob, {
+    axios.post(url + 'recruiter/recruitjob', publishJob, {
       headers: {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
@@ -203,8 +214,8 @@ class publishJob extends Component {
                     onPress={this.chooseType.bind(this, 'jobType')}>
                 <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
                   <Text style={{fontSize: 14, color: 'black'}}>我要招聘</Text>
-                  {UserStore.bossPublishChooseJob ?
-                      <Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJob}</Text> :
+                  {UserStore.bossPublishChooseJobLabel ?
+                      <Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJobLabel}</Text> :
                       <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
                 </Flex>
                 <IconOutline name="right" style={styles.right_icon}/>
@@ -263,22 +274,20 @@ class publishJob extends Component {
               {/*<Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>*/}
               {/*<Text style={{fontSize: 14, color: 'black'}}>工作地点</Text>*/}
               {/*<Text style={styles.publishJob_box_chooseItem_text}>湖南省长沙市岳麓区岳麓大道</Text>*/}
-              {/*/!*{UserStore.bossPublishChooseJob ?*!/*/}
-              {/*/!*<Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJob}</Text> :*!/*/}
+              {/*/!*{UserStore.bossPublishChooseJoLabelb ?*!/*/}
+              {/*/!*<Text style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJobLabel}</Text> :*!/*/}
               {/*/!*<Text style={styles.edit_job_intention_main_item_value}>请填写工作地点</Text>}*!/*/}
               {/*</Flex>*/}
               {/*<IconOutline name="right" style={styles.right_icon}/>*/}
               
-              <InputItem
-                  defaultValue=""
-                  placeholder="请填写工作地址"
-                  value={this.state.jobAddress}
-                  onChange={value => {
-                    this.setState({
-                      jobAddress: value
-                    });
-                  }}
-              >工作地点</InputItem>
+              
+              <View>
+              
+                <Flex justify="between" style={{marginTop: 10,}} onPress={this.intoEditJobAddress.bind(this)}>
+                  <Text style={{fontSize: 16, color: 'black'}}>工作地点: {UserStore.detailAddress}</Text>
+                  <IconOutline name="right" style={styles.right_icon}/>
+                </Flex>
+              </View>
               {/*</Flex>*/}
               
               <Flex justify="center" align="center" style={styles.publishJob_box_publish_button}

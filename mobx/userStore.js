@@ -9,6 +9,7 @@ class UserStore {
   @observable phone = '';
   @observable pwd = '';
   @observable titImg = '';
+  @observable isCompany = '';
   
   @observable isShowcomplainModal = false;
   //投诉职位时所选的modal_item，即诸如‘广告、色情、传销等选项’
@@ -17,8 +18,13 @@ class UserStore {
   @observable isShowLeaveEditJobView = false;
   @observable userToken = '';
   @observable chooseJob = '';
-  @observable bossPublishChooseJob = '';
+  @observable bossPublishChooseJobLabel = '';//所选工作的label值
+  @observable bossPublishChooseJobValue = '';//所选工作的code值
   @observable jobAccount = '';
+  @observable detailAddress = ''; //boss所填工作的详细地址
+  @observable chooseCity = '';//boss所填工作的城市
+  @observable chooseCityValue = '';//boss所填工作的城市value值
+  
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -52,14 +58,29 @@ class UserStore {
     console.log('userStore -------- 修改chooseJob');
     this.chooseJob = value;
   }
-  @action changeBossPublishChooseJob(value) {
-    console.log('userStore -------- 修改bossPublishChooseJob' + value);
-    this.bossPublishChooseJob = value;
+  @action changeBossPublishChooseJob(label, value) {
+    console.log('userStore -------- 修改bossPublishChooseJob' + label);
+    this.bossPublishChooseJobLabel = label;
+    this.bossPublishChooseJobValue = value;
   }
   @action changeJobAccount(value) {
     console.log('userStore -------- 修改JobAccount' + value);
     this.jobAccount = value;
   }
+  @action changeJobAddress(detailAddress, chooseCity, chooseCityValue) {
+    console.log('userStore -------- 修改JobAddress');
+    this.detailAddress = detailAddress;
+    this.chooseCity = chooseCity;
+    this.chooseCityValue = chooseCityValue;
+  }
+  
+  /*存储当前登陆者是招聘者还是求职者---招聘者：1 求职者： 0*/
+  @action changeIsCompany(value) {
+    console.log('userStore -------- 修改changeIsCompany' + value);
+    this.isCompany = value;
+  }
+  
+  
   
   
 }

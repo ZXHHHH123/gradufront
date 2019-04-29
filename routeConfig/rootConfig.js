@@ -12,6 +12,7 @@ import JobStackNavigator from './jobRouteConfig'
 import CompanyStackNavigator from './companyRouteConfig'
 // import PersonStackNavigator from './personRouteConfig'
 import Main from './tabRouteConfig'
+import BossMain from './tabBossRouteConfig'
 import JobDetail from './../src/job/jobDetail';
 
 
@@ -23,8 +24,10 @@ import InterestedJob from './../src/me/interestedJob'
 import ChangeStatus from './../src/me/changeStatus'
 import BossInfoDetail from './../src/me/bossInfoDetail'
 import FixPhone from './../src/me/fixPhone'
+import FixPwd from './../src/me/fixPwd'
 import PublishJob from './../src/publish/publishJob'
 import JobAccount from './../src/publish/jobAccount'
+import JobAddress from './../src/publish/jobAddress'
 
 
 
@@ -36,7 +39,9 @@ const RootStack = createStackNavigator({
   Main: {
     screen: Main
   },
- 
+  BossMain: {
+    screen: BossMain
+  },
   // Main: {
   //   screen: Main
   // },
@@ -70,6 +75,9 @@ const RootStack = createStackNavigator({
   fixPhone: {
     screen: FixPhone
   },
+  fixPwd: {
+    screen: FixPwd
+  },
   changeStatus: {
     screen: ChangeStatus
   },
@@ -81,6 +89,9 @@ const RootStack = createStackNavigator({
   },
   jobAccount: {
     screen: JobAccount
+  },
+  jobAddress: {
+    screen: JobAddress
   },
   
 }, {

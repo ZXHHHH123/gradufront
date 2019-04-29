@@ -11,6 +11,7 @@ import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import CompanyItemComp from './../component/CompanyItemComp'
+import UserStore from './../../mobx/userStore'
 
 
 const deviceW = Dimensions.get('window').width;
@@ -42,7 +43,8 @@ class personCenter extends Component {
     // let params = {params: this.props.navigation};
     this.props.navigation.navigate(type, params);
   };
-  manageJobIntention(){
+  
+  manageJobIntention() {
     console.log('点击主页右侧‘+’icon进入‘管理求职意向界面’');
     this.props.navigation.navigate('manageJobIntention');
   }
@@ -55,7 +57,8 @@ class personCenter extends Component {
             <Flex direction="row" justify="between" align="center" style={styles.personCenter_box_header_icon}>
               <Text></Text>
               <Text></Text>
-              <IconOutline name="setting" style={{fontSize: 20}} color="white" onPress={this.intoPersonSetting.bind(this)}/>
+              <IconOutline name="setting" style={{fontSize: 20}} color="white"
+                           onPress={this.intoPersonSetting.bind(this)}/>
             </Flex>
             {/*header end*/}
             
@@ -74,69 +77,115 @@ class personCenter extends Component {
               
               
               {/*面试经历start*/}
-              <Flex justify="between" style={styles.personCenter_box_chat_record}>
-                <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                  <Text style={styles.personCenter_box_chat_record_num}>62</Text>
-                  <Text style={styles.personCenter_box_chat_record_type}>沟通过</Text>
-                </Flex>
-                <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
-                  <Text style={styles.personCenter_box_chat_record_num}>62</Text>
-                  <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
-                </Flex>
-                <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'hadDeliver')}>
-                  <Text style={styles.personCenter_box_chat_record_num}>13</Text>
-                  <Text style={styles.personCenter_box_chat_record_type}>已投递</Text>
-                </Flex>
-                <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'interestedJob')}>
-                  <Text style={styles.personCenter_box_chat_record_num}>2</Text>
-                  <Text style={styles.personCenter_box_chat_record_type}>感兴趣</Text>
-                </Flex>
-              </Flex>
+                {UserStore.isCompany ?
+                    <Flex justify="between" style={styles.personCenter_box_chat_record}>
+                    <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
+                      <Text style={styles.personCenter_box_chat_record_num}>1092</Text>
+                      <Text style={styles.personCenter_box_chat_record_type}>沟通过</Text>
+                    </Flex>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
+                        <Text style={styles.personCenter_box_chat_record_num}>0</Text>
+                        <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
+                      </Flex>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
+                      <Text style={styles.personCenter_box_chat_record_num}>0</Text>
+                      <Text style={styles.personCenter_box_chat_record_type}>收藏牛人</Text>
+                    </Flex>
+                    </Flex> :
+                    <Flex justify="between" style={styles.personCenter_box_chat_record}>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
+                                onPress={this.intoChatRecord.bind(this, 'hadChat')}>
+                      <Text style={styles.personCenter_box_chat_record_num}>62</Text>
+                      <Text style={styles.personCenter_box_chat_record_type}>沟通过</Text>
+                    </Flex>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
+                            onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
+                        <Text style={styles.personCenter_box_chat_record_num}>62</Text>
+                        <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
+                      </Flex>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
+                            onPress={this.intoChatRecord.bind(this, 'hadDeliver')}>
+                        <Text style={styles.personCenter_box_chat_record_num}>13</Text>
+                        <Text style={styles.personCenter_box_chat_record_type}>已投递</Text>
+                      </Flex>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
+                            onPress={this.intoChatRecord.bind(this, 'interestedJob')}>
+                        <Text style={styles.personCenter_box_chat_record_num}>2</Text>
+                        <Text style={styles.personCenter_box_chat_record_type}>感兴趣</Text>
+                      </Flex>
+                    </Flex>
+                }
               {/*面试经历end*/}
-  
+              
               {/*个人中心简历部分start*/}
-              <View style={styles.personCenter_box_main_list}>
+              {UserStore.isCompany ? <View style={styles.personCenter_box_main_list}>
                 <Flex justify="between" style={styles.personCenter_box_main_list_item}>
                   <Flex>
                     <IconOutline name="profile" style={{fontSize: 20}} color="gray"/>
-                    <Text style={styles.personCenter_box_main_list_item_text}>我的微简历</Text>
+                    <Text style={styles.personCenter_box_main_list_item_text}>职位管理</Text>
                   </Flex>
-                  <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                  <Flex>
+                    <Text>共发布6个职位</Text>
+                    <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                  </Flex>
                 </Flex>
   
                 <Flex justify="between" style={styles.personCenter_box_main_list_item}>
                   <Flex>
                     <IconOutline name="upload" style={{fontSize: 20}} color="gray"/>
-                    <Text style={styles.personCenter_box_main_list_item_text}>附件简历</Text>
+                    <Text style={styles.personCenter_box_main_list_item_text}>招聘管理</Text>
                   </Flex>
                   <Flex>
-                    <Text>已上传一份</Text>
-                    <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
-                  </Flex>
-                </Flex>
-  
-                <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.manageJobIntention.bind(this)}>
-                  <Flex>
-                    <IconOutline name="robot" style={{fontSize: 20}} color="gray"/>
-                    <Text style={styles.personCenter_box_main_list_item_text}>管理求职意向</Text>
-                  </Flex>
-                  <Flex>
-                    <Text>在职-暂不考虑</Text>
-                    <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
-                  </Flex>
-                </Flex>
-  
-                <Flex justify="between" style={styles.personCenter_box_main_list_item}>
-                  <Flex>
-                    <IconOutline name="monitor" style={{fontSize: 20}} color="gray"/>
-                    <Text style={styles.personCenter_box_main_list_item_text}>关注公司</Text>
-                  </Flex>
-                  <Flex>
+                    <Text>个人信息及招聘设置</Text>
                     <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
                   </Flex>
                 </Flex>
 
-              </View>
+              </View>:
+                  <View style={styles.personCenter_box_main_list}>
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                      <Flex>
+                        <IconOutline name="profile" style={{fontSize: 20}} color="gray"/>
+                        <Text style={styles.personCenter_box_main_list_item_text}>我的微简历</Text>
+                      </Flex>
+                      <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                    </Flex>
+      
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                      <Flex>
+                        <IconOutline name="upload" style={{fontSize: 20}} color="gray"/>
+                        <Text style={styles.personCenter_box_main_list_item_text}>附件简历</Text>
+                      </Flex>
+                      <Flex>
+                        <Text>已上传一份</Text>
+                        <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                      </Flex>
+                    </Flex>
+      
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item}
+                          onPress={this.manageJobIntention.bind(this)}>
+                      <Flex>
+                        <IconOutline name="robot" style={{fontSize: 20}} color="gray"/>
+                        <Text style={styles.personCenter_box_main_list_item_text}>管理求职意向</Text>
+                      </Flex>
+                      <Flex>
+                        <Text>在职-暂不考虑</Text>
+                        <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                      </Flex>
+                    </Flex>
+      
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                      <Flex>
+                        <IconOutline name="monitor" style={{fontSize: 20}} color="gray"/>
+                        <Text style={styles.personCenter_box_main_list_item_text}>关注公司</Text>
+                      </Flex>
+                      <Flex>
+                        <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
+                      </Flex>
+                    </Flex>
+    
+                  </View>}
+              
             </ScrollView>
           </View>
         </Provider>
