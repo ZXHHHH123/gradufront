@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
+import {observer} from 'mobx-react';
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import CompanyItemComp from './../component/CompanyItemComp'
@@ -17,12 +18,15 @@ import UserStore from './../../mobx/userStore'
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
+@observer
 class personCenter extends Component {
   _keyExtractor = (item, index) => item.id;
   
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      allPublishJob: [],
+    }
   }
   
   intoCompanyDetail() {
@@ -47,6 +51,43 @@ class personCenter extends Component {
   manageJobIntention() {
     console.log('点击主页右侧‘+’icon进入‘管理求职意向界面’');
     this.props.navigation.navigate('manageJobIntention');
+  };
+  
+  /*点击进入职位管理界面*/
+  intoPositionManage() {
+    console.log('点击进入职位管理界面');
+    this.props.navigation.navigate('positionManage', {allPublishJob: this.state.allPublishJob});
+  }
+  
+  earnAllPublishJob() {
+    console.log('获取所有职位');
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'recruiter/allPublishJob', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      console.log('获取所有职位将接口返回消息');
+      if(res.data.code === 200) {
+        UserStore.changePublishJobNum(res.data.data.length);
+        UserStore.changeAllPublishJobData(res.data.data);
+        this.setState({
+          allPublishJob: res.data.data
+        })
+      }
+      
+    }).catch((err) =>{
+      console.log(err);
+    })
+    
+  }
+  
+  
+  componentWillMount() {
+    console.log('fadsfdsafdsafds');
+    if(UserStore.isCompany) {
+      this.earnAllPublishJob();
+    }
   }
   
   render() {
@@ -119,13 +160,13 @@ class personCenter extends Component {
               
               {/*个人中心简历部分start*/}
               {UserStore.isCompany ? <View style={styles.personCenter_box_main_list}>
-                <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoPositionManage.bind(this)}>
                   <Flex>
                     <IconOutline name="profile" style={{fontSize: 20}} color="gray"/>
                     <Text style={styles.personCenter_box_main_list_item_text}>职位管理</Text>
                   </Flex>
                   <Flex>
-                    <Text>共发布6个职位</Text>
+                    <Text>共发布{UserStore.publishJobNum}个职位</Text>
                     <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
                   </Flex>
                 </Flex>

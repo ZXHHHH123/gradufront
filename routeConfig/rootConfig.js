@@ -25,6 +25,7 @@ import ChangeStatus from './../src/me/changeStatus'
 import BossInfoDetail from './../src/me/bossInfoDetail'
 import FixPhone from './../src/me/fixPhone'
 import FixPwd from './../src/me/fixPwd'
+import PositionManage from './../src/me/positionManage'
 import PublishJob from './../src/publish/publishJob'
 import JobAccount from './../src/publish/jobAccount'
 import JobAddress from './../src/publish/jobAddress'
@@ -77,6 +78,9 @@ const RootStack = createStackNavigator({
   },
   fixPwd: {
     screen: FixPwd
+  },
+  positionManage: {
+    screen: PositionManage
   },
   changeStatus: {
     screen: ChangeStatus

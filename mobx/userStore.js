@@ -24,6 +24,11 @@ class UserStore {
   @observable detailAddress = ''; //boss所填工作的详细地址
   @observable chooseCity = '';//boss所填工作的城市
   @observable chooseCityValue = '';//boss所填工作的城市value值
+  @observable publishJobNum = '0';//boss所发布的工作数量
+  @observable allPublishJobData = [];//boss所发布的所有工作详细值
+  @observable isDeliverPublishParams = 0;//是否为从已发布的职位中进入发布界面, 0为否，1为0
+  
+  
   
   
   @action changeApi (api) {
@@ -79,6 +84,25 @@ class UserStore {
     console.log('userStore -------- 修改changeIsCompany' + value);
     this.isCompany = value;
   }
+  
+  @action changePublishJobNum(value) {
+    console.log('userStore -------- 修改PublishJobNum' + value);
+    this.publishJobNum = value;
+  }
+  @action changeAllPublishJobData(value) {
+    console.log('userStore -------- 修改AllPublishJobData' + value);
+    this.allPublishJobData = value;
+    console.log(this.allPublishJobData.length)
+  }
+  /*判断是否为从已发布的职位中进入发布界面*/
+  @action changeIsDeliverPublishParams(value) {
+    console.log('userStore -------- 修改IsDeliverPublishParams' + value);
+    this.isDeliverPublishParams = value;
+  }
+  
+  
+  
+  
   
   
   
