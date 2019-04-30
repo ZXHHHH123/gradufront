@@ -73,14 +73,13 @@ class positionManage extends Component {
   }
   render() {
     const {navigation} = this.props;
-    console.log('bbbbbbbbb')
     return (
         <Provider>
         <View>
           <HeaderComp navigation={navigation} title="职位管理" routeName="personCenter"/>
           <View style={{marginBottom: 210}}>
           <FlatList
-              data={UserStore.allPublishJobData}
+              data={Array.from(UserStore.allPublishJobData)}
               renderItem={({item}) => (
                   <TouchableOpacity onPress={this.intoPublishJobSetting.bind(this, item)}>
                     <PublishJobItemComp key={item._id} item={item}/>

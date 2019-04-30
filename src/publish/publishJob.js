@@ -128,9 +128,9 @@ class publishJob extends Component {
       headers: {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
-    }).then((res) =>{
+    }).then((res) => {
       console.log(res);
-      if(res.data.code === 200) {
+      if (res.data.code === 200) {
         ToastAndroid.show('删除成功', ToastAndroid.SHORT);
         UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
         UserStore.changeBossPublishChooseJob('', '');
@@ -138,13 +138,14 @@ class publishJob extends Component {
         UserStore.changeJobAccount('');
         let presentAllPublishJobData = UserStore.allPublishJobData;
         console.log(presentAllPublishJobData);
-        presentAllPublishJobData.forEach((item, index) =>{
-          if(item._id === publishJobId) {
+        presentAllPublishJobData.forEach((item, index) => {
+          if (item._id === publishJobId) {
             presentAllPublishJobData.splice(index, 1);
             UserStore.changeAllPublishJobData(presentAllPublishJobData);
+            this.props.navigation.navigate(this.props.navigation.state.params.routeName);
           }
         });
-      }else {
+      } else {
         ToastAndroid.show('删除失败', ToastAndroid.SHORT);
       }
     })
@@ -158,15 +159,6 @@ class publishJob extends Component {
     let jobValue = UserStore.bossPublishChooseJobValue || this.presentPublishJob.jobValue;
     let jobAccount = UserStore.jobAccount || this.presentPublishJob.jobAccount;
     let {detailAddress, chooseCity, chooseCityValue} = UserStore;
-    if (!detailAddress) {
-      detailAddress = this.presentPublishJob.jobAddress
-    }
-    if (!chooseCity) {
-      chooseCity = this.presentPublishJob.jobAddress
-    }
-    if (!chooseCityValue) {
-      chooseCityValue = this.presentPublishJob.jobAddress
-    }
     let jobAddress = detailAddress;
     let experienceRequire = this.state.pickerRequirementsValue[0];//经验要求
     let studyRequire = this.state.pickerRequirementsValue[1];//学历要求
@@ -177,7 +169,7 @@ class publishJob extends Component {
       floorMoney = salaryStage[0];//工作所给工资上线
       upMoney = salaryStage[1];//工作所给工资下限
     }
-
+    
     
     if (!(jobLabel && jobAccount && jobAddress && chooseCity && experienceRequire && studyRequire && upMoney && floorMoney)) {
       ToastAndroid.show('请详细填写岗位信息', ToastAndroid.SHORT);
@@ -197,8 +189,7 @@ class publishJob extends Component {
       floorMoney,
     };
     console.log(publishJob);
-    if(isFixJob === 'fixJob') {
-      console.log('ccccccccccc');
+    if (isFixJob === 'fixJob') {
       publishJob._id = this.presentPublishJob._id;
       axios.post(url + 'recruiter/updateRecruitjob', publishJob, {
         headers: {
@@ -206,7 +197,7 @@ class publishJob extends Component {
         }
       }).then((res) => {
         console.log(res);
-        if(res.data.code === 200) {
+        if (res.data.code === 200) {
           ToastAndroid.show('更新成功', ToastAndroid.SHORT);
           UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
           UserStore.changeBossPublishChooseJob('', '');
@@ -214,45 +205,45 @@ class publishJob extends Component {
           UserStore.changeJobAccount('');
           let presentAllPublishJobData = UserStore.allPublishJobData;
           console.log(presentAllPublishJobData);
-          presentAllPublishJobData.forEach((item, index) =>{
-            if(item._id === publishJob._id) {
+          presentAllPublishJobData.forEach((item, index) => {
+            if (item._id === publishJob._id) {
               presentAllPublishJobData.splice(index, 1, publishJob);
               UserStore.changeAllPublishJobData(presentAllPublishJobData);
             }
           });
-          // presentAllPublishJobData.push(publishJob);
-          // UserStore.changeAllPublishJobData(presentAllPublishJobData);
-          this.props.navigation.push(this.props.navigation.state.params.routeName);
+          this.props.navigation.navigate(this.props.navigation.state.params.routeName);
         }
       }).catch((err) => {
         console.log(err);
       });
-      return 0;
+    } else {
+      
+      axios.post(url + 'recruiter/recruitjob', publishJob, {
+        headers: {
+          'Authorization': 'Bearer ' + UserStore.userToken
+        }
+      }).then((res) => {
+        console.log('publish/recruitjob========res');
+        if (res.data.code === 200) {
+          ToastAndroid.show('发布成功', ToastAndroid.SHORT);
+          UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
+          UserStore.changeBossPublishChooseJob('', '');
+          UserStore.changeJobAddress('', '长沙', '101250100');
+          UserStore.changeJobAccount('');
+          publishJob._id = res.data.data;
+          let presentAllPublishJobData = UserStore.allPublishJobData;
+          presentAllPublishJobData.push(publishJob);
+          UserStore.changeAllPublishJobData(presentAllPublishJobData);
+          this.props.navigation.navigate(this.props.navigation.state.params.routeName);
+        } else {
+          ToastAndroid.show('发布失败,请详细填写相关信息', ToastAndroid.SHORT);
+        }
+      }).catch(err => {
+        console.log('publish/recruitjob===========err');
+        console.log(err);
+      })
     }
-    axios.post(url + 'recruiter/recruitjob', publishJob, {
-      headers: {
-        'Authorization': 'Bearer ' + UserStore.userToken
-      }
-    }).then((res) => {
-      console.log('publish/recruitjob========res');
-      if (res.data.code === 200) {
-        ToastAndroid.show('发布成功', ToastAndroid.SHORT);
-        UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
-        UserStore.changeBossPublishChooseJob('', '');
-        UserStore.changeJobAddress('', '长沙', '101250100');
-        UserStore.changeJobAccount('');
-        publishJob._id = '-1';
-        let presentAllPublishJobData = UserStore.allPublishJobData;
-        presentAllPublishJobData.push(publishJob);
-        UserStore.changeAllPublishJobData(presentAllPublishJobData);
-        this.props.navigation.push(this.props.navigation.state.params.routeName);
-      } else {
-        ToastAndroid.show('发布失败,请详细填写相关信息', ToastAndroid.SHORT);
-      }
-    }).catch(err => {
-      console.log('publish/recruitjob===========err');
-      console.log(err);
-    })
+    
     // publish/recruitjob
   }
   
@@ -291,7 +282,7 @@ class publishJob extends Component {
       UserStore.changeBossPublishChooseJob(this.presentPublishJob.jobLabel);
       UserStore.changeJobAccount(this.presentPublishJob.jobAccount);
       UserStore.changeJobAddress(this.presentPublishJob.jobAddress, this.presentPublishJob.chooseCity, this.presentPublishJob.chooseCityValue);
-  
+      
       this.state.pickerRequirementsValue = [this.presentPublishJob.experienceRequire, this.presentPublishJob.studyRequire, this.presentPublishJob.floorMoney + '~' + this.presentPublishJob.upMoney]
     }
     
@@ -314,12 +305,12 @@ class publishJob extends Component {
                     onPress={this.chooseType.bind(this, 'jobType')}>
                 <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
                   <Text style={{fontSize: 14, color: 'black'}}>我要招聘</Text>
-       
-                        {UserStore.bossPublishChooseJobLabel ?
-                            <Text
-                                style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJobLabel}</Text> :
-                            <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
-           
+                  
+                  {UserStore.bossPublishChooseJobLabel ?
+                      <Text
+                          style={styles.publishJob_box_chooseItem_text}>{UserStore.bossPublishChooseJobLabel}</Text> :
+                      <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
+                
                 </Flex>
                 <IconOutline name="right" style={styles.right_icon}/>
               </Flex>
@@ -365,11 +356,11 @@ class publishJob extends Component {
                     onPress={this.jobAccount.bind(this)}>
                 <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
                   <Text style={{fontSize: 14, color: 'black'}}>职位描述</Text>
-                        {UserStore.jobAccount ?
-                            <Text numberOfLines={3}
-                                  style={styles.publishJob_box_chooseItem_text}>{UserStore.jobAccount}</Text> :
-                            <Text style={styles.edit_job_intention_main_item_value}>请填写职位描述</Text>}
-                    
+                  {UserStore.jobAccount ?
+                      <Text numberOfLines={3}
+                            style={styles.publishJob_box_chooseItem_text}>{UserStore.jobAccount}</Text> :
+                      <Text style={styles.edit_job_intention_main_item_value}>请填写职位描述</Text>}
+                
                 </Flex>
                 <IconOutline name="right" style={styles.right_icon}/>
               </Flex>
