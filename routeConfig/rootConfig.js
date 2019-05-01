@@ -25,6 +25,9 @@ import ChangeStatus from './../src/me/changeStatus'
 import BossInfoDetail from './../src/me/bossInfoDetail'
 import FixPhone from './../src/me/fixPhone'
 import FixPwd from './../src/me/fixPwd'
+import EditSmallCurriculumVitae from './../src/me/editSmallCurriculumVitae'
+import PersonAccount from './../src/me/personAccount'
+import EditBasicInfo from './../src/me/editBasicInfo'
 import PositionManage from './../src/me/positionManage'
 import PublishJob from './../src/publish/publishJob'
 import JobAccount from './../src/publish/jobAccount'
@@ -78,6 +81,15 @@ const RootStack = createStackNavigator({
   },
   fixPwd: {
     screen: FixPwd
+  },
+  editSmallCurriculumVitae: {
+    screen: EditSmallCurriculumVitae
+  },
+  personAccount: {
+    screen: PersonAccount
+  },
+  editBasicInfo: {
+    screen: EditBasicInfo
   },
   positionManage: {
     screen: PositionManage

@@ -82,8 +82,15 @@ class Login extends Component {
       if(res.data.code === 200) {
         console.log('login----getuserinfo');
         console.log(res.data.data);
-        console.log(res.data.data.isCompany);
-        if(res.data.data.isCompany === 1) {
+        console.log(res.data.data.user.isCompany);
+        UserStore.changeNickName(res.data.data.user.nickName);
+        UserStore.changeTitImg(res.data.data.user.image);
+        UserStore.changeGender(res.data.data.user.gender);
+        UserStore.changeJoinWorkTime(res.data.data.user.joinWorkTime);
+        UserStore.changeBirthTime(res.data.data.user.birthday);
+        UserStore.changePersonAccount(res.data.data.user.personAccount);
+        if(res.data.data.user.isCompany === 1) {
+          UserStore.changeAllPublishJobType(res.data.data.allPublishJobType);
           UserStore.changeIsCompany(1);
           this.props.navigation.push('BossMain',  {
             itemId: 86,

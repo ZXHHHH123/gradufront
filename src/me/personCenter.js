@@ -80,8 +80,13 @@ class personCenter extends Component {
       console.log(err);
     })
     
-  }
+  };
   
+  /*进入编写微简历界面*/
+  editSmallCurriculumVitae() {
+    console.log('进入编写微简历界面');
+    this.props.navigation.navigate('editSmallCurriculumVitae');
+  }
   
   componentWillMount() {
     console.log('fadsfdsafdsafds');
@@ -184,7 +189,7 @@ class personCenter extends Component {
 
               </View>:
                   <View style={styles.personCenter_box_main_list}>
-                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.editSmallCurriculumVitae.bind(this)}>
                       <Flex>
                         <IconOutline name="profile" style={{fontSize: 20}} color="gray"/>
                         <Text style={styles.personCenter_box_main_list_item_text}>我的微简历</Text>

@@ -8,8 +8,19 @@ class UserStore {
   @observable api = '';
   @observable phone = '';
   @observable pwd = '';
+  @observable nickName = '';
+  @observable gender = '';
+  
   @observable titImg = '';
   @observable isCompany = '';
+  
+  @observable personAccount = ''; // 个人微简历中的自我描述
+  
+  @observable joinWorkTime = '';//个人工作开始时间
+  @observable birthTime = '';//个人出生日期
+  @observable allPublishJobType = [];//招聘者所发的所有职位类型
+  
+  
   
   @observable isShowcomplainModal = false;
   //投诉职位时所选的modal_item，即诸如‘广告、色情、传销等选项’
@@ -39,6 +50,52 @@ class UserStore {
     console.log('mobx 打印phone' + phone);
     this.phone = phone;
   }
+  @action changeNickName (value) {
+    console.log('mobx 打印nickName' + value);
+    this.nickName = value;
+  }
+  @action changeGender (value) {
+    if(value == 0) {
+      value = '男'
+    }else if(value == 1) {
+      value= '女'
+    }
+    console.log('mobx 打印Gender' + value);
+    this.gender = value;
+  }
+  @action changeTitImg (value) {
+    console.log('mobx 打印TitImg' + value);
+    this.titImg = value;
+  }
+  
+  @action changePersonAccount (value) {
+    console.log('mobx 打印personAccount' + value);
+    this.personAccount = value;
+    console.log(this.personAccount);
+  }
+  
+  @action changeJoinWorkTime (value) {
+    console.log('mobx 打印joinWorkTime' + value);
+    this.joinWorkTime = value;
+    console.log(this.joinWorkTime);
+  }
+  @action changeBirthTime (value) {
+    console.log('mobx 打印birthTimet' + value);
+    this.birthTime = value;
+    console.log(this.birthTime);
+  }
+  @action changeAllPublishJobType (value) {
+    console.log('mobx 打印AllPublishJobType' + value);
+    Object.keys(value).forEach((key) => {
+      this.allPublishJobType.push(value[key]);
+    });
+    console.log(this.allPublishJobType);
+  }
+  
+  
+  
+  
+  
   
   
   @action changeIsShowcomplainModal(isShow) {

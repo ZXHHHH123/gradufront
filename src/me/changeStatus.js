@@ -42,7 +42,7 @@ class changeStatus extends Component {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
     }).then((res) => {
-      let user = res.data.data;
+      let user = res.data.data.user;
       let {nickName, image, unit, place, creditFrontSide, creditReverseSide, userCreditCode, userEmail} = user;
       
       if (res.data.code === 200) {

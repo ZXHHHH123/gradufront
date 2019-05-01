@@ -10,13 +10,15 @@ import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import {district} from 'antd-mobile-demo-data';
+import UserStore from './../../mobx/userStore';
+import {observer} from 'mobx-react';
 import JobItemComp from './../component/JobItemComp'
 import JobHunterItemComp from './../component/JobHunterItemComp'
 const data = require('@bang88/china-city-data');
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
-
+@observer
 class allJobHunter extends Component {
   static navigationOptions = {
     title: 'allJobHunter',
@@ -30,7 +32,8 @@ class allJobHunter extends Component {
     this.state = {
       data: [],
       value: [],
-      publishJobArr: [{ key: 'a', value: '0',  label: '新媒体运营'}, { key: 'b', value: '1', label: '财务会计'}, { key: 'c', value: '2', label: '文案策划'}, { key: 'd', value: '3', label: 'web前端'}],
+      publishJobArr: [],
+    // { key: 'a', value: '0',  label: '新媒体运营'}, { key: 'b', value: '1', label: '财务会计'}, { key: 'c', value: '2', label: '文案策划'}, { key: 'd', value: '3', label: 'web前端'}
       publishJobValue: [0],
       
       reccomendData: [{value: 0, label: '推荐'}, {value: 1, label: '最新'}],
@@ -67,7 +70,11 @@ class allJobHunter extends Component {
     // this.props.navigation.navigate('jobDetail', params);
   }
   
-  
+  componentWillMount() {
+    this.setState({
+      publishJobArr: UserStore.allPublishJobType
+    })
+  }
   
   render() {
     const {navigation} = this.props;
@@ -80,17 +87,19 @@ class allJobHunter extends Component {
                 <List>
                   <Picker
                       title="选择自己所发布的岗位类型"
-                      data={this.state.publishJobArr}
+                      data={UserStore.allPublishJobType}
                       cols={1}
                       value={this.state.publishJobValue}
                       onChange={v => {
+                        console.log('vvvvvvvvvvvvvvvvv');
+                        console.log(v);
                         this.setState({publishJobValue: v})
                       }}
                       onOk={v => this.setState({publishJobValue: v})}
                   >
                    <Flex justify="center"  style={styles.alljobHunter_box_header_picker}>
                     <Text style={styles.header_text}>
-                      {this.state.publishJobArr[this.state.publishJobValue].label}
+                      {UserStore.allPublishJobType[this.state.publishJobValue].label}
                     </Text>
                     <IconOutline name="right"  color="white"/>
                   </Flex>
