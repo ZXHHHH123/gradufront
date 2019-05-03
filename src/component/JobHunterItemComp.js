@@ -6,6 +6,7 @@ import {StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid
 import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider} from '@ant-design/react-native';
+import {changeSubYear, changeStudyBackground} from './../../util/baseFunction'
 
 
 const deviceW = Dimensions.get('window').width;
@@ -23,24 +24,37 @@ class JobHunterItemComp extends Component {
     }
   }
   render() {
+    let itemData = this.props.item;
+    console.log('aaavvvvvvvvvv');
+    console.log(itemData.personAccount);
     return (
         <View style={styles.jobHunterItem_box}>
           <View style={styles.jobHunterItem_body}>
-            <Flex justify="between" style={styles.jobHunterItem_header}>
-              <Text style={styles.job_name}>后端开发工程师</Text>
-              <Text style={styles.job_money}>2年.大专.面议</Text>
-            </Flex>
             <Flex>
-              <Text style={styles.comp_name}>公式名字</Text>
-              <Text style={styles.comp_isCooperate}>是否融资</Text>
+              <Image style={styles.jobHunterItem_box_titimg} source={{uri: itemData.image}}/>
+              <View style={{marginLeft: 25}}>
+            <Flex justify="between" style={styles.jobHunterItem_header}>
+              <Text style={styles.job_name}>{itemData.nickName}</Text>
+              <Text style={styles.job_money}>{changeSubYear(itemData.joinWorkTime)}年{'.' + changeStudyBackground(itemData.studyBackground)}{'.' + itemData.expectFloorMoney}~{itemData.expectUpMoney}</Text>
+            </Flex>
+            {/*<Flex>*/}
+              {/*<Text style={styles.comp_name}>公式名字</Text>*/}
+              {/*<Text style={styles.comp_isCooperate}>是否融资</Text>*/}
+            {/*</Flex>*/}
+              </View>
             </Flex>
             <Flex justify="between" style={styles.jobHunterItem_main}>
-              <Text style={styles.tag_item}>微博微信</Text>
-              <Text style={styles.tag_item}>节日活动策划</Text>
-              <Text style={styles.tag_item}>视频</Text>
+              {itemData.expectIndustry.map((item, index) => {
+                return (
+                    <Text key={index} style={styles.tag_item}>{item}</Text>
+                )
+              })}
+              
+              {/*<Text style={styles.tag_item}>节日活动策划</Text>*/}
+              {/*<Text style={styles.tag_item}>视频</Text>*/}
             </Flex>
             <View style={styles.jobHunterItem_person_account}>
-              <Text numberOfLines={2} style={styles.jobHunterItem_person_account_text}>个人大致介绍个人大致介绍个人大致介绍个人大致介绍个人大致介绍个人大致介绍个人大致介绍个人大致介绍个人大致介绍</Text>
+              <Text numberOfLines={2} style={styles.jobHunterItem_person_account_text}>{itemData.personAccount}</Text>
             </View>
           </View>
         
@@ -54,6 +68,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: 'white',
     marginBottom: 10,
+  },
+  jobHunterItem_box_titimg: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   jobHunterItem_body: {
     width: deviceW,
@@ -69,7 +88,8 @@ const styles = StyleSheet.create({
   },
   job_money: {
     fontSize: 14,
-    color: '#5dd5c8'
+    color: '#5dd5c8',
+    marginLeft: 10
   },
   jobHunterItem_main: {
     width: deviceW*0.4,

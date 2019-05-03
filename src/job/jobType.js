@@ -142,7 +142,7 @@ class jobType extends Component {
             if(this.props.navigation.state.params.publishJob) {
               UserStore.changeBossPublishChooseJob(item1.label, item1.value);
             }else {
-              UserStore.changeChooseJob(item1.label);
+              UserStore.changeChooseJob(item1.label, item1.value);
             }
             ToastAndroid.show('选择成功', ToastAndroid.SHORT);
             this.props.navigation.navigate(this.props.navigation.state.params.routeName);

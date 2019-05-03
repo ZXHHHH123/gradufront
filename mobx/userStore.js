@@ -2,6 +2,7 @@
  * Created by admin-pc on 2019/2/1.
  */
 import {observable, action} from "mobx"
+import {changeStudyBackground} from './../util/baseFunction'
 
 class UserStore {
   
@@ -10,6 +11,7 @@ class UserStore {
   @observable pwd = '';
   @observable nickName = '';
   @observable gender = '';
+  @observable studyBackground = '';
   
   @observable titImg = '';
   @observable isCompany = '';
@@ -28,7 +30,8 @@ class UserStore {
   @observable isShowTabOptionMask = false;
   @observable isShowLeaveEditJobView = false;
   @observable userToken = '';
-  @observable chooseJob = '';
+  @observable chooseJobLabel = '';
+  @observable chooseJobValue = '';
   @observable bossPublishChooseJobLabel = '';//所选工作的label值
   @observable bossPublishChooseJobValue = '';//所选工作的code值
   @observable jobAccount = '';
@@ -39,6 +42,11 @@ class UserStore {
   @observable allPublishJobData = [];//boss所发布的所有工作详细值
   @observable isDeliverPublishParams = 0;//是否为从已发布的职位中进入发布界面, 0为否，1为0
   
+  @observable chooseIndustryData = [];//求职者所选择的期望行业
+  @observable floorMoney = '';//求职者期望工资下限
+  @observable upMoney = '';//求职者期望工资上限
+  
+  @observable workExperience = [];//求职者的工作经验
   
   
   
@@ -63,6 +71,26 @@ class UserStore {
     console.log('mobx 打印Gender' + value);
     this.gender = value;
   }
+  @action changeStudyBackground (value) {
+    console.log('mobx 打印changeStudyBackground' + value);
+    // if(value == '10') {
+    //   value = '博士生'
+    // }else if(value == '11') {
+    //   value = '研究生'
+    // }else if(value == '12') {
+    //   value= '本科'
+    // }else if(value == '13') {
+    //   value= '专科'
+    // }else if(value == '14') {
+    //   value= '高中'
+    // }else if(value == '15') {
+    //   value= '其他'
+    // }
+    
+    this.studyBackground = changeStudyBackground(value);
+    console.log(this.studyBackground);
+  }
+  
   @action changeTitImg (value) {
     console.log('mobx 打印TitImg' + value);
     this.titImg = value;
@@ -86,9 +114,13 @@ class UserStore {
   }
   @action changeAllPublishJobType (value) {
     console.log('mobx 打印AllPublishJobType' + value);
-    Object.keys(value).forEach((key) => {
-      this.allPublishJobType.push(value[key]);
-    });
+    if(value instanceof Array) {
+      this.allPublishJobType = value;
+    }else {
+      Object.keys(value).forEach((key) => {
+        this.allPublishJobType.push(value[key]);
+      });
+    }
     console.log(this.allPublishJobType);
   }
   
@@ -116,9 +148,10 @@ class UserStore {
     console.log('修改token');
     this.userToken = value;
   }
-  @action changeChooseJob(value) {
+  @action changeChooseJob(label, value) {
     console.log('userStore -------- 修改chooseJob');
-    this.chooseJob = value;
+    this.chooseJobLabel = label;
+    this.chooseJobValue = value;
   }
   @action changeBossPublishChooseJob(label, value) {
     console.log('userStore -------- 修改bossPublishChooseJob' + label);
@@ -156,6 +189,23 @@ class UserStore {
     console.log('userStore -------- 修改IsDeliverPublishParams' + value);
     this.isDeliverPublishParams = value;
   }
+  @action changeChooseIndustryData(value) {
+    console.log('userStore -------- 修改ChooseIndustryData' + value);
+    this.chooseIndustryData = value;
+  }
+  /*存储工作经验*/
+  @action changeWorkExperience(value) {
+    console.log('userStore -------- 修改changeWorkExperience' + value);
+    this.workExperience = value;
+  }
+  @action changeJobSalary(floorMoney, upMoney) {
+    console.log('userStore -------- 修改changeJobSalary' + floorMoney + upMoney);
+    this.floorMoney = floorMoney;
+    this.upMoney = upMoney;
+  }
+  
+  
+  
   
   
   

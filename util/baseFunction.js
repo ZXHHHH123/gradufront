@@ -18,4 +18,31 @@ const earnSMSCode = function (phone) {
    console.log('获取验证码接口报错');
    console.log(err);
  })
+};
+
+const changeSubYear = function(time) {
+  console.log('进入转换时间方法');
+  let substract = new Date().getTime() - new Date(time).getTime();
+  let subYear = parseInt(substract/(365*24*3600*1000));
+  return subYear;
+};
+
+/*通过学历id转换为学历label*/
+const changeStudyBackground = function (value) {
+  if(value == '10') {
+    value = '博士生'
+  }else if(value == '11') {
+    value = '研究生'
+  }else if(value == '12') {
+    value= '本科'
+  }else if(value == '13') {
+    value= '专科'
+  }else if(value == '14') {
+    value= '高中'
+  }else if(value == '15') {
+    value= '其他'
+  };
+  return value;
 }
+
+export {earnSMSCode, changeSubYear, changeStudyBackground}

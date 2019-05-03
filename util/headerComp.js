@@ -24,6 +24,8 @@ class headerComp extends Component{
   };
   saveChooseIndustry() {
     console.log('保存所选按钮');
+    this.props.method(this.props.data);
+    this.props.navigation.navigate(this.props.routeName);
   }
   render() {
     return (

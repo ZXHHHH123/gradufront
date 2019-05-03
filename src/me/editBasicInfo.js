@@ -32,8 +32,29 @@ class editBasicInfo extends Component {
       titImg: '',
       gender: '',
       isShowGender: false,
+      isShowStudyBackground: false,
       joinWorkTime: '',
       birthTime: '',
+      studyBackground: '',
+      studyBackgroundData: [{
+        id: '10',
+        label: '博士生'
+      }, {
+        id: '11',
+        label: '研究生'
+      }, {
+        id: '12',
+        label: '本科'
+      }, {
+        id: '13',
+        label: '专科'
+      }, {
+        id: '14',
+        label: '高中'
+      }, {
+        id: '15',
+        label: '其他'
+      }],
       genderData: [
         {
           "id": "0",
@@ -46,7 +67,8 @@ class editBasicInfo extends Component {
     };
     this.ModalClose = () => {
       this.setState({
-        isShowGender: false
+        isShowGender: false,
+        isShowStudyBackground: false,
       });
     };
     this.onChange1 = value => {
@@ -63,14 +85,27 @@ class editBasicInfo extends Component {
   };
   
   chooseGenderItem(id, idx) {
-    console.log('选择性别');
-    let chooseGender = this.state.genderData[idx];
-    UserStore.changeGender(chooseGender.id);
+  console.log('选择性别');
+  let chooseGender = this.state.genderData[idx];
+  UserStore.changeGender(chooseGender.id);
+  this.setState({
+    gender: chooseGender.id
+  });
+  this.ModalClose();
+};
+  
+  chooseStudyBackgroundItem(id, idx) {
+    console.log('选择学历背景');
+    let chooseStudyBackground = this.state.studyBackgroundData[idx].id;
+    console.log(chooseStudyBackground);
+    UserStore.changeStudyBackground(chooseStudyBackground);
     this.setState({
-      gender: chooseGender.id
+      studyBackground: chooseStudyBackground
     });
     this.ModalClose();
   };
+  
+  
   
   chooseGender() {
     console.log(1111111);
@@ -78,6 +113,14 @@ class editBasicInfo extends Component {
       isShowGender: true,
     })
   };
+  
+  chooseStudyBackground() {
+    console.log(22222222);
+    this.setState({
+      isShowStudyBackground: true,
+    })
+  };
+  
   
   pickSingleWithCamera(type) {
     console.log('pickSingleWithCamera start');
@@ -121,15 +164,20 @@ class editBasicInfo extends Component {
           console.log(err);
         })
       }
-    }
-    ;
-    let {nickName, gender, joinWorkTime, birthTime} = this.state;
+    };
+    let {nickName, gender, studyBackground, joinWorkTime, birthTime} = this.state;
+    console.log(studyBackground);
     let personAccount = UserStore.personAccount;
+    if(gender === '男') {
+      gender = 0
+    }else if(gender === '女'){
+      gender = 1
+    }
     let userBasicInfo = {
-      nickName, gender, joinWorkTime, birthTime, personAccount
+      nickName, gender, studyBackground, joinWorkTime, birthTime, personAccount
     };
     console.log('aaaaaaaaa');
-    console.log(promiseTitImg);
+    console.log(userBasicInfo);
     console.log(nickName, gender, joinWorkTime, birthTime);
     let promiseSubmitBasicInfo = function () {
       axios.post(url + 'user/submitUserBasicInfo', userBasicInfo, {
@@ -161,7 +209,7 @@ class editBasicInfo extends Component {
     this.setState({
       gender: UserStore.gender,
       nickName: UserStore.nickName,
-      
+      studyBackground: UserStore.studyBackground,
       titImg: {uri: UserStore.titImg},
       joinWorkTime: new Date(UserStore.joinWorkTime),
       birthTime: new Date(UserStore.birthTime),
@@ -202,6 +250,18 @@ class editBasicInfo extends Component {
                   {this.state.gender ? <Text
                       style={styles.editBasicInfo_box_item_content}>{UserStore.gender}</Text>
                       : <Text style={styles.editBasicInfo_box_item_content}>请选择性别</Text>
+                  }
+                  <IconOutline name="right" style={{fontSize: 16}}/>
+                </Flex>
+              </Flex>
+              
+              <Flex direction="column" justify="around" align="start" style={styles.editBasicInfo_box_item}
+                    onPress={this.chooseStudyBackground.bind(this)}>
+                <Text style={styles.editBasicInfo_box_item_title}>学历背景</Text>
+                <Flex justify="between" style={styles.editBasicInfo_box_item_main}>
+                  {this.state.studyBackground ? <Text
+                      style={styles.editBasicInfo_box_item_content}>{UserStore.studyBackground}</Text>
+                      : <Text style={styles.editBasicInfo_box_item_content}>请选择学术背景</Text>
                   }
                   <IconOutline name="right" style={{fontSize: 16}}/>
                 </Flex>
@@ -269,6 +329,33 @@ class editBasicInfo extends Component {
                                   style={{
                                     textAlign: 'center', fontSize: 18, color: 'black', marginTop: 15
                                   }}>{item.value}</Text>
+                        )
+                      }
+                  />
+                  <Text style={{textAlign: 'center', fontSize: 18, color: 'blue', marginTop: 15}}
+                        onPress={this.ModalClose}>取消</Text>
+                </View>
+              </Modal>
+              
+              
+              <Modal
+                  title="选择学历背景"
+                  popup
+                  visible={this.state.isShowStudyBackground}
+                  animationType="slide-up"
+                  onClose={this.ModalClose}
+                  maskClosable
+              >
+                <View style={styles.modal_box }>
+                  <FlatList
+                      data={this.state.studyBackgroundData}
+                      keyExtractor={this._keyExtractor}
+                      renderItem={
+                        ({item, index}) => (
+                            <Text onPress={() => this.chooseStudyBackgroundItem(item.id, index)}
+                                  style={{
+                                    textAlign: 'center', fontSize: 18, color: 'black', marginTop: 15
+                                  }}>{item.label}</Text>
                         )
                       }
                   />

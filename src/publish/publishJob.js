@@ -198,6 +198,30 @@ class publishJob extends Component {
       }).then((res) => {
         console.log(res);
         if (res.data.code === 200) {
+          let flag = false;//作为是否存在当前工作类型的flag
+          let allPublishJobType = Array.from(UserStore.allPublishJobType);
+          for(let i in allPublishJobType) {
+            console.log(publishJob.jobValue);
+            console.log(allPublishJobType[i].key);
+            console.log(allPublishJobType[i].key == publishJob.jobValue);
+            if(allPublishJobType[i].key == publishJob.jobValue) {
+              console.log('找到一样的');
+              flag = true;
+            }
+          }
+  
+          if(!flag) {
+            console.log('没有一样的');
+            let allPublishJobType = Array.from(UserStore.allPublishJobType);
+            let newJobType = {
+              key: publishJob.jobValue,
+              label: publishJob.jobLabel,
+              value: allPublishJobType.length
+            };
+            allPublishJobType.push(newJobType);
+            // UserStore.changeAllPublishJobType([]);
+            UserStore.changeAllPublishJobType(allPublishJobType);
+          }
           ToastAndroid.show('更新成功', ToastAndroid.SHORT);
           UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
           UserStore.changeBossPublishChooseJob('', '');
@@ -225,6 +249,30 @@ class publishJob extends Component {
       }).then((res) => {
         console.log('publish/recruitjob========res');
         if (res.data.code === 200) {
+          let flag = false;//作为是否存在当前工作类型的flag
+          let allPublishJobType = Array.from(UserStore.allPublishJobType);
+          for(let i in allPublishJobType) {
+            console.log(publishJob.jobValue);
+            console.log(allPublishJobType[i].key);
+            console.log(allPublishJobType[i].key == publishJob.jobValue);
+            if(allPublishJobType[i].key == publishJob.jobValue) {
+              console.log('找到一样的');
+              flag = true;
+            }
+          }
+        
+          if(!flag) {
+            console.log('没有一样的');
+            let allPublishJobType = Array.from(UserStore.allPublishJobType);
+            let newJobType = {
+              key: publishJob.jobValue,
+              label: publishJob.jobLabel,
+              value: allPublishJobType.length
+            };
+            allPublishJobType.push(newJobType);
+            // UserStore.changeAllPublishJobType([]);
+            UserStore.changeAllPublishJobType(allPublishJobType);
+          }
           ToastAndroid.show('发布成功', ToastAndroid.SHORT);
           UserStore.changePublishJobNum(UserStore.publishJobNum + 1);
           UserStore.changeBossPublishChooseJob('', '');

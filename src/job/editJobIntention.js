@@ -27,10 +27,12 @@ class EditJobIntention extends Component {
     super(props);
     this.state = {
       chooseCity: allCityData.data.locationCity.label,
+      chooseCityValue: allCityData.data.locationCity.value,
       chooseSalary: ['8k', '15k'],
       data: [],
       value: [],
-      pickerCityValue: [],
+      pickerCityValue: [101250000, 101250100],
+      // pickerCityValue: [],
       pickerSalaryValue: [],
     };
   };
@@ -38,8 +40,15 @@ class EditJobIntention extends Component {
   backView() {
     console.log('返回');
     UserStore.changeConfirmLeaveEditJob(true);
-    if(!(UserStore.isShowLeaveEditJobView)) {
-      this.props.navigation.navigate('manageJobIntention');
+    if (!(UserStore.isShowLeaveEditJobView)) {
+      if(this.props.navigation.state.params.routeName) {
+        console.log(111);
+        console.log(this.props.navigation.state.params.routeName);
+        this.props.navigation.navigate(this.props.navigation.state.params.routeName);
+      }else {
+        console.log(222);
+        this.props.navigation.navigate('manageJobIntention');
+      }
     }
   };
   
@@ -53,7 +62,37 @@ class EditJobIntention extends Component {
   };
   
   saveJobIntention() {
+    let url = axiosUtil.axiosUrl;
     console.log('保存求职意向func');
+    console.log(UserStore.chooseJobLabel + UserStore.chooseJobValue);
+    console.log(this.state.pickerCityValue);
+    console.log(this.state.chooseSalary);
+    console.log(UserStore.chooseIndustryData);
+    let expectObj = {
+      expectJobLabel: UserStore.chooseJobLabel,
+      expectJobValue: UserStore.chooseJobValue,
+      expectCity: this.state.chooseCity,
+      expectCityValue: this.state.chooseCityValue,
+      expectFloorMoney:this.state.chooseSalary[0],
+      expectUpMoney: this.state.chooseSalary[1],
+      expectIndustry: UserStore.chooseIndustryData,
+    };
+    
+    axios.post(url + 'jobhunter/saveExpectJobInfo', expectObj, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) =>{
+      if(res.data.code === 200) {
+        ToastAndroid.show('保存成功', ToastAndroid.SHORT);
+        UserStore.changeConfirmLeaveEditJob(false);
+        this.props.navigation.navigate('manageJobIntention');
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+    
+  
   };
   
   /*根据不同的type调用不同的数据（城市or薪资）根据所选的pickerTypeValue得到所对应的label（城市or薪资）*/
@@ -73,6 +112,7 @@ class EditJobIntention extends Component {
             if (item.value === pickerTypeValue[1]) {
               if (type === 'city') {
                 this.setState({
+                  chooseCityValue: item.value,
                   chooseCity: item.label
                 })
               } else if (type === 'salary') {
@@ -89,12 +129,11 @@ class EditJobIntention extends Component {
   }
   
   
-  
   onBackAndroid = () => {
     UserStore.changeConfirmLeaveEditJob(true);
-    if(UserStore.isShowLeaveEditJobView) {
+    if (UserStore.isShowLeaveEditJobView) {
       return true
-    }else {
+    } else {
     
     }
   };
@@ -115,10 +154,18 @@ class EditJobIntention extends Component {
   render() {
     const footerButtons = [
       {text: '点错了', onPress: () => UserStore.changeConfirmLeaveEditJob(false)},
-      {text: '放弃', onPress: () => {
+      {
+        text: '放弃', onPress: () => {
         UserStore.changeConfirmLeaveEditJob(false);
-        this.props.navigation.navigate('manageJobIntention');
-      }},
+  
+        if(this.props.navigation.state.params.routeName) {
+          this.props.navigation.navigate(this.props.navigation.state.params.routeName);
+        }else {
+          this.props.navigation.navigate('manageJobIntention');
+        }
+        // this.props.navigation.navigate('manageJobIntention');
+      }
+      },
     ];
     return (
         <Provider>
@@ -141,7 +188,9 @@ class EditJobIntention extends Component {
                     onPress={this.chooseType.bind(this, 'jobType')}>
                 <View>
                   <Text style={styles.edit_job_intention_main_item_key}>期望职位</Text>
-                  {UserStore.chooseJob ? <Text style={styles.edit_job_intention_main_item_value}>{UserStore.chooseJob}</Text> : <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
+                  {UserStore.chooseJobLabel ?
+                      <Text style={styles.edit_job_intention_main_item_value}>{UserStore.chooseJobLabel}</Text> :
+                      <Text style={styles.edit_job_intention_main_item_value}>请选择期望职位</Text>}
                 </View>
                 <IconOutline name="right" style={styles.right_icon}/>
               
@@ -151,7 +200,17 @@ class EditJobIntention extends Component {
                     onPress={this.chooseType.bind(this, 'industryType')}>
                 <View>
                   <Text style={styles.edit_job_intention_main_item_key}>期望行业</Text>
-                  <Text style={styles.edit_job_intention_main_item_value}>不限</Text>
+                  {UserStore.chooseIndustryData.length > 0 ?
+                      <Flex>
+                      {UserStore.chooseIndustryData.map((item, index) =>{
+                        return (
+                            <Text style={styles.edit_job_intention_main_item_value}>{item}</Text>
+                        )
+                      })}
+                      </Flex>
+                     
+                      : <Text style={styles.edit_job_intention_main_item_value}>不限</Text>
+                  }
                 </View>
                 <IconOutline name="right" style={styles.right_icon}/>
               
@@ -278,6 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
     marginTop: 10,
+    marginRight:10,
   },
   right_icon: {
     color: '#9b9b9c'

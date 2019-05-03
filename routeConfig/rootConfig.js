@@ -9,10 +9,15 @@ import AccountFixPwd from './../src/account/accountFixPwd';
 
 
 import JobStackNavigator from './jobRouteConfig'
+
+
 import CompanyStackNavigator from './companyRouteConfig'
 // import PersonStackNavigator from './personRouteConfig'
 import Main from './tabRouteConfig'
+
+
 import BossMain from './tabBossRouteConfig'
+import jobHunterNavigator from './jobHunterRouteConfig'
 import JobDetail from './../src/job/jobDetail';
 
 
@@ -25,6 +30,9 @@ import ChangeStatus from './../src/me/changeStatus'
 import BossInfoDetail from './../src/me/bossInfoDetail'
 import FixPhone from './../src/me/fixPhone'
 import FixPwd from './../src/me/fixPwd'
+import AddWorkExperience from './../src/me/addWorkExperience'
+
+
 import EditSmallCurriculumVitae from './../src/me/editSmallCurriculumVitae'
 import PersonAccount from './../src/me/personAccount'
 import EditBasicInfo from './../src/me/editBasicInfo'
@@ -61,6 +69,10 @@ const RootStack = createStackNavigator({
   //   screen: PersonStackNavigator
   // },
   /*个人中心界面------不能单独开stack，因为个人中心有好几种不同的路由跳转，如果开单独跳转物理返回键会有问题---可以取消上一行的注释然后点击个人中心进入任何一个详情界面，然后点击返回键。出现的问题想一下大概就知道了，主要和initialRouteName有关系*/
+  
+  jobHunterDetail: {
+    screen: jobHunterNavigator
+  },
   personSetting: {
     screen: PersonSetting
   },
@@ -81,6 +93,9 @@ const RootStack = createStackNavigator({
   },
   fixPwd: {
     screen: FixPwd
+  },
+  addWorkExperience: {
+    screen: AddWorkExperience
   },
   editSmallCurriculumVitae: {
     screen: EditSmallCurriculumVitae

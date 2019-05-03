@@ -11,6 +11,8 @@ import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider, Modal} from
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import HeaderComp from './../../util/headerComp'
 import IndustryBigType from './../../util/industryBigType'
+import {observer} from 'mobx-react';
+import UserStore from './../../mobx/userStore'
 
 
 import {BoxShadow} from 'react-native-shadow'
@@ -19,6 +21,7 @@ import {BoxShadow} from 'react-native-shadow'
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
+@observer
 class industryType extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +58,11 @@ class industryType extends Component {
     this.setState({
       choosedIndustry: choosedIndustry
     })
+  };
+  saveChoosedIndustry(chooseIndustryData) {
+    console.log('点击保存所选择的行业');
+    console.log(chooseIndustryData);
+    UserStore.changeChooseIndustryData(chooseIndustryData);
   }
   
   componentWillMount() {
@@ -77,7 +85,7 @@ class industryType extends Component {
     return (
         <View style={styles.industry_type_box}>
           {/*组件头部start*/}
-          <HeaderComp navigation={navigation} title="选择行业" routeName="editJobIntention" rightText="保存"/>
+          <HeaderComp navigation={navigation} title="选择行业" routeName="editJobIntention" rightText="保存" method={this.saveChoosedIndustry} data={this.state.choosedIndustry}/>
           {/*组件头部end*/}
           
           

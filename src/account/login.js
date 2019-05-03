@@ -86,6 +86,7 @@ class Login extends Component {
         UserStore.changeNickName(res.data.data.user.nickName);
         UserStore.changeTitImg(res.data.data.user.image);
         UserStore.changeGender(res.data.data.user.gender);
+        UserStore.changeStudyBackground(res.data.data.user.studyBackground);
         UserStore.changeJoinWorkTime(res.data.data.user.joinWorkTime);
         UserStore.changeBirthTime(res.data.data.user.birthday);
         UserStore.changePersonAccount(res.data.data.user.personAccount);

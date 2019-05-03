@@ -48,7 +48,7 @@ class personAccount extends Component {
           <View>
             <HeaderComp navigation={navigation} title="我的优势" routeName={this.props.navigation.state.params.routeName}/>
             <View style={styles.personAccount_box}>
-              <TextareaItem rows={4} placeholder="阐述我的优势" count={150} defaultValue={UserStore.personAccount} onChange={this.onChange} style={{    paddingHorizontal: 15,}} />
+              <TextareaItem rows={6} placeholder="阐述我的优势" count={150} defaultValue={UserStore.personAccount} onChange={this.onChange} style={{    paddingHorizontal: 15,}} />
               
               <Flex justify="center" align="center" style={styles.personAccount_box_button} onPress={this.confirmPersonAccount.bind(this)}>
                 <Text style={styles.personAccount_box_button_text}>确定</Text>

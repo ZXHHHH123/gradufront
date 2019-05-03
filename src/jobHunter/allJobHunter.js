@@ -24,7 +24,7 @@ class allJobHunter extends Component {
     title: 'allJobHunter',
   };
   /*_keyExtractor用来设置列表的key值，不设置会有警告提示*/
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item._id;
   
   constructor(props) {
     super(props);
@@ -42,7 +42,8 @@ class allJobHunter extends Component {
         value: 3, label: '芙蓉区'
       }, {value: 4, label: '开福区'}, {value: 5, label: '天心区'}],
       cityValue: [0],
-      allJobHunterData: [{key: 'a', id: '0'}, {key: 'b', id: '1'}, {key: 'c', id: '2'}, {key: 'd', id: '3'}, {key: 'e', id: '4'}, {key: 'f', id: '5'}]
+    // {key: 'a', _id: '0'}, {key: 'b', _id: '1'}, {key: 'c', _id: '2'}, {key: 'd', _id: '3'}, {key: 'e', _id: '4'}, {key: 'f', _id: '5'}
+      allJobHunterData: []
     };
     this.onChange1 = reccomendValue => {
       this.setState({reccomendValue});
@@ -61,16 +62,38 @@ class allJobHunter extends Component {
     this.props.navigation.navigate('manageJobIntention');
   }
   
-  intoJobHunterDetail() {
-    console.log('点击进入jobdetail按钮');
-    let params = {params: this.props.navigation};
-    /*进入名字为jobdetail的栈*/
-    this.props.navigation.navigate('jobDetail', params);
-    /*进入栈中名字为jobdetail的screen*/
+  intoJobHunterDetail(item) {
+    console.log('intoJobHunterDetail');
+    // let params = {params: this.props.navigation};
+    /*jobHunterDetail*/
+    this.props.navigation.navigate('jobHunterDetail', {item});
+    /*进入栈中名字为jobHunterDetail的screen*/
     // this.props.navigation.navigate('jobDetail', params);
+  }
+  earnPresentSingleJobTypeJobHunter(jobType) {
+    let url = axiosUtil.axiosUrl;
+    console.log('获取当前工作类型的所有值' + jobType);
+   axios.post(url + 'recruiter/earnSingleJobTypeJobHunter', {jobType}, {
+     headers: {
+       'Authorization': 'Bearer ' + UserStore.userToken
+     }
+   }).then((res) => {
+     console.log(res);
+     if(res.data.code === 200) {
+       this.setState({
+         allJobHunterData: res.data.data
+       })
+     }
+   }).catch((err) => {
+     console.log(err);
+   })
   }
   
   componentWillMount() {
+    console.log('aaaa');
+    console.log(UserStore.allPublishJobType[this.state.publishJobValue].value);
+    let presentJobValue = UserStore.allPublishJobType[this.state.publishJobValue].key;
+    this.earnPresentSingleJobTypeJobHunter(presentJobValue);
     this.setState({
       publishJobArr: UserStore.allPublishJobType
     })
@@ -91,9 +114,10 @@ class allJobHunter extends Component {
                       cols={1}
                       value={this.state.publishJobValue}
                       onChange={v => {
-                        console.log('vvvvvvvvvvvvvvvvv');
-                        console.log(v);
-                        this.setState({publishJobValue: v})
+                       
+                        this.setState({publishJobValue: v}, () => {
+                          this.earnPresentSingleJobTypeJobHunter(UserStore.allPublishJobType[this.state.publishJobValue].key);
+                        })
                       }}
                       onOk={v => this.setState({publishJobValue: v})}
                   >
@@ -186,7 +210,7 @@ class allJobHunter extends Component {
               <FlatList
                   data={this.state.allJobHunterData}
                   renderItem={({item}) => (
-                      <TouchableOpacity onPress={this.intoJobHunterDetail.bind(this)}>
+                      <TouchableOpacity onPress={this.intoJobHunterDetail.bind(this, item)}>
                         <JobHunterItemComp item={item}/>
                       </TouchableOpacity>
                   )}
@@ -205,6 +229,7 @@ class allJobHunter extends Component {
 const styles = StyleSheet.create({
   alljobHunter_box: {
     backgroundColor: '#f6f6f8',
+    height: deviceH,
   },
   header: {
     backgroundColor: '#5dd5c8',
@@ -221,7 +246,8 @@ const styles = StyleSheet.create({
     // borderStyle: 'solid',
   },
   alljobHunter_box_header_picker: {
-  backgroundColor: '#5dd5c8'
+  backgroundColor: '#5dd5c8',
+    width: deviceW*0.4
   },
   header_text: {
     fontSize: 16,
