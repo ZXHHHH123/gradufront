@@ -27,8 +27,6 @@ class positionManage extends Component {
     super(props);
     this.state = {
       allPublishJob: [],
-      
-      testData: [],
     }
   };
   /*点击进入发布的工作设置界面*/

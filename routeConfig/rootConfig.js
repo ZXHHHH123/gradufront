@@ -37,6 +37,10 @@ import EditSmallCurriculumVitae from './../src/me/editSmallCurriculumVitae'
 import PersonAccount from './../src/me/personAccount'
 import EditBasicInfo from './../src/me/editBasicInfo'
 import PositionManage from './../src/me/positionManage'
+import RecruitManage from './../src/me/recruitManage'
+import EditCompanyStar from './../src/me/editCompanyStar'
+import EditCompanyIntro from './../src/me/editCompanyIntro'
+
 import PublishJob from './../src/publish/publishJob'
 import JobAccount from './../src/publish/jobAccount'
 import JobAddress from './../src/publish/jobAddress'
@@ -108,6 +112,15 @@ const RootStack = createStackNavigator({
   },
   positionManage: {
     screen: PositionManage
+  },
+  recruitManage: {
+    screen: RecruitManage
+  },
+  editCompanyStar: {
+    screen: EditCompanyStar
+  },
+  editCompanyIntro: {
+    screen: EditCompanyIntro
   },
   changeStatus: {
     screen: ChangeStatus

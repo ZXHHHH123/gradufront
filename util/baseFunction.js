@@ -43,6 +43,11 @@ const changeStudyBackground = function (value) {
     value= '其他'
   };
   return value;
-}
+};
 
-export {earnSMSCode, changeSubYear, changeStudyBackground}
+/*将时间转换为年-月*/
+const changeYearAndMonth = function(value) {
+  return new Date(value).getFullYear() +  '.' + (new Date(value).getMonth()+1);
+};
+
+export {earnSMSCode, changeSubYear, changeStudyBackground, changeYearAndMonth}

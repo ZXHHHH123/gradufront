@@ -49,6 +49,10 @@ class UserStore {
   @observable workExperience = [];//求职者的工作经验
   
   
+  @observable companyStar = '';//招聘者所填写的公司亮点
+  
+  
+  
   
   @action changeApi (api) {
     console.log('mobx 打印api' + api);
@@ -202,6 +206,11 @@ class UserStore {
     console.log('userStore -------- 修改changeJobSalary' + floorMoney + upMoney);
     this.floorMoney = floorMoney;
     this.upMoney = upMoney;
+  }
+  
+  @action changeCompanyStar(value) {
+    console.log('userStore -------- 修改PCompanyStar' + value);
+    this.companyStar = value;
   }
   
   

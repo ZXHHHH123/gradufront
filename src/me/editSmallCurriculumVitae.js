@@ -35,16 +35,14 @@ class editSmallCurriculumVitae extends Component {
     };
     this.fixjobIntentionStatus = (value, isAccessServer = true) => {
       console.log('abcd');
-      if (isAccessServer) {
+      console.log(value);
+      if (!isAccessServer) {
         console.log('有没有进入');
         this.updateJobWantedIntention(value);
       }
       this.setState({
         jobIntentionStatus: value,
         presentStatus: this.state.statusArray[value]
-      }, () => {
-        console.log(this.state.jobIntentionStatus);
-        console.log(this.state.statusArray[1]);
       });
     };
     this.earnJobHunterCurriculumviate = () => {
@@ -78,20 +76,20 @@ class editSmallCurriculumVitae extends Component {
       Modal.operation([
         {
           text: '离职-随时到岗', onPress: () => {
-          this.fixjobIntentionStatus(0)
+          this.fixjobIntentionStatus(0, false)
         }
         },
         {
           text: '在职-月内到岗', onPress: () => {
-          this.fixjobIntentionStatus(1)
+          this.fixjobIntentionStatus(1, false)
         }
         },
         {
           text: '在职-考虑机会', onPress: () => {
-          this.fixjobIntentionStatus(2)
+          this.fixjobIntentionStatus(2, false)
         }
         },
-        {text: '在职-暂不考虑', onPress: () => this.fixjobIntentionStatus(3)},
+        {text: '在职-暂不考虑', onPress: () => this.fixjobIntentionStatus(3, false)},
       ]);
     }
   };
@@ -151,6 +149,7 @@ class editSmallCurriculumVitae extends Component {
     const {navigation} = this.props;
     return (
         <Provider>
+          <ScrollView>
           <View style={styles.editSmallCurriculumViate_box}>
             <HeaderComp navigation={navigation} title="我的简历" routeName="personCenter" rightText="预览"/>
             
@@ -231,6 +230,7 @@ class editSmallCurriculumVitae extends Component {
             {/*工作经历end*/}
           
           </View>
+          </ScrollView>
         </Provider>
     )
   }
@@ -298,6 +298,7 @@ const styles = StyleSheet.create({
     width: deviceW * 0.9,
     height: 40,
     marginTop: 10,
+    marginBottom: 15,
     marginLeft: deviceW * 0.05,
     borderColor: '#9b9b9c',
     borderWidth: 1,

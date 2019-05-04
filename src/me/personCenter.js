@@ -87,6 +87,10 @@ class personCenter extends Component {
     console.log('进入编写微简历界面');
     this.props.navigation.navigate('editSmallCurriculumVitae');
   }
+  intoRecruitManage() {
+    console.log('点击进入招聘管理设置');
+    this.props.navigation.navigate('recruitManage');
+  }
   
   componentWillMount() {
     console.log('fadsfdsafdsafds');
@@ -113,7 +117,7 @@ class personCenter extends Component {
               <View style={styles.personCenter_box_basic_info}>
                 <Flex justify="between">
                   <View>
-                    <Text style={styles.personCenter_box_user_name}>用户姓名</Text>
+                    <Text style={styles.personCenter_box_user_name}>{UserStore.nickName}</Text>
                     <Text style={styles.personCenter_box_user_more}>我的个人主页></Text>
                   </View>
                   <Image style={styles.personCenter_box_user_photo} source={require('./../image/userPhoto.jpg')}/>
@@ -176,7 +180,7 @@ class personCenter extends Component {
                   </Flex>
                 </Flex>
   
-                <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoRecruitManage.bind(this)}>
                   <Flex>
                     <IconOutline name="upload" style={{fontSize: 20}} color="gray"/>
                     <Text style={styles.personCenter_box_main_list_item_text}>招聘管理</Text>
