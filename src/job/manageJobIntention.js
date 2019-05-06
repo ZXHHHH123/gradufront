@@ -64,7 +64,7 @@ class ManageJobIntention extends Component {
   
   editJobIntention() {
     console.log('进入编辑具体工作意向界面');
-    this.props.navigation.navigate('editJobIntention');
+    this.props.navigation.navigate('editJobIntention', {routeName: 'manageJobIntention'});
   };
   
   onBackAndroid = () => {

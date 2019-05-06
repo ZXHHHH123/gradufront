@@ -49,6 +49,8 @@ class EditJobIntention extends Component {
         console.log(222);
         this.props.navigation.navigate('manageJobIntention');
       }
+    }else {
+      console.log(123)
     }
   };
   

@@ -70,22 +70,12 @@ class industryType extends Component {
   }
   
   render() {
-    const shadowOpt = {
-      width: deviceW, //包裹的子内容多宽这里必须多宽
-      height: 14,//同上
-      color: "#000",//阴影颜色
-      border: 1,//阴影宽度
-      opacity: 0.2,//透明度
-      x: 0,
-      y: 120,
-      style: {marginVertical: 5}
-    };
     
     const {navigation} = this.props;
     return (
         <View style={styles.industry_type_box}>
           {/*组件头部start*/}
-          <HeaderComp navigation={navigation} title="选择行业" routeName="editJobIntention" rightText="保存" method={this.saveChoosedIndustry} data={this.state.choosedIndustry}/>
+          <HeaderComp navigation={navigation} title="选择行业" routeName={this.props.navigation.state.params.routeName} rightText="保存" method={this.saveChoosedIndustry} data={this.state.choosedIndustry}/>
           {/*组件头部end*/}
           
           

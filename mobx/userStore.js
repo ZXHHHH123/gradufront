@@ -49,7 +49,16 @@ class UserStore {
   @observable workExperience = [];//求职者的工作经验
   
   
+  @observable companyAccount = '';//招聘者所填写的公司名字
+  @observable companyName = '';//招聘者所填写的公司名字
+  @observable companyCode = '';//招聘者所填写的公司代码
   @observable companyStar = '';//招聘者所填写的公司亮点
+  @observable companyImage = [];//招聘者所填写的公司特色照片
+  @observable place = '';//招聘者所填写的公司的职位
+  @observable wxCode = '';//招聘者所的微信号
+  @observable email = '';//招聘者所写的接收简历的邮箱号
+  
+  
   
   
   
@@ -212,6 +221,39 @@ class UserStore {
     console.log('userStore -------- 修改PCompanyStar' + value);
     this.companyStar = value;
   }
+  
+  @action changeCompanyName(value) {
+    console.log('userStore -------- 修改companyName' + value);
+    this.companyName = value;
+  }
+  @action changeCompanyCode(value) {
+    console.log('userStore -------- 修改changeCompanyCode' + value);
+    this.companyCode = value;
+  }
+  @action changePlace(value) {
+    console.log('userStore -------- changePlace' + value);
+    this.place = value;
+  }
+  
+  @action changeWxCode(value) {
+    console.log('userStore -------- changeWxCode' + value);
+    this.wxCode = value;
+  }
+  @action changeEmail(value) {
+    console.log('userStore -------- changeEmail' + value);
+    this.email = value;
+  }
+  
+  @action changeCompanyImage(value) {
+    console.log('userStore -------- changeCompanyImage' + value);
+    this.companyImage = value;
+  }
+  
+
+  
+  
+  
+  
   
   
   

@@ -40,10 +40,13 @@ import PositionManage from './../src/me/positionManage'
 import RecruitManage from './../src/me/recruitManage'
 import EditCompanyStar from './../src/me/editCompanyStar'
 import EditCompanyIntro from './../src/me/editCompanyIntro'
+import CompanyLeaderIntro from './../src/me/companyLeaderIntro'
 
 import PublishJob from './../src/publish/publishJob'
 import JobAccount from './../src/publish/jobAccount'
 import JobAddress from './../src/publish/jobAddress'
+
+
 
 
 
@@ -121,6 +124,9 @@ const RootStack = createStackNavigator({
   },
   editCompanyIntro: {
     screen: EditCompanyIntro
+  },
+  companyLeaderIntro: {
+    screen: CompanyLeaderIntro
   },
   changeStatus: {
     screen: ChangeStatus
