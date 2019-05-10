@@ -7,6 +7,7 @@ import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
+import UserStore from './../../mobx/userStore'
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
@@ -19,22 +20,26 @@ class CompanyItemComp extends Component {
     }
   }
   render() {
+    let presentItem = this.props.item;
+    console.log('presentItem==========');
+    console.log(presentItem);
     return (
         <View style={styles.companyItem_box}>
           <View style={styles.companyItem_main}>
             <View style={styles.companyItem_top}>
               <Flex>
                 <Image style={styles.companyItem_company_img} source={require('./../image/logo.png')}/>
-                <View>
-                  <Text style={styles.company_name}>公司名字</Text>
-                  <Text style={styles.company_address}>公司地址 岳麓区 中电软件园</Text>
+                <View style={{width: deviceW* 0.8}}>
+                  <Text style={styles.company_name}>{presentItem.companyName}</Text>
+                  <Text style={styles.company_address}>公司地址 {presentItem.companyAddress}</Text>
                 </View>
               </Flex>
             </View>
             
             <Flex style={styles.companyItem_main_bottom}>
-              <Text style={styles.companyItem_tag}>不需要融资</Text>
-              <Text style={styles.companyItem_tag}>不需要融资</Text>
+              {presentItem.isBelisted ?   <Text style={styles.companyItem_tag}>未上市</Text>: <Text style={styles.companyItem_tag}>已上市</Text>
+              }
+              <Text style={styles.companyItem_tag}>{presentItem.companyPeopleNum}</Text>
               <Text style={styles.companyItem_tag}>不需要融资</Text>
             </Flex>
           </View>
@@ -42,8 +47,8 @@ class CompanyItemComp extends Component {
             <Flex justify="between" align="center" style={styles.companyItem_bottom}>
                 <Flex justify="between" align="center">
                 <Text>热招：</Text>
-                <Text style={styles.companyItem_jobtype}>前端开发工程师</Text>
-                <Text>等252个职位</Text>
+                <Text style={styles.companyItem_jobtype}>{UserStore.expectJobLabel}</Text>
+                <Text>等{[presentItem.publishJobIdArray].length}个职位</Text>
                 </Flex>
               <IconOutline name="right" color="#818182"/>
             </Flex>

@@ -88,10 +88,11 @@ class Login extends Component {
         UserStore.changeGender(res.data.data.user.gender);
         UserStore.changeStudyBackground(res.data.data.user.studyBackground);
         UserStore.changeCompanyName(res.data.data.user.unit);
+        UserStore.changeExpectJobLabel(res.data.data.user.expectJobLabel);
         UserStore.changeCompanyCode(res.data.data.user.companyCode);
         UserStore.changePlace(res.data.data.user.place);
         UserStore.changeWxCode(res.data.data.user.wxCode);
-        UserStore.changeEmail(res.data.data.user.email);
+        UserStore.changeEmail(res.data.data.user.userEmail);
         UserStore.changeJoinWorkTime(res.data.data.user.joinWorkTime);
         UserStore.changeBirthTime(res.data.data.user.birthday);
         UserStore.changePersonAccount(res.data.data.user.personAccount);
@@ -137,12 +138,26 @@ class Login extends Component {
       // saving error
     }
   };
+  _isPhone(phone) {
+    console.log(phone);
+    let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+    console.log(myreg.test(phone));
+    return myreg.test(phone)
+  }
   /*登录*/
   _pwdLogin() {
     console.log('pwdlogin');
     let that = this;
     let url = axiosUtil.axiosUrl;
     console.log(this.state.phone);
+    if(!(this._isPhone(this.state.phone))) {
+      ToastAndroid.show('请填写正确的手机号码', ToastAndroid.SHORT);
+      return false;
+    }
+    if(this.state.pwd.length === 0) {
+      ToastAndroid.show('请填写密码', ToastAndroid.SHORT);
+      return false;
+    }
     let pwdObj = {
       phone: this.state.phone,
       pwd: this.state.pwd,

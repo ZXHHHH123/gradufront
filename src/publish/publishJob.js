@@ -405,7 +405,7 @@ class publishJob extends Component {
                 <Flex justify="between" align="start" direction="column" style={{paddingVertical: 5, height: 60}}>
                   <Text style={{fontSize: 14, color: 'black'}}>职位描述</Text>
                   {UserStore.jobAccount ?
-                      <Text numberOfLines={3}
+                      <Text numberOfLines={2}
                             style={styles.publishJob_box_chooseItem_text}>{UserStore.jobAccount}</Text> :
                       <Text style={styles.edit_job_intention_main_item_value}>请填写职位描述</Text>}
                 

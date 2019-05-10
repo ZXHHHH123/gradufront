@@ -36,12 +36,13 @@ class editCompanyStar extends Component {
     }
   }
   saveCompanyStar() {
+    let url = axiosUtil.axiosUrl;
     console.log('点击保存公司亮点按钮');
     console.log(this.state.companyStar);
     let companyStar = this.state.companyStar;
     UserStore.changeCompanyStar(companyStar);
     
-    this.props.navigation.navigate(this.navigation.state.params.routeName);
+    this.props.navigation.navigate(this.props.navigation.state.params.routeName);
   }
   
   render() {
@@ -53,7 +54,7 @@ class editCompanyStar extends Component {
             <Text style={styles.editCompanyStar_box_title}>
               请详细阐述公司亮点
             </Text>
-            <TextareaItem rows={4} placeholder="公司亮点具体阐述" count={200} defaultValue='' onChange={this.onChange} style={{    paddingHorizontal: 15,}} />
+            <TextareaItem rows={4} placeholder="公司亮点具体阐述" count={200} defaultValue={UserStore.companyStar} onChange={this.onChange} style={{    paddingHorizontal: 15,}} />
             
             <Flex justify="center" align="center" style={styles.editCompanyStar_box_button} onPress={this.saveCompanyStar.bind(this)}>
               <Text style={styles.editCompanyStar_box_button_text}>确定</Text>

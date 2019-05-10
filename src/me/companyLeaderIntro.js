@@ -1,9 +1,6 @@
 /**
  * Created by admin-pc on 2019/5/6.
  */
-/**
- * Created by admin-pc on 2019/5/4.
- */
 import React, {Component} from 'react'
 import {
   StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, FlatList,

@@ -14,6 +14,8 @@ import JobItemComp from './../component/JobItemComp'
 const data = require('@bang88/china-city-data');
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
+import UserStore from './../../mobx/userStore'
+
 
 
 class allJobs extends Component {
@@ -21,7 +23,7 @@ class allJobs extends Component {
     title: 'alljobs',
   };
   /*_keyExtractor用来设置列表的key值，不设置会有警告提示*/
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item._id;
   
   constructor(props) {
     super(props);
@@ -36,7 +38,7 @@ class allJobs extends Component {
         value: 3, label: '芙蓉区'
       }, {value: 4, label: '开福区'}, {value: 5, label: '天心区'}],
       cityValue: [0],
-      alljobData: [{key: 'a', id: '0'}, {key: 'b', id: '1'}, {key: 'c', id: '2'}, {key: 'd', id: '3'}, {key: 'e', id: '4'}, {key: 'f', id: '5'}]
+      alljobData: []
     };
     this.onChange1 = reccomendValue => {
       this.setState({reccomendValue});
@@ -61,16 +63,38 @@ class allJobs extends Component {
     this.props.navigation.navigate('manageJobIntention');
   }
   
-  intoJobDetail() {
+  intoJobDetail(item) {
     console.log('点击进入jobdetail按钮');
     let params = {params: this.props.navigation};
+    UserStore.changeJobDetailItem(item);
     /*进入名字为jobdetail的栈*/
     this.props.navigation.navigate('jobDetail', params);
     /*进入栈中名字为jobdetail的screen*/
     // this.props.navigation.navigate('jobDetail', params);
   }
   
+  earnRecommendJob() {
+    console.log('获得推荐的工作信息');
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'jobhunter/earnRecommendJob', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      if(res.data.code === 200) {
+        this.setState({
+          alljobData: res.data.data,
+        })
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+  
  
+  componentWillMount() {
+    this.earnRecommendJob();
+  }
   
   render() {
     const {navigation} = this.props;
@@ -79,7 +103,7 @@ class allJobs extends Component {
           <View style={styles.alljob_box}>
             {/*header start*/}
             <Flex direction="row" justify="between" align="center" style={styles.header}>
-              <Text style={styles.header_text}> web前端</Text>
+              <Text style={styles.header_text}> {UserStore.expectJobLabel}</Text>
               <View>
                 <Flex>
                   <Text onPress={this.manageJobIntention.bind(this)} style={styles.header_text}>+</Text>
@@ -159,7 +183,7 @@ class allJobs extends Component {
               <FlatList
                   data={this.state.alljobData}
                   renderItem={({item}) => (
-                      <TouchableOpacity onPress={this.intoJobDetail.bind(this)}>
+                      <TouchableOpacity onPress={this.intoJobDetail.bind(this, item)}>
                       <JobItemComp item={item}/>
                       </TouchableOpacity>
                         )}

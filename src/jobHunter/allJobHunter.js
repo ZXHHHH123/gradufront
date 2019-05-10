@@ -91,12 +91,17 @@ class allJobHunter extends Component {
   
   componentWillMount() {
     console.log('aaaa');
-    console.log(UserStore.allPublishJobType[this.state.publishJobValue].value);
-    let presentJobValue = UserStore.allPublishJobType[this.state.publishJobValue].key;
-    this.earnPresentSingleJobTypeJobHunter(presentJobValue);
-    this.setState({
-      publishJobArr: UserStore.allPublishJobType
-    })
+    console.log(this.state.publishJobValue);
+    console.log(UserStore.allPublishJobType);
+    console.log(UserStore.allPublishJobType.length > 0);
+    if(UserStore.allPublishJobType.length > 0){
+      let presentJobValue = UserStore.allPublishJobType[this.state.publishJobValue].key;
+      this.earnPresentSingleJobTypeJobHunter(presentJobValue);
+      this.setState({
+        publishJobArr: UserStore.allPublishJobType
+      })
+    }
+    console.log('bbbbbbbb');
   }
   
   render() {
@@ -106,7 +111,7 @@ class allJobHunter extends Component {
           <View style={styles.alljobHunter_box}>
             {/*header start*/}
             <Flex direction="row" justify="between" align="center" style={styles.header}>
-              <Flex style={styles.allJobHunter_box_header_jobs} onPress={this.choosePublishJob.bind(this)}>
+              {UserStore.allPublishJobType.length > 0 ?  <Flex style={styles.allJobHunter_box_header_jobs} onPress={this.choosePublishJob.bind(this)}>
                 <List>
                   <Picker
                       title="选择自己所发布的岗位类型"
@@ -114,22 +119,23 @@ class allJobHunter extends Component {
                       cols={1}
                       value={this.state.publishJobValue}
                       onChange={v => {
-                       
+          
                         this.setState({publishJobValue: v}, () => {
                           this.earnPresentSingleJobTypeJobHunter(UserStore.allPublishJobType[this.state.publishJobValue].key);
                         })
                       }}
                       onOk={v => this.setState({publishJobValue: v})}
                   >
-                   <Flex justify="center"  style={styles.alljobHunter_box_header_picker}>
-                    <Text style={styles.header_text}>
-                      {UserStore.allPublishJobType[this.state.publishJobValue].label}
-                    </Text>
-                    <IconOutline name="right"  color="white"/>
-                  </Flex>
+                    <Flex justify="center"  style={styles.alljobHunter_box_header_picker}>
+                      <Text style={styles.header_text}>
+                        {UserStore.allPublishJobType[this.state.publishJobValue].label}
+                      </Text>
+                      <IconOutline name="right"  color="white"/>
+                    </Flex>
                   </Picker>
                 </List>
-              </Flex>
+              </Flex>: <Text></Text>}
+             
   
               <View>
                 <Flex>

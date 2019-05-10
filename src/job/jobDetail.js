@@ -50,8 +50,33 @@ class jobDetail extends Component {
     console.log('进入聊天界面')
   };
   
+  earnJobDetail() {
+    console.log('获得工作基本信息');
+    console.log(UserStore.jobDetailItem);
+    // let url = axiosUtil.axiosUrl;
+    // axios.post(url + 'jobhunter/earnRecommendJob', {}, {
+    //   headers: {
+    //     'Authorization': 'Bearer ' + UserStore.userToken
+    //   }
+    // }).then((res) => {
+    //   console.log(res);
+    //   if(res.data.code === 200) {
+    //
+    //   }
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
+  }
+  
+  componentWillMount() {
+    this.earnJobDetail();
+    
+  }
   render() {
     const {navigation} = this.props;
+    let presentItem = UserStore.jobDetailItem;
+  
+    // console.log(this.props.navigation.state.params);
     return (
         <Provider>
           <ScrollView>
@@ -61,21 +86,21 @@ class jobDetail extends Component {
               {/*岗位详情主题头部*/}
               <View style={styles.job_detail_body_header}>
                 <Flex style={styles.job_detail_body_header_top} justify="between" align="center">
-                  <Text style={styles.job_detail_body_header_jobname}>前端开发工程师</Text>
-                  <Text style={styles.job_detail_body_header_jobmoney}>6k-12k</Text>
+                  <Text style={styles.job_detail_body_header_jobname}>{presentItem.jobLabel}</Text>
+                  <Text style={styles.job_detail_body_header_jobmoney}>{presentItem.floorMoney}-{presentItem.upMoney}</Text>
                 </Flex>
                 <Flex justify="between" style={styles.job_detail_header_bottom}>
                   <Flex>
                     <IconOutline name="environment" style={styles.back_icon} onPress={this.showValue.bind(this)}/>
-                    <Text style={styles.job_detail_header_text}>长沙.麓谷</Text>
+                    <Text style={styles.job_detail_header_text}>{presentItem.chooseCity}.{presentItem.jobAddress}</Text>
                   </Flex>
                   <Flex>
                     <IconOutline name="profile" style={styles.back_icon} onPress={this.showValue.bind(this)}/>
-                    <Text style={styles.job_detail_header_text}>1-3年</Text>
+                    <Text style={styles.job_detail_header_text}>{presentItem.experienceRequire}</Text>
                   </Flex>
                   <Flex>
                     <IconOutline name="read" style={styles.back_icon} onPress={this.showValue.bind(this)}/>
-                    <Text style={styles.job_detail_header_text}>大专</Text>
+                    <Text style={styles.job_detail_header_text}>{presentItem.studyRequire}</Text>
                   </Flex>
                 </Flex>
               </View>
@@ -86,14 +111,14 @@ class jobDetail extends Component {
                 <Flex direction="row" justify="between" align="center" style={styles.job_detail_hr_account}>
                   <View>
                     <Flex>
-                      <Image style={styles.job_detail_hr_img} source={require('./../image/logo.png')}/>
+                      <Image style={styles.job_detail_hr_img} source={{uri: presentItem.publisherImg}}/>
                       <View style={styles}>
                       <Flex>
-                        <Text>[hr-name]</Text>
+                        <Text>{presentItem.publisher}</Text>
                         <Text>状态（刚刚活跃）</Text>
                       </Flex>
                       <Flex>
-                        <Text>公司名字.人事</Text>
+                        <Text>{presentItem.companyName}.{presentItem.publisherPlace}</Text>
                       </Flex>
                       </View>
                     </Flex>
@@ -110,7 +135,7 @@ class jobDetail extends Component {
                 <Text style={styles.job_detail_body_title}>职位详情</Text>
                 <Text style={styles.job_detail_body_main_task}>岗位职责：</Text>
                 <View style={styles.job_detail_body_main_task_account}>
-                  <Text style={styles.job_detail_body_main_task}>1.负责前端相关设计和开发</Text>
+                  <Text style={styles.job_detail_body_main_task}>1.{presentItem.jobAccount}</Text>
                   <Text style={styles.job_detail_body_main_task}>2.负责前端相关设计和开发</Text>
                   <Text style={styles.job_detail_body_main_task}>3.负责前端相关设计和开发</Text>
                   <Text style={styles.job_detail_body_main_task}>4.负责前端相关设计和开发</Text>
@@ -137,10 +162,10 @@ class jobDetail extends Component {
                 <Flex justify="between" align="center" style={styles.job_detail_company_intro_gate}>
                   <View>
                     <Flex>
-                    <Image style={styles.job_detail_hr_img} source={require('./../image/logo.png')}/>
+                    <Image style={styles.job_detail_hr_img} source={{uri: presentItem.companyLogo}}/>
                       <View>
-                        <Text style={styles.job_detail_company_intro_text}>长沙abcd有限公司</Text>
-                        <Text style={styles.job_detail_company_intro_text}>20-99人.互联网</Text>
+                        <Text style={styles.job_detail_company_intro_text}>{presentItem.companyName}</Text>
+                        <Text style={styles.job_detail_company_intro_text}>{presentItem.companyPeopleNum}人.{presentItem.companyIndustry}</Text>
                       </View>
                     </Flex>
                   </View>

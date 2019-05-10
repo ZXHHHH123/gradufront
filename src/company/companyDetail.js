@@ -16,13 +16,16 @@ import {Button, Flex, WhiteSpace, WingBlank, Provider, Modal} from '@ant-design/
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import ComplainItem from './../../util/complainItem.json'
 import JobItemComp from "../component/JobItemComp";
+import UserStore from './../../mobx/userStore'
+import {changeWorkTime} from './../../util/baseFunction'
+
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
 
 class CompanyDetail extends Component {
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item._id;
   
   constructor(props) {
     super(props);
@@ -140,6 +143,11 @@ class CompanyDetail extends Component {
   
   render() {
     const {navigation} = this.props;
+    let presentItem = UserStore.companyDetailItem;
+    let workTimeArr = changeWorkTime(presentItem.companyWorkTimeValue);
+    console.log('presentItem========');
+    console.log(workTimeArr);
+    console.log(presentItem);
     return (
         <ImageBackground source={require('./../image/companyBack.png')} style={{width: '100%', height: '100%'}}>
           <Provider>
@@ -161,11 +169,11 @@ class CompanyDetail extends Component {
                 <View style={styles.companyDetail_main_header}>
                   <Flex justify="between">
                     <View>
-                      <Text style={styles.companyDetail_main_company_name}>公司名字</Text>
-                      <Text style={styles.companyDetail_main_company_information}>是否上市.1000-9999人.旅游</Text>
+                      <Text style={styles.companyDetail_main_company_name}>{presentItem.companyName}</Text>
+                      <Text style={styles.companyDetail_main_company_information}>{presentItem.isBelisted!==0 ? '已上市': '未上市'}.{presentItem.companyPeopleNum}.{[presentItem.companyIndustry].toString()}</Text>
                     </View>
                     <Image style={styles.companyDetail_main_header_company_logo}
-                           source={require('./../image/company_logo.jpg')}/>
+                           source={{uri: presentItem.companyLogo}}/>
                   </Flex>
                 </View>
                 {/*公司名字以及基本介绍end*/}
@@ -177,11 +185,11 @@ class CompanyDetail extends Component {
                     <Flex style={styles.companyDetail_main_work_system_item}>
                       <IconOutline name="clock-circle" color="white"
                                    style={styles.companyDetail_main_work_system_icon}/>
-                      <Text style={styles.companyDetail_main_work_system_text}>上午09:30-下午05:30</Text>
+                      <Text style={styles.companyDetail_main_work_system_text}>上午{workTimeArr[0]}-下午{workTimeArr[1]}</Text>
                     </Flex>
                     <Flex>
                       <IconOutline name="shop" color="white" style={styles.companyDetail_main_work_system_icon}/>
-                      <Text style={styles.companyDetail_main_work_system_text}>单休</Text>
+                      <Text style={styles.companyDetail_main_work_system_text}>{presentItem.companyHolidaySystem}</Text>
                     </Flex>
                     <Flex>
                       <IconOutline name="schedule" color="white" style={styles.companyDetail_main_work_system_icon}/>
@@ -194,12 +202,12 @@ class CompanyDetail extends Component {
                 {/*公司福利介绍start*/}
                 <View style={styles.companyDetail_main_work_welfare_items}>
                   <ScrollView horizontal={true}>
-                    {this.state.allWelfareData.map((item, index) => {
+                    {presentItem.companyWelfare.map((item, index) => {
                       return (
-                          <Flex style={styles.companyDetail_main_work_welfare_item} key={item.key}>
+                          <Flex style={styles.companyDetail_main_work_welfare_item} key={index}>
                             <IconOutline name="gift" color="white" style={{fontSize: 24, marginRight: 10}}
                                          onPress={this.backView.bind(this)}/>
-                            <Text style={{fontSize: 16, color: 'white'}}>{item.label}</Text>
+                            <Text style={{fontSize: 16, color: 'white'}}>{item}</Text>
                           </Flex>
                       )
                     })}
@@ -213,7 +221,7 @@ class CompanyDetail extends Component {
                 {/*公司介绍start*/}
                 <View style={styles.companyDetail_main_company_introduction}>
                   <Text style={styles.companyDetail_main_company_title}>公司介绍</Text>
-                  <Text style={styles.companyDetail_main_company_introduction_content}>公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍公司介绍</Text>
+                  <Text style={styles.companyDetail_main_company_introduction_content}>{presentItem.companyAccount}</Text>
                 </View>
                 {/*公司介绍end*/}
                 
@@ -222,10 +230,10 @@ class CompanyDetail extends Component {
                 <View style={styles.companyDetail_main_company_pic_items}>
                   <Text style={styles.companyDetail_main_company_title}>公司照片</Text>
                   <ScrollView horizontal={true} style={{marginTop: 10,}}>
-                    {this.state.companyPic.map((item, index) => {
+                    {presentItem.companyImage.map((item, index) => {
                       return (
-                          <Flex style={styles.companyDetail_main_company_pic_item} key={item.key}>
-                            <Image style={styles.companyDetail_main_company_pic} source={{uri: item.label}}/>
+                          <Flex style={styles.companyDetail_main_company_pic_item} key={index}>
+                            <Image style={styles.companyDetail_main_company_pic} source={{uri: item.uri}}/>
                           </Flex>
                       )
                     })}
@@ -234,18 +242,24 @@ class CompanyDetail extends Component {
                 {/*公司图片end*/}
                 
                 {/*公司产品介绍start*/}
-                <View style={styles.companyDetail_main_product}>
+                {[presentItem.companyProduct].length > 0 ? <View style={styles.companyDetail_main_product}>
                   <Text style={styles.companyDetail_main_company_title}>产品介绍</Text>
-                  <Flex style={styles.companyDetail_main_product_content}>
-                    <Image style={styles.companyDetail_main_company_product_pic}
-                           source={require('./../image/company_logo.jpg')}/>
-                    <View>
-                      <Text style={styles.companyDetail_main_company_product_name}>产品名字</Text>
-                      <Text
-                          style={styles.companyDetail_main_company_product_introduction}>产品介绍产品介绍产品介绍产品介绍产品介绍产品介绍产品介绍</Text>
-                    </View>
-                  </Flex>
-                </View>
+                      {presentItem.companyProduct.map((item, index) => {
+                        return (
+                            <Flex style={styles.companyDetail_main_product_content} key={index}>
+                              <Image style={styles.companyDetail_main_company_product_pic}
+                                     source={{uri: item.productImg}}/>
+                              <View>
+                                <Text style={styles.companyDetail_main_company_product_name}>{item.productName}</Text>
+                                <Text
+                                    style={styles.companyDetail_main_company_product_introduction}>{item.productAccount}</Text>
+                              </View>
+                            </Flex>
+                        )
+                      })}
+                  
+                </View>: null}
+                
                 
                 {/*公司产品介绍end*/}
                 
@@ -253,16 +267,16 @@ class CompanyDetail extends Component {
                 <View style={styles.leaderInformation}>
                   <Text style={styles.companyDetail_main_company_title}>高管介绍</Text>
                   <ScrollView horizontal={true} style={styles.leaderInformationItems}>
-                    {this.state.leaderData.map((item, index) => {
+                    {presentItem.leaderArray.map((item, index) => {
                       return (
-                          <Flex key={item.key} onPress={this.leaderInformation.bind(this, index)}>
+                          <Flex key={index} onPress={this.leaderInformation.bind(this, index)}>
                             <Image style={styles.leaderInformation_leader_photo}
-                                   source={{uri: item.photo}}/>
+                                   source={{uri: item.leaderImg}}/>
                             <View style={styles.leaderInformationItem_right}>
-                              <Text style={{fontSize: 18, color: 'white', marginBottom: 5,}}>{item.name}</Text>
-                              <Text style={{fontSize: 16, color: '#9B9B9C'}}>{item.place}</Text>
+                              <Text style={{fontSize: 18, color: 'white', marginBottom: 5,}}>{item.leaderName}</Text>
+                              <Text style={{fontSize: 16, color: '#9B9B9C'}}>{item.leaderPlace}</Text>
                               <Text numberOfLines={3}
-                                    style={{fontSize: 16, color: '#9B9B9C'}}>{item.introduction}</Text>
+                                    style={{fontSize: 16, color: '#9B9B9C'}}>{item.leaderAccount}</Text>
                             </View>
                           </Flex>
                       )

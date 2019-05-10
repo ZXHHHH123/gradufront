@@ -21,6 +21,9 @@ class UserStore {
   @observable joinWorkTime = '';//个人工作开始时间
   @observable birthTime = '';//个人出生日期
   @observable allPublishJobType = [];//招聘者所发的所有职位类型
+  @observable expectJobLabel = '';//期望职位
+  
+  
   
   
   
@@ -48,15 +51,32 @@ class UserStore {
   
   @observable workExperience = [];//求职者的工作经验
   
+  @observable jobDetailItem = {};//单个工作的详细介绍
+  @observable companyDetailItem = {};//单个公司的详细介绍
+  
+  
+  
   
   @observable companyAccount = '';//招聘者所填写的公司名字
   @observable companyName = '';//招聘者所填写的公司名字
   @observable companyCode = '';//招聘者所填写的公司代码
   @observable companyStar = '';//招聘者所填写的公司亮点
   @observable companyImage = [];//招聘者所填写的公司特色照片
+  @observable companyLogo = [];//招聘者所填写的公司logo
+  @observable companyAddress = [];//招聘者所填写的公司地址
+  
+  
   @observable place = '';//招聘者所填写的公司的职位
   @observable wxCode = '';//招聘者所的微信号
-  @observable email = '';//招聘者所写的接收简历的邮箱号
+  @observable userEmail = '';//招聘者所写的接收简历的邮箱号
+  @observable companyWelfare = [];//招聘者所写的接收简历的邮箱号
+  @observable isBelisted = [];//招聘者所填写的公司是否上市
+  @observable holidaySystem = '';//招聘者所填写的公司放假制度
+  @observable companyPeopleNum = '';//招聘者所填写的公司人数
+  @observable companyWorkTime = [];//招聘者所填写的公司工作时间
+
+  
+  
   
   
   
@@ -241,24 +261,118 @@ class UserStore {
   }
   @action changeEmail(value) {
     console.log('userStore -------- changeEmail' + value);
-    this.email = value;
+    this.userEmail = value;
   }
   
   @action changeCompanyImage(value) {
     console.log('userStore -------- changeCompanyImage' + value);
     this.companyImage = value;
   }
-  
-
-  
-  
-  
-  
+  @action changeCompanyLogo(value) {
+    console.log('userStore -------- changeCompanyLogo' + value);
+    this.companyLogo = value;
+  }
   
   
   
+  @action changeCompanyWelfare(value, isChecked = true) {
+    if(value instanceof Array) {
+      this.companyWelfare = value;
+      return;
+    }
+    console.log('userStore -------- changeCompanyWelfare' + value + isChecked);
+    let companyWelfare = Array.from(this.companyWelfare);
+    let flag = 0;
+    if(companyWelfare.length === 0) {
+      if(isChecked) {
+        companyWelfare.push(value);
+        this.companyWelfare = companyWelfare;
+      }
+    }
+    for(let i = 0, len = companyWelfare.length; i < len; i++) {
+      if(companyWelfare[i] == value) {
+        flag = 1;
+        if(!isChecked) {
+          companyWelfare.splice(i, 1);
+          this.companyWelfare = companyWelfare;
+          console.log(this.companyWelfare);
+        }
+        break;
+      }
+    }
+    if(flag === 0) {
+      console.log('abcd');
+      if(isChecked){
+        companyWelfare.push(value);
+        this.companyWelfare = companyWelfare;
+        console.log(this.companyWelfare);
+      }
+    }
+    console.log(999999)
+    console.log(this.companyWelfare);
+  }
   
   
+  
+  @action changeCompanyAccount(value) {
+    console.log('userStore -------- changeCompanyAccount' + value);
+    this.companyAccount = value;
+  }
+  
+  @action changeIsBelisted(value) {
+    console.log('userStore -------- changeIsBelisted' + value);
+    this.isBelisted = value;
+  }
+  
+  @action changeHolidaySystem(value) {
+    console.log('userStore -------- changeHolidaySystem' + value);
+    this.holidaySystem = value;
+  }
+  
+  @action changeCompanyPeopleNum(value) {
+    console.log('userStore -------- changeCompanyPeopleNum' + value);
+    this.companyPeopleNum = value;
+  }
+  
+  @action changeCompanyWebsite(value) {
+    console.log('userStore -------- changeCompanyWebsite' + value);
+    this.companyWebsite = value;
+  }
+  
+  @action changeCompanyWorkTime(value) {
+    console.log('userStore -------- changeCompanyWorkTime' + value);
+    
+    console.log(typeof value);
+    if(typeof value === 'string') {
+      console.log('abbbbbbbb');
+      let workTimeArr = value.split(',');
+      console.log(workTimeArr);
+      this.companyWorkTime = workTimeArr;
+    }else {
+      this.companyWorkTime = value;
+    }
+  }
+  
+  
+  @action changeExpectJobLabel(value) {
+    console.log('userStore -------- changeExpectJobLabel' + value);
+    this.expectJobLabel = value;
+  }
+  
+  @action changeJobDetailItem(value) {
+    console.log('userStore -------- changeJobDetailItem' + value);
+    this.jobDetailItem = value;
+  }
+  
+  @action changeCompanyDetailItem(value) {
+    console.log('userStore -------- changeCompanyDetailItem' + value);
+    this.companyDetailItem = value;
+  }
+  
+  @action changeCompanyAddress(value) {
+    console.log('userStore -------- changeCompanyAddress' + value);
+    this.companyAddress = value;
+  }
   
   
   

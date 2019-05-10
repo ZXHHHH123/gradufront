@@ -10,13 +10,15 @@ import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import CompanyItemComp from './../component/CompanyItemComp'
+import UserStore from './../../mobx/userStore'
+
 
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
 class allCompanys extends Component {
-  _keyExtractor = (item, index) => item.id;
+  _keyExtractor = (item, index) => item._id;
   constructor(props) {
     super(props);
     this.state = {
@@ -49,9 +51,7 @@ class allCompanys extends Component {
         value: 27, label: '工程施工'
       }, {value: 28, label: '汽车生产'}, {value: 29, label: '其他行业'}],
   
-      allcompanyData: [{key: 'a', id: '0'}, {key: 'b', id: '1'}, {key: 'c', id: '2'}, {key: 'd', id: '3'}, {
-        key: 'e', id: '4'
-      }, {key: 'f', id: '5'}, {key: 'g', id: '6'}, {key: 'h', id: '7'}],
+      allcompanyData: [],
     }
     ;
     
@@ -66,11 +66,35 @@ class allCompanys extends Component {
     };
   }
   
-  intoCompanyDetail() {
+  intoCompanyDetail(item) {
     console.log(123);
     let params = {params: this.props.navigation};
     // let params = {params: this.props.navigation};
+    UserStore.changeCompanyDetailItem(item);
     this.props.navigation.navigate('companyDetail', params);
+  }
+  
+  earnRecommendCompany() {
+    console.log('获取所有公司');
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'jobhunter/earnRecommendCompany', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      console.log(res);
+      if(res.data.code === 200) {
+        this.setState({
+          allcompanyData: res.data.data,
+        })
+      }
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+  
+  componentWillMount() {
+    this.earnRecommendCompany();
   }
   
   render() {
@@ -139,7 +163,7 @@ class allCompanys extends Component {
               <FlatList
                 data={this.state.allcompanyData}
                 renderItem={({item}) => (
-                    <TouchableOpacity onPress={this.intoCompanyDetail.bind(this)}>
+                    <TouchableOpacity onPress={this.intoCompanyDetail.bind(this, item)}>
                       <CompanyItemComp item={item}/>
                     </TouchableOpacity>
                 )}

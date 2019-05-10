@@ -2,6 +2,7 @@
  * Created by admin-pc on 2019/2/2.
  */
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions} from 'react-native'
+import allWorkTimeData from './../util/workTime';
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 import axios from 'axios'
@@ -50,4 +51,34 @@ const changeYearAndMonth = function(value) {
   return new Date(value).getFullYear() +  '.' + (new Date(value).getMonth()+1);
 };
 
-export {earnSMSCode, changeSubYear, changeStudyBackground, changeYearAndMonth}
+
+/*将上班时间value转换为label*/
+const changeWorkTime = function(value) {
+  console.log('changeworktime=======' + value);
+  let typeList;
+  let pickerTypeValue;
+  if(typeof value === 'string'){
+    value = value.split(',');
+  }
+  console.log(value);
+  typeList = allWorkTimeData.data.workTimeList;
+  pickerTypeValue = value;
+  let workTime = [];
+  typeList.map((items) => {
+    if (items.value === pickerTypeValue[0]) {
+      if (items.children) {
+        return items.children.map((item) => {
+          if (item.value === pickerTypeValue[1]) {
+              let workTimeArr = [items.label, item.label];
+              console.log(99999);
+              console.log(workTimeArr);
+            workTime = workTimeArr
+          }
+        })
+      }
+    }
+  });
+  return workTime;
+}
+
+export {earnSMSCode, changeSubYear, changeStudyBackground, changeYearAndMonth, changeWorkTime}
