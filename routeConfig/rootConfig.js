@@ -40,6 +40,7 @@ import PositionManage from './../src/me/positionManage'
 import RecruitManage from './../src/me/recruitManage'
 import EditCompanyStar from './../src/me/editCompanyStar'
 import EditCompanyIntro from './../src/me/editCompanyIntro'
+import AllAttentionCompany from './../src/me/allAttentionCompany'
 import CompanyLeaderIntro from './../src/me/companyLeaderIntro'
 import CompanyProductIntro from './../src/me/companyProductIntro'
 
@@ -109,6 +110,9 @@ const RootStack = createStackNavigator({
   },
   editSmallCurriculumVitae: {
     screen: EditSmallCurriculumVitae
+  },
+  allAttentionCompany: {
+    screen: AllAttentionCompany
   },
   personAccount: {
     screen: PersonAccount

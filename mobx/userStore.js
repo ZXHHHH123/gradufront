@@ -16,6 +16,9 @@ class UserStore {
   @observable titImg = '';
   @observable isCompany = '';
   
+  @observable backRouteName = '';
+  
+  
   @observable personAccount = ''; // 个人微简历中的自我描述
   
   @observable joinWorkTime = '';//个人工作开始时间
@@ -38,6 +41,7 @@ class UserStore {
   @observable bossPublishChooseJobLabel = '';//所选工作的label值
   @observable bossPublishChooseJobValue = '';//所选工作的code值
   @observable jobAccount = '';
+  @observable jobId = '';
   @observable detailAddress = ''; //boss所填工作的详细地址
   @observable chooseCity = '';//boss所填工作的城市
   @observable chooseCityValue = '';//boss所填工作的城市value值
@@ -374,7 +378,15 @@ class UserStore {
     this.companyAddress = value;
   }
   
+  @action changeJobId(value) {
+    console.log('userStore -------- changeJobId' + value);
+    this.jobId = value;
+  }
   
+  @action changeBackRouteName(value) {
+    console.log('userStore -------- changeBackRouteName' + value);
+    this.backRouteName = value;
+  }
   
   
   

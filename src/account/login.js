@@ -150,14 +150,14 @@ class Login extends Component {
     let that = this;
     let url = axiosUtil.axiosUrl;
     console.log(this.state.phone);
-    if(!(this._isPhone(this.state.phone))) {
-      ToastAndroid.show('请填写正确的手机号码', ToastAndroid.SHORT);
-      return false;
-    }
-    if(this.state.pwd.length === 0) {
-      ToastAndroid.show('请填写密码', ToastAndroid.SHORT);
-      return false;
-    }
+    // if(!(this._isPhone(this.state.phone))) {
+    //   ToastAndroid.show('请填写正确的手机号码', ToastAndroid.SHORT);
+    //   return false;
+    // }
+    // if(this.state.pwd.length === 0) {
+    //   ToastAndroid.show('请填写密码', ToastAndroid.SHORT);
+    //   return false;
+    // }
     let pwdObj = {
       phone: this.state.phone,
       pwd: this.state.pwd,

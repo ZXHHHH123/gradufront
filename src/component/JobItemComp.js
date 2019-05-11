@@ -39,13 +39,14 @@ class JobItemComp extends Component {
               {/*{presentItem.isBelisted ? <Text style={styles.comp_isCooperate}>未融资</Text> : <Text style={styles.comp_isCooperate}>已融资</Text>              }*/}
             </Flex>
             <Flex justify="between" style={styles.jobItem_main}>
-              <Text style={styles.tag_item}>{presentItem.companyAddress}</Text>
+              {presentItem.companyAddress ? <Text style={styles.tag_item}>{presentItem.companyAddress}</Text> :               <Text style={styles.tag_item}>{presentItem.chooseCity}</Text>
+              }
               {/*<Text style={styles.tag_item}>应届生</Text>*/}
               <Text style={styles.tag_item}>{presentItem.studyRequire}</Text>
             </Flex>
             <View style={styles.jobItem_footer}>
               <Flex>
-                <Image style={styles.hr_img} source={require('./../image/logo.png')}/>
+                <Image style={styles.hr_img} source={{uri:presentItem.publisherImg}}/>
                 <Text>{presentItem.publisher}.{presentItem.publisherPlace}</Text>
               </Flex>
             </View>
@@ -58,7 +59,7 @@ class JobItemComp extends Component {
 
 const styles = StyleSheet.create({
   jobItem_box: {
-    paddingTop: 10,
+    paddingVertical: 10,
     backgroundColor: 'white',
     marginBottom: 10,
   },

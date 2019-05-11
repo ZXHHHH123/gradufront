@@ -214,6 +214,7 @@ class allJobs extends Component {
 const styles = StyleSheet.create({
   alljob_box: {
     backgroundColor: '#f6f6f8',
+    height: deviceH,
   },
   header: {
     backgroundColor: '#5dd5c8',

@@ -92,6 +92,12 @@ class personCenter extends Component {
     this.props.navigation.navigate('recruitManage');
   }
   
+  intoAllAttentionCompany() {
+    console.log('点击进入所有关注的公司界面');
+    let params = {params: this.props.navigation};
+    this.props.navigation.navigate('allAttentionCompany', params);
+  }
+  
   componentWillMount() {
     console.log('fadsfdsafdsafds');
     if(UserStore.isCompany) {
@@ -224,7 +230,7 @@ class personCenter extends Component {
                       </Flex>
                     </Flex>
       
-                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoAllAttentionCompany.bind(this)}>
                       <Flex>
                         <IconOutline name="monitor" style={{fontSize: 20}} color="gray"/>
                         <Text style={styles.personCenter_box_main_list_item_text}>关注公司</Text>

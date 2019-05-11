@@ -1,9 +1,7 @@
 /**
  * Created by admin-pc on 2019/3/29.
  */
-/**
- * Created by admin-pc on 2019/3/29.
- */
+
 import React, {Component} from 'react'
 import {
   StyleSheet, Image, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions, TouchableHighlight, FlatList,
@@ -12,6 +10,7 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../../graduFront/config/system'
+import {observer} from 'mobx-react';
 import {Button, Flex, WhiteSpace, WingBlank, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import ComplainItem from './../../util/complainItem.json'
@@ -20,10 +19,11 @@ import UserStore from './../../mobx/userStore'
 import {changeWorkTime} from './../../util/baseFunction'
 
 
+
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
-
+@observer
 class CompanyDetail extends Component {
   _keyExtractor = (item, index) => item._id;
   
@@ -35,6 +35,44 @@ class CompanyDetail extends Component {
       isShowAllBusinessInfo: false,
       isShowAllJob: false,
       leaderInfo: {},
+      tycCompanyInfo: {
+        "updatetime": 1557310178273,
+        "staffNumRange": "小于50人",
+        "property5": "2017-05-01 23:48:49",
+        "fromTime": 1492617600000,
+        "type": 1,
+        "id": 3031631025,
+        "isMicroEnt": 0,
+        "regNumber": "430193000169259",
+        "percentileScore": 6309,
+        "regCapital": "1000万人民币",
+        "name": "湖南有神软件科技有限公司",
+        "regInstitute": "长沙市工商行政管理局高新技术产业开发区分局",
+        "regLocation": "长沙高新开发区文轩路27号麓谷钰园F4栋1903房",
+        "industry": "软件和信息技术服务业",
+        "approvedTime": 1540224000000,
+        "socialStaffNum": 20,
+        "logo": "https://img5.tianyancha.com/logo/lll/48fab2a140ee981f5e9b0bb204da6c2f.png@!f_200x200",
+        "taxNumber": "91430100MA4LKN0Y3R",
+        "businessScope": "软件开发；第二类增值电信业务中的信息服务业务；网络游戏虚拟货币发行；利用信息网络经营游戏产品；游戏软件设计制作；软件技术服务；网络集成系统建设、维护、运营、租赁；软件服务；游戏外包服务；软件测试服务。（依法须经批准的项目，经相关部门批准后方可开展经营活动）",
+        "alias": "有神软件",
+        "orgNumber": "MA4LKN0Y3",
+        "regStatus": "存续",
+        "estiblishTime": 1492617600000,
+        "legalPersonName": "陈东",
+        "toTime": 3070368000000,
+        "legalPersonId": 2247158266,
+        "sourceFlag": "http://qyxy.baic.gov.cn/",
+        "actualCapital": "344.62万人民币",
+        "flag": 1,
+        "correctCompanyId": "",
+        "companyOrgType": "有限责任公司(自然人投资或控股)",
+        "base": "hun",
+        "updateTimes": 1557310177000,
+        "companyType": 0,
+        "creditCode": "91430100MA4LKN0Y3R",
+        "companyId": 122352698
+      },
       allWelfareData: [{key: 'a', id: '0', label: '五险一金'}, {key: 'b', id: '1', label: '全勤奖'}, {
         key: 'c', id: '2', label: '带薪年假'
       }, {key: 'd', id: '3', label: '员工旅游'}, {
@@ -85,6 +123,10 @@ class CompanyDetail extends Component {
   
   backView() {
     console.log('点击返回按钮');
+    console.log(UserStore.backRouteName);
+    if(UserStore.backRouteName) {
+      this.props.navigation.navigate(UserStore.backRouteName);
+    }
     this.props.navigation.navigate('companyMain');
   };
   
@@ -132,15 +174,81 @@ class CompanyDetail extends Component {
       isShowAllJob: true,
     })
   };
-  intoJobDetail() {
+  // intoJobDetail(item) {
+  //   console.log('点击进入jobdetail按钮');
+  //   console.log(item);
+  //   let params = {params: this.props.navigation};
+  //   UserStore.changeJobDetailItem({});
+  //   /*进入名字为jobdetail的栈*/
+  //   this.props.navigation.navigate('jobDetail', params);
+  //   /*进入栈中名字为jobdetail的screen*/
+  //   // this.props.navigation.navigate('jobDetail', params);
+  // }
+  
+
+  earnCompanyIntroFromTianyancha(companyName) {
+    console.log('从天眼查获得数据');
+    let tycApi = axiosUtil.tianyanchaApi;
+    let tycToken = axiosUtil.tianyanchaToken;
+    axios.get(tycApi + 'name=' + companyName, {
+      headers: {
+        'Authorization': tycToken
+      }
+    }).then((res) => {
+      console.log('天眼查所获得的数据res');
+      console.log(res);
+      if (res.data.reason === 'ok') {
+        this.setState({
+          tycCompanyInfo: res.data.result
+        })
+      }
+      
+    }).catch((err) => {
+      console.log('天眼查所获得的数据err');
+      console.log(err);
+    })
+  }
+  
+  intoJobDetail(item) {
     console.log('点击进入jobdetail按钮');
+    console.log(item);
     let params = {params: this.props.navigation};
+    UserStore.changeJobDetailItem({});
+    UserStore.changeJobId(item.jobId);
+  
     /*进入名字为jobdetail的栈*/
     this.props.navigation.navigate('jobDetail', params);
     /*进入栈中名字为jobdetail的screen*/
     // this.props.navigation.navigate('jobDetail', params);
   }
   
+  attentionCompany() {
+    console.log('点击关注公司');
+    let companyId = UserStore.companyDetailItem._id;
+    console.log(companyId);
+    let url = axiosUtil.axiosUrl;
+    
+    axios.post(url + 'jobhunter/attentionCompany', {companyId}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res => {
+      if(res.data.code === 200) {
+        ToastAndroid.show('关注成功', ToastAndroid.SHORT);
+      }else {
+        ToastAndroid.show('关注失败', ToastAndroid.SHORT);
+      }
+    })).catch((err) => {
+      console.log(err);
+    })
+  }
+  
+  componentWillMount() {
+    let companyName = UserStore.companyDetailItem.companyName;
+  
+    // todo
+    // this.earnCompanyIntroFromTianyancha(companyName);
+  }
   render() {
     const {navigation} = this.props;
     let presentItem = UserStore.companyDetailItem;
@@ -157,7 +265,7 @@ class CompanyDetail extends Component {
                   <Flex justify="between" align="center">
                     <IconOutline name="left" color="white" style={{fontSize: 16}} onPress={this.backView.bind(this)}/>
                     <Flex style={styles.companyDetail_header_right}>
-                      <Text style={styles.companyDetail_header_right_text}>+关注</Text>
+                      <Text style={styles.companyDetail_header_right_text} onPress={this.attentionCompany.bind(this)}>+关注</Text>
                       <IconOutline name="ellipsis" color="white" style={{fontSize: 20}}
                                    onPress={this.complainComp.bind(this)}/>
                     </Flex>
@@ -290,7 +398,7 @@ class CompanyDetail extends Component {
                 <View style={{marginTop: 35,}}>
                   <Text style={styles.companyDetail_main_company_title}>公司官网</Text>
                   <Flex justify="between">
-                    <Text style={{color: 'white',}}>http://www.baidu.com</Text>
+                    <Text style={{color: 'white',}}>{presentItem.companyWebsite}</Text>
                     <IconOutline name="right" color="white" style={styles.back_icon}
                                  onPress={this.intoCompanyWeb.bind(this)}/>
                   </Flex>
@@ -302,19 +410,19 @@ class CompanyDetail extends Component {
                   <Text style={styles.companyDetail_main_company_title}>工商信息</Text>
                   <Flex justify="between" style={styles.companyDetail_business_info_item}>
                     <Text style={styles.companyDetail_business_info_item_left}>公司全称</Text>
-                    <Text style={styles.companyDetail_business_info_item_right}>公司全称公司全称公司全称</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>{this.state.tycCompanyInfo.name}</Text>
                   </Flex>
                   <Flex justify="between" style={styles.companyDetail_business_info_item}>
                     <Text style={styles.companyDetail_business_info_item_left}>公司法人</Text>
-                    <Text style={styles.companyDetail_business_info_item_right}>公司法人</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>{this.state.tycCompanyInfo.legalPersonName}</Text>
                   </Flex>
                   <Flex justify="between" style={styles.companyDetail_business_info_item}>
                     <Text style={styles.companyDetail_business_info_item_left}>注册时间</Text>
-                    <Text style={styles.companyDetail_business_info_item_right}>注册时间注册时间</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>{this.state.tycCompanyInfo.property5}</Text>
                   </Flex>
                   <Flex justify="between" style={styles.companyDetail_business_info_item}>
                     <Text style={styles.companyDetail_business_info_item_left}>注册资本</Text>
-                    <Text style={styles.companyDetail_business_info_item_right}>1000.00000万人民币</Text>
+                    <Text style={styles.companyDetail_business_info_item_right}>{this.state.tycCompanyInfo.actualCapital}</Text>
                   </Flex>
                   
                   <Flex justify="between" style={styles.companyDetail_business_info_item}>
@@ -384,71 +492,80 @@ class CompanyDetail extends Component {
                     <Flex direction="column" style={{paddingHorizontal: 15, height: deviceH * 0.8}}>
                       
                         <Image style={styles.company_business_info_modal_photo}
-                               source={require('./../../src/image/company_logo.jpg')}/>
-                        <Text style={styles.company_business_info_modal_name}>公司名字公司名字公司名字</Text>
-                        <Text style={styles.company_business_info_modal_website}>公司官网网址</Text>
+                               source={{uri: this.state.tycCompanyInfo.logo}}/>
+                        <Text style={styles.company_business_info_modal_name}>{this.state.tycCompanyInfo.name}</Text>
+                        <Text style={styles.company_business_info_modal_website}>{presentItem.companyWebsite}</Text>
                         
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
                         <Text>企业法人</Text>
-                        <Text>法人名字</Text>
+                        <Text>{this.state.tycCompanyInfo.legalPersonName}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
                         <Text>注册资本</Text>
-                        <Text>1000.0000万人民币</Text>
+                        <Text>{this.state.tycCompanyInfo.actualCapital}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
                         <Text>成立时间</Text>
-                        <Text>2009-10-19</Text>
+                        <Text>{this.state.tycCompanyInfo.property5}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
                         <Text>经营状态</Text>
-                        <Text>存续（在营、开业、在册）</Text>
+                        <Text>{this.state.tycCompanyInfo.regStatus}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
                         <Text>注册地址</Text>
-                        <Text>湖南省长沙市岳麓区</Text>
+                        <Text>{this.state.tycCompanyInfo.regInstitute}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item}>
-                        <Text>同一信用代码</Text>
-                        <Text>978956452312656</Text>
+                        <Text>统一信用代码</Text>
+                        <Text>{this.state.tycCompanyInfo.creditCode}</Text>
                       </Flex>
                       <Flex justify="between" style={styles.companyDetail_business_info_modal_item} wrap="wrap">
                         <Text>经营范围：</Text>
-                        <Text>经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围经营范围</Text>
+                        <Text numberOfLines={5}>{this.state.tycCompanyInfo.businessScope}</Text>
                       </Flex>
                       
-                      <Text style={{position: 'absolute', bottom: 0,}}>数据来源-天眼查</Text>
+                      <Text style={{position: 'absolute', bottom: 0, color: '#4483F8'}}>数据来源-天眼查</Text>
                     </Flex>
                   </View>
                 </Modal>
   
-                <Modal
-                    style={[styles.companyDetail_modal]}
-                    popup
-                    visible={this.state.isShowAllJob}
-                    animationType="slide-up"
-                    onClose={this.ModalClose}
-                    maskClosable
-                >
-                  <View  style={{paddingTop: 30, height: deviceH * 0.85}}>
-                    <FlatList
-                        data={ComplainItem}
-                        keyExtractor={this._keyExtractor}
-                        renderItem={
-                          ({item, index}) => (
-                              <TouchableOpacity onPress={this.intoJobDetail.bind(this)}>
-                                <JobItemComp item={item}/>
-                              </TouchableOpacity>
-                          )
-                        }
-                    />
-                  </View>
-                </Modal>
+                {/*<Modal*/}
+                    {/*style={[styles.companyDetail_modal]}*/}
+                    {/*popup*/}
+                    {/*visible={this.state.isShowAllJob}*/}
+                    {/*animationType="slide-up"*/}
+                    {/*onClose={this.ModalClose}*/}
+                    {/*maskClosable*/}
+                {/*>*/}
+                  {/*<View  style={{paddingTop: 30, height: deviceH * 0.85}}>*/}
+                    {/*<FlatList*/}
+                        {/*data={ComplainItem}*/}
+                        {/*keyExtractor={this._keyExtractor}*/}
+                        {/*renderItem={*/}
+                          {/*({item, index}) => (*/}
+                              {/*<TouchableOpacity onPress={this.intoJobDetail.bind(this)} key={index}>*/}
+                                {/*<JobItemComp item={item}/>*/}
+                              {/*</TouchableOpacity>*/}
+                          {/*)*/}
+                        {/*}*/}
+                    {/*/>*/}
+                  {/*</View>*/}
+                {/*</Modal>*/}
   
   
   
   
                 <Text style={styles.companyDetail_alljob_gate} onPress={this.showAllJobModal.bind(this)}>公司所有在招职位</Text>
+                <View>
+                  {presentItem.publishJobIdArray.map((item, index) => {
+                    return (
+                        <TouchableOpacity key={index} onPress={this.intoJobDetail.bind(this, item)}>
+                          <JobItemComp item={item}/>
+                        </TouchableOpacity>
+                    )
+                  })}
+                </View>
               </View>
             </ScrollView>
           </Provider>
