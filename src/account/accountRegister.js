@@ -61,7 +61,6 @@ class AccountRegister extends Component {
         });
         return;
       }
-      console.log(timeNum);
       this.setState({
         smsCodeText: `重新发送${timeNum}s`,
       })

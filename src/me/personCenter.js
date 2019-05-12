@@ -98,6 +98,12 @@ class personCenter extends Component {
     this.props.navigation.navigate('allAttentionCompany', params);
   }
   
+  intoupLoadCurriculumVitae(){
+    console.log('点击进入上传简历界面');
+    this.props.navigation.navigate('upLoadCurriculumVitae');
+  
+  }
+  
   componentWillMount() {
     console.log('fadsfdsafdsafds');
     if(UserStore.isCompany) {
@@ -207,7 +213,7 @@ class personCenter extends Component {
                       <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
                     </Flex>
       
-                    <Flex justify="between" style={styles.personCenter_box_main_list_item}>
+                    <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoupLoadCurriculumVitae.bind(this)}>
                       <Flex>
                         <IconOutline name="upload" style={{fontSize: 20}} color="gray"/>
                         <Text style={styles.personCenter_box_main_list_item_text}>附件简历</Text>

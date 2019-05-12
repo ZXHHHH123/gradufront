@@ -183,6 +183,8 @@ class Login extends Component {
         //   otherParam: 'anything you want here',
         // });
         console.log(99999)
+      }else {
+        ToastAndroid.show('登录失败-请确认输入信息', ToastAndroid.SHORT);
       }
     }).catch(err => {
       console.log('接口报错');

@@ -41,6 +41,7 @@ import RecruitManage from './../src/me/recruitManage'
 import EditCompanyStar from './../src/me/editCompanyStar'
 import EditCompanyIntro from './../src/me/editCompanyIntro'
 import AllAttentionCompany from './../src/me/allAttentionCompany'
+import UpLoadCurriculumVitae from './../src/me/upLoadCurriculumVitae'
 import CompanyLeaderIntro from './../src/me/companyLeaderIntro'
 import CompanyProductIntro from './../src/me/companyProductIntro'
 
@@ -113,6 +114,9 @@ const RootStack = createStackNavigator({
   },
   allAttentionCompany: {
     screen: AllAttentionCompany
+  },
+  upLoadCurriculumVitae: {
+    screen: UpLoadCurriculumVitae
   },
   personAccount: {
     screen: PersonAccount

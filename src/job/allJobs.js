@@ -15,7 +15,8 @@ const data = require('@bang88/china-city-data');
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 import UserStore from './../../mobx/userStore'
-
+import chooseCompanyData from './../../util/chooseCompanyData'
+import chooseJobRequireData from './../../util/chooseJobRequireData'
 
 
 class allJobs extends Component {
@@ -31,21 +32,35 @@ class allJobs extends Component {
     this.state = {
       data: [],
       value: [],
-      
+      chooseCompanyLabel: [],
+      chooseRequireLabel: [],
       reccomendData: [{value: 0, label: '推荐'}, {value: 1, label: '最新'}],
-      reccomendValue: [0],
-      cityData: [{value: 0, label: '长沙'}, {value: 1, label: '岳麓区'}, {value: 2, label: '雨花区'}, {
-        value: 3, label: '芙蓉区'
-      }, {value: 4, label: '开福区'}, {value: 5, label: '天心区'}],
+      requireValue: [0],
+      cityData: [{value: 0, label: '长沙'}, {value: 1, label: '北京'}, {value: 2, label: '上海'}, {
+        value: 3, label: '广州'
+      }, {value: 4, label: '深圳'}, {value: 5, label: '杭州'}],
       cityValue: [0],
-      alljobData: []
+      alljobData: [],
+      companyValue: [],
     };
-    this.onChange1 = reccomendValue => {
-      this.setState({reccomendValue});
+    this.onChange1 = requireValue => {
+      this.setState({requireValue}, () => {
+        this.changeChooseComapny(this.state.requireValue, 'require');
+      });
     };
     this.onChange2 = cityValue => {
-      this.setState({cityValue});
-      console.log(cityValue);
+      this.setState({cityValue}, () => {
+        console.log('aaaaaaaaaa');
+        console.log(this.state.cityValue);
+        this.earnRecommendJob()
+      });
+    };
+    
+    this.onChange3 = companyValue => {
+      this.setState({companyValue}, () => {
+        this.changeChooseComapny(this.state.companyValue, 'company');
+      });
+      console.log(companyValue);
     };
     this.onPress = () => {
       console.log(this.state.reccomendData);
@@ -57,8 +72,9 @@ class allJobs extends Component {
       // }, 500);
     };
   };
+  
   /*点击主页右侧‘+’icon进入‘管理求职意向界面’*/
-  manageJobIntention(){
+  manageJobIntention() {
     console.log('点击主页右侧‘+’icon进入‘管理求职意向界面’');
     this.props.navigation.navigate('manageJobIntention');
   }
@@ -73,15 +89,61 @@ class allJobs extends Component {
     // this.props.navigation.navigate('jobDetail', params);
   }
   
+  changeChooseComapny(v, type) {
+    
+    console.log(v);
+    let chooseData;
+    if (type === 'require') {
+      chooseData = chooseJobRequireData.data.requireTypeList
+    } else if (type === 'company') {
+      chooseData = chooseCompanyData.data.companyTypeList
+    }
+    if (v.length > 0) {
+      let index = v[0].substring(0, 1);
+      // this.state.pickerRequirements[index] = {v};
+      let label1 = chooseData[index - 1].label;
+      chooseData[index - 1].children.forEach((item, index1) => {
+        let label2;
+        if (item.value === v[1]) {
+          label2 = item.label;
+          let typeArr = [label1, label2];
+          if (type === 'require') {
+            this.setState({
+              chooseRequireLabel: typeArr
+            }, () => {
+              this.earnRecommendJob()
+            })
+          } else if (type === 'company') {
+            this.setState({
+              chooseCompanyLabel: typeArr
+            }, () => {
+              this.earnRecommendJob()
+            })
+          }
+          
+        }
+        
+      });
+      console.log(this.state.pickerRequirements);
+    }
+  }
+  
   earnRecommendJob() {
     console.log('获得推荐的工作信息');
+    console.log(this.state.chooseCompanyLabel);
+    let chooseType = {
+      city: this.state.cityData[this.state.cityValue].label,
+      company: this.state.chooseCompanyLabel,
+      require: this.state.chooseRequireLabel,
+    };
+    console.log(chooseType);
     let url = axiosUtil.axiosUrl;
-    axios.post(url + 'jobhunter/earnRecommendJob', {}, {
+    axios.post(url + 'jobhunter/earnRecommendJob', chooseType, {
       headers: {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
     }).then((res) => {
-      if(res.data.code === 200) {
+      if (res.data.code === 200) {
         this.setState({
           alljobData: res.data.data,
         })
@@ -91,7 +153,7 @@ class allJobs extends Component {
     })
   }
   
- 
+  
   componentWillMount() {
     this.earnRecommendJob();
   }
@@ -121,26 +183,7 @@ class allJobs extends Component {
               <List style={styles.alljob_box_plcker_list}>
                 {/*<Flex style={{paddingRight:20, width: deviceW}}>*/}
                 <Flex justify="between">
-                  <Flex.Item>
-                    <Picker data={this.state.reccomendData}
-                            cols={1}
-                            extra="1"
-                            value={this.state.reccomendValue}
-                            onChange={this.onChange1}>
-                      <Flex justify="center"  style={styles.header_picker}>
-                        <Text>
-                          {this.state.reccomendData[this.state.reccomendValue].label}
-                        </Text>
-                        <IconOutline name="down"  color="#818182"/>
-                      </Flex>
-                     
-                    
-                      {/*<List.Item  wrap onPress={this.onPress} key="recommend" align="middle"*/}
-                                 {/*style={styles.header_picker}>*/}
-                        {/*推荐*/}
-                      {/*</List.Item>*/}
-                    </Picker>
-                  </Flex.Item>
+                 
                   
                   <Flex.Item>
                     <Picker data={this.state.cityData}
@@ -151,21 +194,41 @@ class allJobs extends Component {
                         <Text>
                           {this.state.cityData[this.state.cityValue].label}
                         </Text>
-                        <IconOutline name="down"  color="#818182"/>
+                        <IconOutline name="down" color="#818182"/>
                       </Flex>
                     </Picker>
                   </Flex.Item>
                   <Flex.Item>
-                    <Picker data={this.state.cityData}
-                            cols={1}
-                            value={this.state.cityValue}
-                            onChange={this.onChange2}>
+                    <Picker data={chooseCompanyData.data.companyTypeList}
+                            cols={2}
+                            value={this.state.companyValue}
+                            onChange={this.onChange3}>
                       <Flex justify="center" style={styles.header_picker}>
                         <Text >
-                          推荐
+                          公司
                         </Text>
-                        <IconOutline name="down"  color="#818182"/>
+                        <IconOutline name="down" color="#818182"/>
                       </Flex>
+                    </Picker>
+                  </Flex.Item>
+                  <Flex.Item>
+                    <Picker data={chooseJobRequireData.data.requireTypeList}
+                            cols={2}
+                            extra="1"
+                            value={this.state.requireValue}
+                            onChange={this.onChange1}>
+                      <Flex justify="center" style={styles.header_picker}>
+                        <Text>
+                          要求
+                        </Text>
+                        <IconOutline name="down" color="#818182"/>
+                      </Flex>
+      
+      
+                      {/*<List.Item  wrap onPress={this.onPress} key="recommend" align="middle"*/}
+                      {/*style={styles.header_picker}>*/}
+                      {/*推荐*/}
+                      {/*</List.Item>*/}
                     </Picker>
                   </Flex.Item>
                 </Flex>
@@ -184,14 +247,14 @@ class allJobs extends Component {
                   data={this.state.alljobData}
                   renderItem={({item}) => (
                       <TouchableOpacity onPress={this.intoJobDetail.bind(this, item)}>
-                      <JobItemComp item={item}/>
+                        <JobItemComp item={item}/>
                       </TouchableOpacity>
-                        )}
-                keyExtractor={this._keyExtractor}
-                // onEndReached={this._fetchMoreData.bind(this)}
-                // onEndReachedThreshold={1}
-                // ListHeaderComponent={this._renderHeader.bind(this)}
-                // ListFooterComponent={this._renderFooter.bind(this)}
+                  )}
+                  keyExtractor={this._keyExtractor}
+                  // onEndReached={this._fetchMoreData.bind(this)}
+                  // onEndReachedThreshold={1}
+                  // ListHeaderComponent={this._renderHeader.bind(this)}
+                  // ListFooterComponent={this._renderFooter.bind(this)}
                   // renderItem=JobItemComp
               />
               
@@ -203,7 +266,7 @@ class allJobs extends Component {
             </View>
             {/*工作岗位列表listend*/}
             {/*<View>*/}
-              {/*<Button onPress={this.intoJobDetail.bind(this)} color="#941584">进入详情界面测试</Button>*/}
+            {/*<Button onPress={this.intoJobDetail.bind(this)} color="#941584">进入详情界面测试</Button>*/}
             {/*</View>*/}
           </View>
         </Provider>

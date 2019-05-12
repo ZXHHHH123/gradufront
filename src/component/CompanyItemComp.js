@@ -28,7 +28,7 @@ class CompanyItemComp extends Component {
           <View style={styles.companyItem_main}>
             <View style={styles.companyItem_top}>
               <Flex>
-                <Image style={styles.companyItem_company_img} source={require('./../image/logo.png')}/>
+                <Image style={styles.companyItem_company_img} source={{uri: presentItem.companyLogo}}/>
                 <View style={{width: deviceW* 0.8}}>
                   <Text style={styles.company_name}>{presentItem.companyName}</Text>
                   <Text style={styles.company_address}>公司地址 {presentItem.companyAddress}</Text>

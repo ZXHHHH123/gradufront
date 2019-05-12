@@ -11,6 +11,8 @@ import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import HeaderComp from "../../util/headerComp";
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 const deviceW = Dimensions.get('window').width;
@@ -33,7 +35,13 @@ class personSetting extends Component{
     console.log('点击切换身份item');
     this.props.navigation.navigate('changeStatus');
   };
- 
+   exitLogin = async() => {
+    console.log('点击退出登录');
+    await AsyncStorage.setItem('phone', '');
+    await AsyncStorage.setItem('pwd', '');
+    this.props.navigation.navigate('Login')
+  };
+  
   render(){
     const {navigation} = this.props;
     return (
@@ -66,6 +74,15 @@ class personSetting extends Component{
             <Flex style={styles.personSetting_box_item} justify="between"  onPress={this.changeStatus.bind(this)}>
               <Text style={styles.personSetting_box_item_left}>切换身份</Text>
               <IconOutline name="right" color="#5dd5c8" style={{fontSize: 20}} onPress={this.intoSettingDetail.bind(this, 'changeStatus')}/>
+            </Flex>
+          </View>
+  
+  
+          {/*切换身份*/}
+          <View style={styles.personSetting_box_lists}>
+            <Flex style={styles.personSetting_box_item} justify="between"  onPress={this.exitLogin.bind(this)}>
+              <Text style={styles.personSetting_box_item_left}>退出应用</Text>
+              <IconOutline name="right" color="#5dd5c8" style={{fontSize: 20}} />
             </Flex>
           </View>
         </View>
