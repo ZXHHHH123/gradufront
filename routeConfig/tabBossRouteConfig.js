@@ -44,6 +44,8 @@ const MeMainStack =createStackNavigator({
   }}, {
   mode: 'modal',
   headerMode: 'none',
+  
+  
 });
 
 const TabNavigator  = createAppContainer(createBottomTabNavigator({
@@ -51,5 +53,18 @@ const TabNavigator  = createAppContainer(createBottomTabNavigator({
   // Company: CompanyMainStack,
   // Chat: ChatMainStack,
   我的: MeMainStack,
+},{
+  defaultNavigationOptions: ({ navigation }) => ({
+    tabBarOnPress:(obj) => {
+      // communicateData
+      console.log(1234);
+      obj.defaultHandler();
+      console.log(obj.navigation.state.params);
+      obj.navigation.state.params.earnCommunicate();
+  
+    }
+  }),
+ 
+
 }));
 export default TabNavigator;

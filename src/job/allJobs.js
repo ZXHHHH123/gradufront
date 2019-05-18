@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
-import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
+import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import {district} from 'antd-mobile-demo-data';
 import JobItemComp from './../component/JobItemComp'
@@ -32,7 +32,7 @@ class allJobs extends Component {
     this.state = {
       data: [],
       value: [],
-      chooseCompanyLabel: [],
+      chooseCompanyLabel: [ '人员规模', '不限' ],
       chooseRequireLabel: [],
       reccomendData: [{value: 0, label: '推荐'}, {value: 1, label: '最新'}],
       requireValue: [0],
@@ -90,8 +90,10 @@ class allJobs extends Component {
   }
   
   changeChooseComapny(v, type) {
-    
+    console.log('aaaaabbbbbbb');
     console.log(v);
+    console.log(7890)
+    console.log(type);
     let chooseData;
     if (type === 'require') {
       chooseData = chooseJobRequireData.data.requireTypeList
@@ -100,20 +102,26 @@ class allJobs extends Component {
     }
     if (v.length > 0) {
       let index = v[0].substring(0, 1);
+      console.log(index);
       // this.state.pickerRequirements[index] = {v};
       let label1 = chooseData[index - 1].label;
       chooseData[index - 1].children.forEach((item, index1) => {
+        console.log(item.value);
         let label2;
         if (item.value === v[1]) {
           label2 = item.label;
           let typeArr = [label1, label2];
           if (type === 'require') {
+            console.log('~~~~~~~');
+            console.log(typeArr);
             this.setState({
               chooseRequireLabel: typeArr
             }, () => {
               this.earnRecommendJob()
             })
           } else if (type === 'company') {
+            console.log('!!!!!!!!');
+            console.log(typeArr);
             this.setState({
               chooseCompanyLabel: typeArr
             }, () => {
@@ -153,6 +161,46 @@ class allJobs extends Component {
     })
   }
   
+  showSearchModal(type) {
+    Modal.prompt(
+        '搜索职位',
+        '职位名称',
+        jobvalue => this.searchType(jobvalue, type),
+        'default',
+        null,
+        ['please input jobname']
+    );
+  }
+  
+  searchType(value, type) {
+    console.log(type);
+    console.log(`jobValue: ${value}`);
+    let url = axiosUtil.axiosUrl;
+    if(!value) {
+      this.earnRecommendJob();
+      return
+    }
+    axios.post(url + 'jobhunter/searchJoborCompany', {value, type} , {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      if(res.data.code === 200) {
+        console.log(res);
+        if(type === 'job') {
+          this.setState({
+            alljobData: res.data.data,
+          })
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+
+    
+    
+  }
+  
   
   componentWillMount() {
     this.earnRecommendJob();
@@ -170,7 +218,7 @@ class allJobs extends Component {
                 <Flex>
                   <Text onPress={this.manageJobIntention.bind(this)} style={styles.header_text}>+</Text>
                   <Text style={[styles.header_segment_line, styles.header_text]}>|</Text>
-                  <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white"/>
+                  <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white" onPress={this.showSearchModal.bind(this, 'job')}/>
                   {/*<Text style={styles.header_text}></Text>*/}
                 </Flex>
               </View>

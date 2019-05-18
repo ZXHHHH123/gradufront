@@ -30,11 +30,35 @@ class JobDetaiHeader extends Component {
   
   backView() {
     this.props.navigation.navigate('Main');
+    if(UserStore.backRouteName) {
+      this.props.navigation.navigate(UserStore.backRouteName);
+    }else {
+      this.props.navigation.navigate('Main');
+    }
   };
   
   collectJob() {
-    this.props.navigation.navigate('Main');
     console.log('点击收藏该岗位');
+  
+    console.log(UserStore.jobId);
+    let jobId = UserStore.jobDetailItem._id;
+    
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'jobhunter/collectJob', {jobId},{
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      // console.log('')
+      if(res.data.code === 200) {
+        ToastAndroid.show('收藏成功', ToastAndroid.SHORT);
+        this.props.navigation.navigate('Main');
+      }else {
+        ToastAndroid.show('收藏失败', ToastAndroid.SHORT);
+      }
+    }).catch((err) =>{
+      console.log(err);
+    });
   };
   
   // console.log('点击投诉该工作岗位');

@@ -47,8 +47,23 @@ class jobDetail extends Component {
     console.log(UserStore.isShowcomplainModal);
   };
   _toChat() {
-    /*todo*/
-    console.log('进入聊天界面')
+    let url = axiosUtil.axiosUrl;
+    let jobId = UserStore.jobDetailItem._id;
+    axios.post(url + 'jobhunter/sendCurriculumVitaeToRecruiter', {jobId}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      console.log(res);
+      if (res.data.code === 200) {
+        ToastAndroid.show('对方已收到提醒', ToastAndroid.SHORT);
+      }else {
+        ToastAndroid.show('对方未收到提醒', ToastAndroid.SHORT);
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+    
   };
   
   earnJobDetail(jobId) {
@@ -73,6 +88,11 @@ class jobDetail extends Component {
   }
   
   componentWillMount() {
+    if(this.props.navigation.state.params){
+      if(this.props.navigation.state.params.routeName) {
+        UserStore.changeBackRouteName(this.props.navigation.state.params.routeName);
+      }
+    }
     if(!(UserStore.jobDetailItem.jobLabel)) {
       this.earnJobDetail(UserStore.jobId);
     }else {
@@ -86,7 +106,7 @@ class jobDetail extends Component {
     // let presentItem = UserStore.jobDetailItem;
     console.log('aaaaaaaaaaaaaaaa');
     // console.log(presentItem);
-    // console.log(this.props.navigation.state.params);
+    
     return (
         <Provider>
           <ScrollView>
@@ -215,7 +235,7 @@ class jobDetail extends Component {
                   type="primary"
                   onPress={this._toChat.bind(this)}
                   style={styles.job_detail_chat}
-              >立即沟通</Button>
+              >是否已向邮箱发送简历</Button>
             </Flex>
           </View>
 

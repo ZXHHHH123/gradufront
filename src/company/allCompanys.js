@@ -7,10 +7,11 @@ import {
 } from 'react-native'
 import axios from 'axios'
 import axiosUtil from '../../config/system'
-import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider} from '@ant-design/react-native';
+import {Button, Flex, WhiteSpace, WingBlank, Picker, ListView, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
 import CompanyItemComp from './../component/CompanyItemComp'
 import UserStore from './../../mobx/userStore'
+
 
 
 
@@ -59,10 +60,14 @@ class allCompanys extends Component {
       this.setState({financingValue});
     };
     this.onChange2 = sizeValue => {
-      this.setState({sizeValue});
+      this.setState({sizeValue}, () => {
+        this.earnRecommendCompany();
+      });
     };
     this.onChange3 = industryValue => {
-      this.setState({industryValue});
+      this.setState({industryValue}, () => {
+        this.earnRecommendCompany();
+      });
     };
   }
   
@@ -74,10 +79,54 @@ class allCompanys extends Component {
     this.props.navigation.navigate('companyDetail', params);
   }
   
+  showSearchModal(type) {
+    Modal.prompt(
+        '搜索公司',
+        '公司名称',
+        companyvalue => this.searchType(companyvalue, type),
+        'default',
+        null,
+        ['please input companyname']
+    );
+  }
+  
+  searchType(value, type) {
+    console.log(type);
+    console.log(`companyvalue: ${value}`);
+    if(!value) {
+      this.earnRecommendCompany();
+      return
+    }
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'jobhunter/searchJoborCompany', {value, type} , {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      if(res.data.code === 200) {
+        console.log(res);
+        if(type === 'company') {
+          this.setState({
+            allcompanyData: res.data.data,
+          })
+        }
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+    
+    
+    
+  }
+  
   earnRecommendCompany() {
     console.log('获取所有公司');
+    let chooseType = {
+      sizeValue: this.state.sizeData[this.state.sizeValue].label,
+      industryValue: this.state.industryData[this.state.industryValue].label,
+    };
     let url = axiosUtil.axiosUrl;
-    axios.post(url + 'jobhunter/earnRecommendCompany', {}, {
+    axios.post(url + 'jobhunter/earnRecommendCompany', chooseType, {
       headers: {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
@@ -105,7 +154,7 @@ class allCompanys extends Component {
             <Flex direction="row" justify="between" align="center" style={styles.header}>
               <Text></Text>
               <Text style={styles.header_text}> 公司</Text>
-              <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white"/>
+              <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white" onPress={this.showSearchModal.bind(this, 'company')}/>
             </Flex>
             {/*header end*/}
             
@@ -114,18 +163,18 @@ class allCompanys extends Component {
               <List style={styles.allcompany_box_plcker_list}>
                 {/*<Flex style={{paddingRight:20, width: deviceW}}>*/}
                 <Flex justify="between">
-                  <Flex.Item>
-                    <Picker data={this.state.financingData}
-                            cols={1}
-                            extra="1"
-                            value={this.state.financingValue}
-                            onChange={this.onChange1}>
-                      <Flex justify="center" wrap="nowrap" style={styles.header_picker}>
-                        {this.state.financingValue[0] === 0 ? <Text>融资</Text> : <Text>{this.state.financingData[this.state.financingValue].label}</Text>}
-                        <IconOutline name="down" color="#818182"/>
-                      </Flex>
-                    </Picker>
-                  </Flex.Item>
+                  {/*<Flex.Item>*/}
+                    {/*<Picker data={this.state.financingData}*/}
+                            {/*cols={1}*/}
+                            {/*extra="1"*/}
+                            {/*value={this.state.financingValue}*/}
+                            {/*onChange={this.onChange1}>*/}
+                      {/*<Flex justify="center" wrap="nowrap" style={styles.header_picker}>*/}
+                        {/*{this.state.financingValue[0] === 0 ? <Text>融资</Text> : <Text>{this.state.financingData[this.state.financingValue].label}</Text>}*/}
+                        {/*<IconOutline name="down" color="#818182"/>*/}
+                      {/*</Flex>*/}
+                    {/*</Picker>*/}
+                  {/*</Flex.Item>*/}
                   
                   <Flex.Item>
                     <Picker data={this.state.sizeData}
@@ -197,6 +246,11 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   
+  allcompany_box_plcker_list: {
+    borderColor: '#f6f6f8',
+    borderWidth: 1,
+    borderStyle: 'solid'
+  },
   header_picker: {
     borderRightColor: '#f6f6f8',
     borderRightWidth: 1,
@@ -204,7 +258,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center',
-    paddingTop: 10,
+    paddingVertical: 10,
     overflow: 'hidden',
     // width: 140,
     // right: 20,

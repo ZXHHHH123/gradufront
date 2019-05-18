@@ -64,6 +64,33 @@ class Login extends Component {
       testName: 'zchuhyy'
     })
   }
+  
+  earnCommunicate() {
+    console.log('获取所有的沟通数据');
+    console.log(UserStore.isCompany);
+    let url = axiosUtil.axiosUrl;
+    let href;
+    if(UserStore.isCompany == 1) {
+      href = 'recruiter/earnCommunicateData'
+    }else if(UserStore.isCompany == 0) {
+      href = 'jobhunter/earnJobHunterCommunicateData'
+    }
+    axios.post(url + href, {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      console.log(res.data.data);
+      if (res.data.code === 200) {
+        UserStore.changeAllCommunicateData(res.data.data)
+        // ToastAndroid.show('对方已收到提醒', ToastAndroid.SHORT);
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  
+  
   /*修改密码*/
   _fixPwd() {
     console.log('修改密码');
@@ -71,6 +98,38 @@ class Login extends Component {
       testName: 'zchuhyy'
     })
   }
+  getUserInfo1() {
+    console.log('~!!!!!!!!!!');
+    let url = axiosUtil.axiosUrl;
+    axios.post(url + 'user/userInfo', {}, {
+      headers: {
+        'Authorization': 'Bearer ' + UserStore.userToken
+      }
+    }).then((res) => {
+      if(res.data.code === 200) {
+        console.log('login----getuserinfo');
+        console.log(res.data.data);
+        console.log(res.data.data.user.isCompany);
+        UserStore.changeNickName(res.data.data.user.nickName);
+        UserStore.changeTitImg(res.data.data.user.image);
+        UserStore.changeGender(res.data.data.user.gender);
+        UserStore.changeStudyBackground(res.data.data.user.studyBackground);
+        UserStore.changeCompanyName(res.data.data.user.unit);
+        UserStore.changeExpectJobLabel(res.data.data.user.expectJobLabel);
+        UserStore.changeCompanyCode(res.data.data.user.companyCode);
+        UserStore.changePlace(res.data.data.user.place);
+        UserStore.changeWxCode(res.data.data.user.wxCode);
+        UserStore.changeEmail(res.data.data.user.userEmail);
+        UserStore.changeJoinWorkTime(res.data.data.user.joinWorkTime);
+        UserStore.changeBirthTime(res.data.data.user.birthday);
+        UserStore.changePersonAccount(res.data.data.user.personAccount);
+        UserStore.changeCollectJob(res.data.data.user.collectJobArr.length);
+      }
+    }).catch((err) =>{
+      console.log(err);
+    })
+  }
+  
   getUserInfo() {
     console.log('~!!!!!!!!!!');
     let url = axiosUtil.axiosUrl;
@@ -96,18 +155,23 @@ class Login extends Component {
         UserStore.changeJoinWorkTime(res.data.data.user.joinWorkTime);
         UserStore.changeBirthTime(res.data.data.user.birthday);
         UserStore.changePersonAccount(res.data.data.user.personAccount);
+        UserStore.changeCollectJob(res.data.data.user.collectJobArr.length);
         if(res.data.data.user.isCompany === 1) {
           UserStore.changeAllPublishJobType(res.data.data.allPublishJobType);
           UserStore.changeIsCompany(1);
           this.props.navigation.push('BossMain',  {
             itemId: 86,
             otherParam: 'anything you want here',
+            earnCommunicate: () => { this.earnCommunicate()},
+            getUserInfo1: () => {this.getUserInfo1()}
           });
         }else {
           UserStore.changeIsCompany(0);
           this.props.navigation.push('Main',  {
             itemId: 86,
             otherParam: 'anything you want here',
+            earnCommunicate: () => { this.earnCommunicate()},
+            getUserInfo1: () => {this.getUserInfo1()}
           });
         }
       }

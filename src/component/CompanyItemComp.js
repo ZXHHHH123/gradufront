@@ -21,6 +21,7 @@ class CompanyItemComp extends Component {
   }
   render() {
     let presentItem = this.props.item;
+    let interviewData = this.props.interviewData;
     console.log('presentItem==========');
     console.log(presentItem);
     return (
@@ -52,6 +53,18 @@ class CompanyItemComp extends Component {
                 </Flex>
               <IconOutline name="right" color="#818182"/>
             </Flex>
+
+          {interviewData ?     <Flex justify="between" align="center" style={styles.companyItem_bottom}>
+            <Flex justify="between" align="center">
+              <Text>面试时间：</Text>
+              <Text style={styles.companyItem_jobtype}>{interviewData.interviewTime}</Text>
+              <Text>面试地点：</Text>
+              <Text style={styles.companyItem_jobtype}>{interviewData.interviewAddress}</Text>
+  
+            </Flex>
+            <IconOutline name="right" color="#818182"/>
+          </Flex> : null}
+      
         </View>
     )
   }

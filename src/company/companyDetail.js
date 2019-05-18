@@ -126,8 +126,9 @@ class CompanyDetail extends Component {
     console.log(UserStore.backRouteName);
     if(UserStore.backRouteName) {
       this.props.navigation.navigate(UserStore.backRouteName);
+    }else {
+      this.props.navigation.navigate('companyMain');
     }
-    this.props.navigation.navigate('companyMain');
   };
   
   complainComp() {
@@ -399,11 +400,20 @@ class CompanyDetail extends Component {
                   <Text style={styles.companyDetail_main_company_title}>公司官网</Text>
                   <Flex justify="between">
                     <Text style={{color: 'white',}}>{presentItem.companyWebsite}</Text>
-                    <IconOutline name="right" color="white" style={styles.back_icon}
-                                 onPress={this.intoCompanyWeb.bind(this)}/>
+                    {/*<IconOutline name="right" color="white" style={styles.back_icon}*/}
+                                 {/*onPress={this.intoCompanyWeb.bind(this)}/>*/}
                   </Flex>
                 </View>
                 {/*公司官网end*/}
+  
+                {/*公司简历投递邮箱start*/}
+                <View style={{marginTop: 35,}}>
+                  <Text style={styles.companyDetail_main_company_title}>公司简历投递邮箱</Text>
+                  <Flex justify="between">
+                    <Text style={{color: 'white',}}>{presentItem.companyEmail}</Text>
+                  </Flex>
+                </View>
+                {/*公司简历投递邮箱end*/}
                 
                 {/*公司工商信息start*/}
                 <View style={styles.companyDetail_business_info}>

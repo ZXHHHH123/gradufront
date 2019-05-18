@@ -57,6 +57,7 @@ class UserStore {
   
   @observable jobDetailItem = {};//单个工作的详细介绍
   @observable companyDetailItem = {};//单个公司的详细介绍
+  @observable collectJob = 0;//招聘者所感兴趣的职位
   
   
   
@@ -73,12 +74,17 @@ class UserStore {
   @observable place = '';//招聘者所填写的公司的职位
   @observable wxCode = '';//招聘者所的微信号
   @observable userEmail = '';//招聘者所写的接收简历的邮箱号
-  @observable companyWelfare = [];//招聘者所写的接收简历的邮箱号
+  @observable companyWelfare = [];//招聘者所写的公司福利
+  @observable companyEmail = '';//招聘者所写的接收简历的邮箱号
+  
   @observable isBelisted = [];//招聘者所填写的公司是否上市
   @observable holidaySystem = '';//招聘者所填写的公司放假制度
   @observable companyPeopleNum = '';//招聘者所填写的公司人数
   @observable companyWorkTime = [];//招聘者所填写的公司工作时间
-
+  
+  
+  @observable allCommunicateData = {};//招聘者的所有沟通信息
+  
   
   
   
@@ -343,6 +349,11 @@ class UserStore {
     this.companyWebsite = value;
   }
   
+  @action changeCompanyEmail(value) {
+    console.log('userStore -------- changeCompanyEmail' + value);
+    this.companyEmail = value;
+  }
+  
   @action changeCompanyWorkTime(value) {
     console.log('userStore -------- changeCompanyWorkTime' + value);
     
@@ -386,6 +397,15 @@ class UserStore {
   @action changeBackRouteName(value) {
     console.log('userStore -------- changeBackRouteName' + value);
     this.backRouteName = value;
+  }
+  @action changeCollectJob(value) {
+    console.log('userStore -------- changeCollectJob' + value);
+    this.collectJob = value;
+  }
+  @action changeAllCommunicateData(value) {
+    console.log('userStore -------- changeAllCommunicateData' + value);
+    console.log(value);
+    this.allCommunicateData = value;
   }
   
   

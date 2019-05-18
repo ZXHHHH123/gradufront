@@ -104,6 +104,15 @@ class personCenter extends Component {
   
   }
   
+  earnCommunicate() {
+    console.log('获取所有的沟通数据');
+  }
+  componentDidMount() {
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    // () => { this.earnCommunicate()}
+    this.props.navigation.setParams({ communicateData: 'abcdddddd'});
+    console.log(this.props.navigation.state.params);
+  }
   componentWillMount() {
     console.log('fadsfdsafdsafds');
     if(UserStore.isCompany) {
@@ -112,6 +121,7 @@ class personCenter extends Component {
   }
   
   render() {
+    let allCommunicateData = UserStore.allCommunicateData
     return (
         <Provider>
           <View style={styles.personCenter_box}>
@@ -130,9 +140,10 @@ class personCenter extends Component {
                 <Flex justify="between">
                   <View>
                     <Text style={styles.personCenter_box_user_name}>{UserStore.nickName}</Text>
-                    <Text style={styles.personCenter_box_user_more}>我的个人主页></Text>
+                    <Text onPress={this.editSmallCurriculumVitae.bind(this)} style={styles.personCenter_box_user_more}>我的个人主页></Text>
                   </View>
-                  <Image style={styles.personCenter_box_user_photo} source={require('./../image/userPhoto.jpg')}/>
+                  {UserStore.titImg ?   <Image style={styles.personCenter_box_user_photo} source={{uri: UserStore.titImg}}/>:   <Image style={styles.personCenter_box_user_photo} source={require('./../image/userPhoto.jpg')}/>}
+                  {/*<Image style={styles.personCenter_box_user_photo} source={require('./../image/userPhoto.jpg')}/>*/}
                 </Flex>
               </View>
               {/*姓名头像栏end*/}
@@ -141,12 +152,12 @@ class personCenter extends Component {
               {/*面试经历start*/}
                 {UserStore.isCompany ?
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
-                    <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
-                      <Text style={styles.personCenter_box_chat_record_num}>1092</Text>
-                      <Text style={styles.personCenter_box_chat_record_type}>沟通过</Text>
+                    <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'hadChat')}>
+                      <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.hasCurriculumVitaeData].length}</Text>
+                      <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
-                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
-                        <Text style={styles.personCenter_box_chat_record_num}>0</Text>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
+                        <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.interviewData].length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
@@ -157,22 +168,22 @@ class personCenter extends Component {
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                                 onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                      <Text style={styles.personCenter_box_chat_record_num}>62</Text>
-                      <Text style={styles.personCenter_box_chat_record_type}>沟通过</Text>
+                      <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.allCommunicateData].length}</Text>
+                      <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>62</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.interviewData].length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'hadDeliver')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>13</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.hadCurriculumVitaeData].length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>已投递</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'interestedJob')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>2</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{UserStore.collectJob}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>感兴趣</Text>
                       </Flex>
                     </Flex>
@@ -213,16 +224,16 @@ class personCenter extends Component {
                       <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
                     </Flex>
       
-                    <Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoupLoadCurriculumVitae.bind(this)}>
-                      <Flex>
-                        <IconOutline name="upload" style={{fontSize: 20}} color="gray"/>
-                        <Text style={styles.personCenter_box_main_list_item_text}>附件简历</Text>
-                      </Flex>
-                      <Flex>
-                        <Text>已上传一份</Text>
-                        <IconOutline name="right" style={{fontSize: 20}} color="gray"/>
-                      </Flex>
-                    </Flex>
+                    {/*<Flex justify="between" style={styles.personCenter_box_main_list_item} onPress={this.intoupLoadCurriculumVitae.bind(this)}>*/}
+                      {/*<Flex>*/}
+                        {/*<IconOutline name="upload" style={{fontSize: 20}} color="gray"/>*/}
+                        {/*<Text style={styles.personCenter_box_main_list_item_text}>附件简历</Text>*/}
+                      {/*</Flex>*/}
+                      {/*<Flex>*/}
+                        {/*<Text>已上传一份</Text>*/}
+                        {/*<IconOutline name="right" style={{fontSize: 20}} color="gray"/>*/}
+                      {/*</Flex>*/}
+                    {/*</Flex>*/}
       
                     <Flex justify="between" style={styles.personCenter_box_main_list_item}
                           onPress={this.manageJobIntention.bind(this)}>

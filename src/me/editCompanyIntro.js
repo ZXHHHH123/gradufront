@@ -41,6 +41,7 @@ class editCompanyIntro extends Component {
       companyImage: [],
       companyProduct: [],
       companyWebsite:'',
+      companyEmail: '',
       companyAddress:'',
       beListedArray: ['已上市', '未上市'],
       holidaySystemArray: ['单休', '双休', '单双轮休'],
@@ -207,7 +208,7 @@ class editCompanyIntro extends Component {
   saveCompanyIntro() {
     let url = axiosUtil.axiosUrl;
     console.log('点击保存公司详情按钮');
-    let {isBelisted, holidaySystem, companyProductName, companyProductLogo, companyProductAccount, companyProduct, companyWebsite, companyAddress, companyPeopleNum, pickerWorkTimeValue, pickerCompanyPeopleNumValue} = this.state;
+    let {isBelisted, holidaySystem, companyProductName, companyProductLogo, companyProductAccount, companyProduct, companyWebsite, companyAddress, companyPeopleNum, pickerWorkTimeValue, pickerCompanyPeopleNumValue, companyEmail} = this.state;
     let companyImage = UserStore.companyImage;
     console.log(companyImage);
     if(!this.state.companyLogo){
@@ -250,6 +251,7 @@ class editCompanyIntro extends Component {
       pickerWorkTimeValue,
       companyAccount: UserStore.companyAccount,
       companyWebsite,
+      companyEmail,
       companyWelfare: UserStore.companyWelfare,
       companyHolidaySystem: holidaySystem
     };
@@ -327,6 +329,7 @@ class editCompanyIntro extends Component {
       companyPeopleNum: UserStore.companyPeopleNum,
       companyAccount: UserStore.companyAccount,
       companyWebsite: UserStore.companyWebsite,
+      companyEmail: UserStore.companyEmail,
       chooseCompamyWelfare: UserStore.companyWelfare,
       companyLogo: UserStore.companyLogo,
     }, () => {
@@ -486,6 +489,19 @@ class editCompanyIntro extends Component {
                       });
                     }}
                 >公司官网</InputItem>
+              </View>
+  
+              <View>
+                {/*<Text style={styles.editCompanyIntro_box_belisted_status_text}>公司官网</Text>*/}
+                <InputItem
+                    defaultValue={UserStore.companyEmail}
+                    placeholder="请输入公司投递简历邮箱"
+                    onChange={value => {
+                      this.setState({
+                        companyEmail: value
+                      });
+                    }}
+                >投递简历邮箱</InputItem>
               </View>
               
               <Flex justify="between" align="center" onPress={this.intoCompanyLeaderIntroOrProductIntro.bind(this, 'companyLeaderIntro')} style={{height: 40,}}>

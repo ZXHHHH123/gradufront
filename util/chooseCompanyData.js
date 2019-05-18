@@ -2,87 +2,90 @@
  * Created by admin-pc on 2019/5/12.
  */
 let companyTypeList = [
-  {
-    label: '融资阶段',
-    value: '10000',
-    children: [{
-      label: '未融资',
-      value: '10001'
-    },{
-      label: '天使轮',
-      value: '10002'
-    },{
-      label: 'A轮',
-      value: '10003'
-    },{
-      label: 'B轮',
-      value: '10004'
-    },{
-      label: 'C轮',
-      value: '10005'
-    },{
-      label: 'D轮级以上',
-      value: '1006'
-    },{
-      label: '已上市',
-      value: '10007'
-    },{
-      label: '不需要融资',
-      value: '10008'
-    }]
-  },
+  // {
+  //   label: '融资阶段',
+  //   value: '10000',
+  //   children: [{
+  //     label: '未融资',
+  //     value: '10001'
+  //   },{
+  //     label: '天使轮',
+  //     value: '10002'
+  //   },{
+  //     label: 'A轮',
+  //     value: '10003'
+  //   },{
+  //     label: 'B轮',
+  //     value: '10004'
+  //   },{
+  //     label: 'C轮',
+  //     value: '10005'
+  //   },{
+  //     label: 'D轮级以上',
+  //     value: '1006'
+  //   },{
+  //     label: '已上市',
+  //     value: '10007'
+  //   },{
+  //     label: '不需要融资',
+  //     value: '10008'
+  //   }]
+  // },
   {
     label: '人员规模',
-    value: '20000',
+    value: '10000',
     children: [{
+      label: '不限',
+      value: '10007'
+    },{
       label: '0~20人',
-      value: '20001'
+      value: '10001'
     },{
       label: '20~99人',
-      value: '20002'
+      value: '10002'
     },{
       label: '100~499人',
-      value: '20003'
+      value: '10003'
     },{
       label: '500~999人',
-      value: '20004'
+      value: '10004'
     },{
       label: '10000~9999人',
-      value: '20005'
+      value: '10005'
     },{
       label: '10000人以上',
-      value: '20006'
+      value: '10006'
     }]
   },{
     label: '行业',
-    value: '30000',
+    value: '20000',
     children: [{
       label: '全部',
-      value: '30001'
+      value: '20001'
     },{
       label: '电子商务',
-      value: '30002'
+      value: '20002'
     },{
       label: '游戏',
-      value: '30003'
+      value: '20003'
     },{
       label: '媒体',
-      value: '30004'
+      value: '20004'
     },{
       label: '广告营销',
-      value: '30005'
+      value: '20005'
     },{
       label: '数据服务',
-      value: '30006'
+      value: '20006'
     },{
       label: '医疗健康',
-      value: '30007'
+      value: '20007'
     },{
       label: '生活服务',
-      value: '30008'
+      value: '20008'
     },{
       label: 'O2O',
-      value: '30009'
+      value: '20009'
     },{
       label: '旅游',
       value: '30010'
