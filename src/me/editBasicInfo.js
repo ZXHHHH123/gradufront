@@ -162,6 +162,7 @@ class editBasicInfo extends Component {
           console.log(res);
           let imgurl = res.data.data;
           UserStore.changeTitImg(imgurl);
+          
         }).catch((err) => {
           console.log('上传boss信息接口所传报错===');
           console.log(err);
@@ -189,6 +190,12 @@ class editBasicInfo extends Component {
             }
           }
       ).then((res) => {
+        if(res.data.code === 200) {
+          UserStore.changeNickName(userBasicInfo.nickName);
+          UserStore.changeGender(userBasicInfo.gender);
+          UserStore.changeJoinWorkTime(userBasicInfo.joinWorkTime);
+          UserStore.changeBirthTime(userBasicInfo.birthTime);
+        }
         console.log(res);
       }).catch(err => {
         console.log(err);

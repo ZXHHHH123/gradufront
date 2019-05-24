@@ -98,6 +98,9 @@ class jobDetail extends Component {
     }else {
       this.setState({
         presentItem: UserStore.jobDetailItem
+      }, () => {
+        console.log('aaaaaaaaaaaaaaaaaaaaaaa');
+        console.log(this.state.presentItem.companyEmail);
       })
     }
   }
@@ -145,7 +148,7 @@ class jobDetail extends Component {
                       <View style={styles}>
                       <Flex>
                         <Text>{this.state.presentItem.publisher}</Text>
-                        <Text>状态（刚刚活跃）</Text>
+                        <Text>投递邮箱{this.state.presentItem.companyEmail}</Text>
                       </Flex>
                       <Flex>
                         <Text>{this.state.presentItem.companyName}.{this.state.presentItem.publisherPlace}</Text>

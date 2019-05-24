@@ -25,6 +25,10 @@ class UserStore {
   @observable birthTime = '';//个人出生日期
   @observable allPublishJobType = [];//招聘者所发的所有职位类型
   @observable expectJobLabel = '';//期望职位
+  @observable expectCity = '';//期望城市
+  @observable expectCityValue = '';//期望城市value
+  
+  
   
   
   
@@ -87,7 +91,12 @@ class UserStore {
   @observable companyWorkTime = [];//招聘者所填写的公司工作时间
   
   
-  @observable allCommunicateData = {};//招聘者的所有沟通信息
+  @observable allCommunicateData = {
+    allCommunicateData: [],
+    interviewData: [],
+    hasCurriculumVitaeData: [],
+    hadCurriculumVitaeData: [],
+  };//招聘者的所有沟通信息
   
   
   
@@ -382,6 +391,15 @@ class UserStore {
     console.log('userStore -------- changeExpectJobLabel' + value);
     this.expectJobLabel = value;
   }
+  @action changeExpectCity(value) {
+    console.log('userStore -------- changeExpectCity' + value);
+    this.expectCity = value;
+  }
+  @action changeExpectCityValue(value) {
+    console.log('userStore -------- changeExpectCityValue' + value);
+    this.expectCityValue = value;
+  }
+  
   
   @action changeJobDetailItem(value) {
     console.log('userStore -------- changeJobDetailItem' + value);

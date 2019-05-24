@@ -17,6 +17,8 @@ import HeaderComp from './../../util/headerComp'
 import publishJob from "../publish/publishJob";
 import PublishJobItemComp from './../component/PublishJobItemComp'
 import UserStore from './../../mobx/userStore'
+import ImagePicker from 'react-native-image-crop-picker';
+
 
 
 const deviceW = Dimensions.get('window').width;
@@ -32,12 +34,14 @@ class recruitManage extends Component {
       nickName: '',
       gender: '',
       userEmail: '',
+      companyEmail: '',
       companyName: '',
       companyCode: '',
       place: '',
       wxCode: '',
       companyStar: '',
       companyIntro: [],
+      titImg: ''
     }
   };
   
@@ -71,15 +75,39 @@ class recruitManage extends Component {
   
   /*保存所填写的公司信息*/
   saveCompanyInfo() {
+    
+    
     let url = axiosUtil.axiosUrl;
     let tianyanurl = axiosUtil.tianyanchaApi;
     console.log('点击保存公司信息按钮');
     console.log(this.state.companyName);
-    
-    let {nickName, gender, userEmail, companyName, companyCode, place, wxCode} = this.state;
-    console.log(nickName, gender, userEmail, companyName, companyCode, place, wxCode);
+    let promiseTitImg = '';
+    if (this.state.titImg) {
+      let formData = new FormData();
+      let titImgFile = {uri: this.state.titImg.uri, type: 'multipart/form-data', name: 'image.png'};   //这里的key(uri和type和name)不能改变,
+      formData.append("titImgFile", titImgFile);
+      (function () {
+        axios.post(url + 'user/submitTitImg', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer ' + UserStore.userToken
+          }
+        }).then((res) => {
+          console.log('上传boss信息接口所传res===');
+          console.log(res);
+          let imgurl = res.data.data;
+          UserStore.changeTitImg(imgurl);
+        }).catch((err) => {
+          console.log('上传boss信息接口所传报错===');
+          console.log(err);
+        })
+      })();
+    };
+    let {nickName, gender, companyName, companyCode, place, wxCode, companyEmail} = this.state;
+    console.log(nickName, gender, companyName, companyCode, place, wxCode,companyEmail);
     let companyStar = UserStore.companyStar;
-    if (!(nickName && gender && place && wxCode && companyName && companyCode && userEmail)) {
+    console.log(99999);
+    if (!(nickName && gender && place && wxCode && companyName && companyCode)) {
       ToastAndroid.show('请详细填写公司信息', ToastAndroid.SHORT);
       return false;
     }
@@ -106,7 +134,7 @@ class recruitManage extends Component {
       if (res.data.reason === 'ok') {
         let companyAddress = res.data.result.regLocation;
         let obj = {
-          nickName, gender, userEmail, companyName, companyCode, place, wxCode,companyStar, companyAddress
+          nickName, gender, companyEmail, companyName, companyCode, place, wxCode,companyStar, companyAddress
         };
         axios.post(url + 'recruiter/submitCompanyBasicInfo', obj, {
           headers: {
@@ -119,7 +147,7 @@ class recruitManage extends Component {
             this.props.navigation.navigate('personCenter');
             UserStore.changeNickName(obj.nickName);
             UserStore.changeGender(obj.gender);
-            UserStore.changeEmail(obj.userEmail);
+            UserStore.changeCompanyEmail(obj.companyEmail);
             UserStore.changeCompanyName(obj.companyName);
             UserStore.changeCompanyCode(obj.companyCode);
             UserStore.changePlace(obj.place);
@@ -195,16 +223,39 @@ class recruitManage extends Component {
     })
   }
   
+  pickSingleWithCamera(type) {
+    console.log('pickSingleWithCamera start');
+    console.log(type);
+    ImagePicker.openPicker({
+      width: 400,
+      height: 400,
+      cropping: false,
+      mediaType: 'photo',
+    }).then(image => {
+      console.log('received image', image);
+      this.setState({
+        [type]: {uri: image.path, width: image.width, height: image.height, mime: image.mime},
+      }, () => {
+        console.log('aaaaaaaaaaa');
+        console.log(this.state[type]);
+      });
+    }).catch(e => {
+      console.log('报错');
+      console.log(e)
+    });
+  }
+  
   componentWillMount() {
     this.earnCompanyData();
     this.setState({
       nickName: UserStore.nickName,
       gender: UserStore.gender,
-      userEmail: UserStore.userEmail,
+      companyEmail: UserStore.companyEmail,
       companyName: UserStore.companyName,
       companyCode: UserStore.companyCode,
       place: UserStore.place,
-      wxCode: UserStore.place
+      wxCode: UserStore.place,
+      titImg: {uri: UserStore.titImg},
     })
   }
   
@@ -216,9 +267,9 @@ class recruitManage extends Component {
             <HeaderComp navigation={navigation} title="个人信息" routeName="personCenter"/>
             <View style={styles.recruitManage_box}>
               <View style={styles.recruitManage_box_items}>
-                <Flex justify="between">
+                <Flex justify="between" onPress={this.pickSingleWithCamera.bind(this, 'titImg')}>
                   <Text style={styles.recruitManage_box_item_title}>头像</Text>
-                  {UserStore.titImg ? <Image style={styles.recruitManage_box_titImg} source={{uri: UserStore.titImg}}/>
+                  {this.state.titImg.uri? <Image style={styles.recruitManage_box_titImg} source={{uri: this.state.titImg.uri}}/>
                       :
                       <Image style={styles.recruitManage_box_titImg} source={require('./../image/userPhoto.jpg')}/>
                     
@@ -262,11 +313,11 @@ class recruitManage extends Component {
                   微信号
                 </InputItem>
                 <InputItem
-                    defaultValue={UserStore.userEmail}
+                    defaultValue={UserStore.companyEmail}
                     placeholder="邮箱"
                     onChange={value => {
                       this.setState({
-                        userEmail: value
+                        companyEmail: value
                       });
                     }}
                 >

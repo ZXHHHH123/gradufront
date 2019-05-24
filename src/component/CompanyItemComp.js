@@ -49,17 +49,21 @@ class CompanyItemComp extends Component {
                 <Flex justify="between" align="center">
                 <Text>热招：</Text>
                 <Text style={styles.companyItem_jobtype}>{UserStore.expectJobLabel}</Text>
-                <Text>等{[presentItem.publishJobIdArray].length}个职位</Text>
+                <Text>等{presentItem.publishJobIdArray.length}个职位</Text>
                 </Flex>
               <IconOutline name="right" color="#818182"/>
             </Flex>
 
           {interviewData ?     <Flex justify="between" align="center" style={styles.companyItem_bottom}>
-            <Flex justify="between" align="center">
+            <Flex justify="between" align="center" wrap="wrap">
               <Text>面试时间：</Text>
               <Text style={styles.companyItem_jobtype}>{interviewData.interviewTime}</Text>
               <Text>面试地点：</Text>
               <Text style={styles.companyItem_jobtype}>{interviewData.interviewAddress}</Text>
+              <Text>微信：</Text>
+              <Text style={styles.companyItem_jobtype}>{interviewData.wxCode}</Text>
+              <Text>备注：</Text>
+              <Text style={styles.companyItem_jobtype}>{interviewData.remarks}</Text>
             </Flex>
             <IconOutline name="right" color="#818182"/>
           </Flex> : null}

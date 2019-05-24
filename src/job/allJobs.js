@@ -82,6 +82,7 @@ class allJobs extends Component {
   
   intoJobDetail(item) {
     console.log('点击进入jobdetail按钮');
+    console.log(item);
     let params = {params: this.props.navigation};
     UserStore.changeJobDetailItem(item);
     /*进入名字为jobdetail的栈*/
@@ -152,6 +153,8 @@ class allJobs extends Component {
         'Authorization': 'Bearer ' + UserStore.userToken
       }
     }).then((res) => {
+      console.log('abccccccccc');
+      console.log(res.data.data);
       if (res.data.code === 200) {
         this.setState({
           alljobData: res.data.data,

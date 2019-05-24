@@ -141,6 +141,17 @@ class EditJobIntention extends Component {
   };
   
   componentWillMount() {
+    
+    if(UserStore.expectJobLabel) {
+      this.setState({
+        chooseCity: UserStore.expectCity,
+        chooseCityValue: UserStore.expectCityValue
+      }, () => {
+        console.log(1123);
+        console.log(this.state.chooseCityValue);
+      })
+    }
+    
     if (Platform.OS === 'android') {
       BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }

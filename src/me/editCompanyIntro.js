@@ -266,6 +266,10 @@ class editCompanyIntro extends Component {
         console.log(res);
         if (res.data.code === 200) {
           UserStore.changeHolidaySystem(companyDetailObj.companyHolidaySystem);
+          UserStore.changeCompanyWebsite(companyDetailObj.companyWebsite);
+          UserStore.changeCompanyEmail(companyDetailObj.companyEmail);
+  
+          
           this.props.navigation.navigate(this.navigation.state.params.routeName);
         }
       }).catch((err) => {
@@ -349,7 +353,7 @@ class editCompanyIntro extends Component {
             <View style={styles.editCompanyIntro_box}>
               <Flex justify="between" onPress={this.pickSingleWithCamera.bind(this, 'companyLogo')}>
                 <Text>公司logo</Text>
-                {this.state.companyLogo ?  <Image style={styles.editCompanyIntro_box_titImg} source={{uri: this.state.companyLogo.uri}}/> : <Image style={styles.editCompanyIntro_box_titImg} source={require('./../image/userPhoto.jpg')}/>}
+                {this.state.companyLogo.uri ?  <Image style={styles.editCompanyIntro_box_titImg} source={{uri: this.state.companyLogo.uri}}/> : <Image style={styles.editCompanyIntro_box_titImg} source={require('./../image/userPhoto.jpg')}/>}
                
               </Flex>
               

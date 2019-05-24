@@ -110,6 +110,9 @@ class allCompanys extends Component {
         if(type === 'company') {
           this.setState({
             allcompanyData: res.data.data,
+          }, () => {
+            console.log('aaaaaaaaaaaaa');
+            console.log(this.state.allcompanyData);
           })
         }
       }
@@ -138,6 +141,9 @@ class allCompanys extends Component {
         this.setState({
           refreshing: false,
           allcompanyData: res.data.data,
+        }, () => {
+          console.log('aaaaaaaaaaaaa');
+          console.log(this.state.allcompanyData);
         })
       }
     }).catch((err) => {

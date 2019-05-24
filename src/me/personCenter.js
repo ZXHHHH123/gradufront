@@ -128,9 +128,6 @@ class personCenter extends Component {
     let allCommunicateData = UserStore.allCommunicateData;
     console.log(allCommunicateData);
     console.log('aabbbbbbbbbb');
-    
-    let allCommunicateDataLength = allCommunicateData.allCommunicateData;
-    console.log(allCommunicateDataLength);
     // console.log('aabbbbbbbbbb');
     // let hadCurriculumVitaeDataLength = UserStore.allCommunicateData.hadCurriculumVitaeData.length;
     // console.log(hadCurriculumVitaeDataLength);
@@ -172,11 +169,11 @@ class personCenter extends Component {
                 {UserStore.isCompany ?
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
                     <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                      <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.hasCurriculumVitaeData].length - 1}</Text>
+                      <Text style={styles.personCenter_box_chat_record_num}>{allCommunicateData.allCommunicateData.length}</Text>
                       <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.interviewData].length - 1}</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{allCommunicateData.interviewData.length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'collectJobHunter')}>
@@ -187,18 +184,18 @@ class personCenter extends Component {
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                                 onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                        {[UserStore.allCommunicateData.allCommunicateData].length > 0 ?  <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.allCommunicateData].length}</Text> : <Text>0</Text>}
+                        <Text style={styles.personCenter_box_chat_record_num}>{UserStore.allCommunicateData.hasCurriculumVitaeData.length}</Text>
                       <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
                         
-                        <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.interviewData].length}</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{UserStore.allCommunicateData.interviewData.length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'hadDeliver')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.hadCurriculumVitaeData].length}</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{UserStore.allCommunicateData.hadCurriculumVitaeData.length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>已投递</Text>
                       </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}

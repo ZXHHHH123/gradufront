@@ -116,6 +116,10 @@ class Login extends Component {
         UserStore.changeStudyBackground(res.data.data.user.studyBackground);
         UserStore.changeCompanyName(res.data.data.user.unit);
         UserStore.changeExpectJobLabel(res.data.data.user.expectJobLabel);
+        UserStore.changeJobSalary(res.data.data.user.expectFloorMoney, res.data.data.user.expectUpMoney);
+        // UserStore.changeJobSalary(res.data.data.user.expectCity);
+        UserStore.changeExpectCity(res.data.data.user.expectCity);
+        UserStore.changeExpectCityValue(res.data.data.user.expectCityValue);
         UserStore.changeCompanyCode(res.data.data.user.companyCode);
         UserStore.changePlace(res.data.data.user.place);
         UserStore.changeWxCode(res.data.data.user.wxCode);
@@ -125,6 +129,7 @@ class Login extends Component {
         UserStore.changePersonAccount(res.data.data.user.personAccount);
         UserStore.changeCollectJob(res.data.data.user.collectJobArr.length);
         UserStore.changeCollectJobHunter(res.data.data.user.collectJobHunterArr.length);
+        
       }
     }).catch((err) =>{
       console.log(err);

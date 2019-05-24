@@ -32,6 +32,7 @@ class allJobHunter extends Component {
     super(props);
     this.JobItemComp = JobItemComp.bind(this);
     this.state = {
+      refreshing: true,
       data: [],
       value: [],
       publishJobArr: [],
@@ -139,6 +140,7 @@ class allJobHunter extends Component {
       console.log(res);
       if (res.data.code === 200) {
         this.setState({
+          refreshing: false,
           allJobHunterData: res.data.data
         })
       }
@@ -296,6 +298,9 @@ class allJobHunter extends Component {
               
               <FlatList
                   data={this.state.allJobHunterData}
+              onRefresh={() => this.earnPresentSingleJobTypeJobHunter()}
+                  refreshing={this.state.refreshing}
+
                   renderItem={({item}) => (
                       <TouchableOpacity onPress={this.intoJobHunterDetail.bind(this, item)}>
                         <JobHunterItemComp item={item}/>

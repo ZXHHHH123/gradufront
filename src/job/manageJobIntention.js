@@ -113,7 +113,10 @@ class ManageJobIntention extends Component {
               <View >
                 <Flex direction="column" justify="between" align="start" style={styles.manage_job_intention_account}
                       onPress={this.editJobIntention.bind(this)}>
-                  <Text style={styles.manage_job_intention_account_header}>[{UserStore.chooseCity}]{UserStore.chooseJobLabel}</Text>
+                  {UserStore.isCompany ? <Text style={styles.manage_job_intention_account_header}>[{UserStore.chooseCity}]{UserStore.chooseJobLabel}</Text>
+                  :<Text style={styles.manage_job_intention_account_header}>[{UserStore.expectCity}]{UserStore.expectJobLabel}</Text>
+                  }
+                  
                   <Text>{UserStore.floorMoney}-{UserStore.upMoney}</Text>
                 </Flex>
               </View>

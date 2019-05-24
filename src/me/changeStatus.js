@@ -36,6 +36,23 @@ class changeStatus extends Component {
     let toastKey = Toast.loading('Loading...', 0, () => {
       console.log('Load complete !!!');
     });
+    if(UserStore.isCompany === 1) {
+      axios.post(url + 'user/changeJobHunter', {isChangeBoss: 0}, {
+        headers: {
+          'Authorization': 'Bearer ' + UserStore.userToken
+        }
+      }).then((res) => {
+        if(res.data.code === 200) {
+          ToastAndroid.show('切换身份成功', ToastAndroid.SHORT);
+          this.props.navigation.navigate('Login');
+        }
+        console.log(res);
+      }).catch((err) => {
+        console.log(err);
+      });
+      
+      return;
+    }
     
     axios.post(url + 'user/userInfo', {}, {
       headers: {
@@ -51,7 +68,7 @@ class changeStatus extends Component {
         Portal.remove(toastKey);
         console.log(place);
         let isBoss = unit && place && creditFrontSide && creditReverseSide && userCreditCode;
-        console.log(isBoss);
+        console.log(UserStore.isCompany);
         if (!isBoss) {
           let userInfo = {
             nickName,
@@ -65,6 +82,21 @@ class changeStatus extends Component {
           };
           this.props.navigation.navigate('bossInfoDetail', {userInfo});
         } else {
+          axios.post(url + 'user/changeJobHunter', {isChangeBoss: 1}, {
+            headers: {
+              'Authorization': 'Bearer ' + UserStore.userToken
+            }
+          }).then((res) => {
+            if(res.data.code === 200) {
+              ToastAndroid.show('切换身份成功', ToastAndroid.SHORT);
+              this.props.navigation.navigate('Login');
+            }
+            console.log(res);
+            return
+          }).catch((err) => {
+            console.log(err);
+          });
+          
           this.props.navigation.navigate('publishJob', {routeName: 'changeStatus'});
         }
       }
@@ -100,7 +132,7 @@ class changeStatus extends Component {
               
               <Image style={styles.changeStatus_box_photo} source={require('./../image/changeStatus.png')}/>
               
-              {this.state.presentStatus === 0 ?
+              {UserStore.isCompany == 0 ?
                   <Text style={styles.changeStatus_box_present_status}>您当前的身份是“牛人”</Text> :
                   <Text style={styles.changeStatus_box_present_status}>您当前的身份是“BOSS”</Text>
               }
@@ -108,7 +140,7 @@ class changeStatus extends Component {
               
               <Flex justify="center" style={styles.changeStatus_box_change_button}
                     onPress={this.changeStatusFunc.bind(this)}>
-                {this.state.presentStatus === 0 ?
+                {UserStore.isCompany == 0 ?
                     <Text style={styles.changeStatus_box_change_button_text}>切换为“BOSS”身份</Text> :
                     <Text style={styles.changeStatus_box_change_button_text}>切换为“牛人”身份</Text>
                 }
