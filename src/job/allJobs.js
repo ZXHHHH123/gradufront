@@ -32,6 +32,7 @@ class allJobs extends Component {
     this.state = {
       data: [],
       value: [],
+      refreshing: true,
       chooseCompanyLabel: [ '人员规模', '不限' ],
       chooseRequireLabel: [],
       reccomendData: [{value: 0, label: '推荐'}, {value: 1, label: '最新'}],
@@ -154,6 +155,7 @@ class allJobs extends Component {
       if (res.data.code === 200) {
         this.setState({
           alljobData: res.data.data,
+          refreshing: false,
         })
       }
     }).catch((err) => {
@@ -293,6 +295,8 @@ class allJobs extends Component {
               
               <FlatList
                   data={this.state.alljobData}
+              onRefresh={() => this.earnRecommendJob()}
+                  refreshing={this.state.refreshing}
                   renderItem={({item}) => (
                       <TouchableOpacity onPress={this.intoJobDetail.bind(this, item)}>
                         <JobItemComp item={item}/>

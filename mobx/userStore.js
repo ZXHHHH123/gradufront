@@ -58,6 +58,10 @@ class UserStore {
   @observable jobDetailItem = {};//单个工作的详细介绍
   @observable companyDetailItem = {};//单个公司的详细介绍
   @observable collectJob = 0;//招聘者所感兴趣的职位
+  @observable collectJobHunter = 0;//招聘者所感兴趣的求职者
+  
+  
+  @observable complainImage = [];//招聘者投诉所上传的图片
   
   
   
@@ -67,7 +71,7 @@ class UserStore {
   @observable companyCode = '';//招聘者所填写的公司代码
   @observable companyStar = '';//招聘者所填写的公司亮点
   @observable companyImage = [];//招聘者所填写的公司特色照片
-  @observable companyLogo = [];//招聘者所填写的公司logo
+  @observable companyLogo = '';//招聘者所填写的公司logo
   @observable companyAddress = [];//招聘者所填写的公司地址
   
   
@@ -278,6 +282,11 @@ class UserStore {
     console.log('userStore -------- changeCompanyImage' + value);
     this.companyImage = value;
   }
+  @action changeComplainImage(value) {
+    console.log('userStore -------- changeComplainImage' + value);
+    this.complainImage = value;
+  }
+  
   @action changeCompanyLogo(value) {
     console.log('userStore -------- changeCompanyLogo' + value);
     this.companyLogo = value;
@@ -402,9 +411,17 @@ class UserStore {
     console.log('userStore -------- changeCollectJob' + value);
     this.collectJob = value;
   }
+  @action changeCollectJobHunter(value) {
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log('userStore -------- changeCollectJobHunter' + value);
+    this.collectJobHunter = value;
+  }
+  
+  
   @action changeAllCommunicateData(value) {
     console.log('userStore -------- changeAllCommunicateData' + value);
     console.log(value);
+    console.log(value.allCommunicateData);
     this.allCommunicateData = value;
   }
   

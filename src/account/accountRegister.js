@@ -113,8 +113,8 @@ class AccountRegister extends Component {
       switch (data.code){
         case 200:
           console.log('abcd' + phone);
-          ToastAndroid.show('注册成功需要登录操作', ToastAndroid.SHORT);
-          this.props.navigation.navigate('Main');
+          ToastAndroid.show('注册成功', ToastAndroid.SHORT);
+          this.props.navigation.navigate('Login');
           this._storeUserData(accountObj);
           this._retrieveData();
           break;

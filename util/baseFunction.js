@@ -23,6 +23,9 @@ const earnSMSCode = function (phone) {
 
 const changeSubYear = function(time) {
   console.log('进入转换时间方法');
+  if(!time) {
+    return '0'
+  }
   let substract = new Date().getTime() - new Date(time).getTime();
   let subYear = parseInt(substract/(365*24*3600*1000));
   return subYear;
@@ -55,6 +58,9 @@ const changeYearAndMonth = function(value) {
 /*将上班时间value转换为label*/
 const changeWorkTime = function(value) {
   console.log('changeworktime=======' + value);
+  if(!value){
+    return
+  }
   let typeList;
   let pickerTypeValue;
   if(typeof value === 'string'){

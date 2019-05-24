@@ -108,7 +108,7 @@ class Login extends Component {
     }).then((res) => {
       if(res.data.code === 200) {
         console.log('login----getuserinfo');
-        console.log(res.data.data);
+        console.log(res.data.data.user.collectJobHunterArr);
         console.log(res.data.data.user.isCompany);
         UserStore.changeNickName(res.data.data.user.nickName);
         UserStore.changeTitImg(res.data.data.user.image);
@@ -124,6 +124,7 @@ class Login extends Component {
         UserStore.changeBirthTime(res.data.data.user.birthday);
         UserStore.changePersonAccount(res.data.data.user.personAccount);
         UserStore.changeCollectJob(res.data.data.user.collectJobArr.length);
+        UserStore.changeCollectJobHunter(res.data.data.user.collectJobHunterArr.length);
       }
     }).catch((err) =>{
       console.log(err);
@@ -156,6 +157,8 @@ class Login extends Component {
         UserStore.changeBirthTime(res.data.data.user.birthday);
         UserStore.changePersonAccount(res.data.data.user.personAccount);
         UserStore.changeCollectJob(res.data.data.user.collectJobArr.length);
+        UserStore.changeCollectJobHunter(res.data.data.user.collectJobHunterArr.length);
+  
         if(res.data.data.user.isCompany === 1) {
           UserStore.changeAllPublishJobType(res.data.data.allPublishJobType);
           UserStore.changeIsCompany(1);

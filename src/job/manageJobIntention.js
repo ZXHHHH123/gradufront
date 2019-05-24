@@ -9,11 +9,15 @@ import axios from 'axios'
 import axiosUtil from '../../config/system'
 import {Button, Flex, WhiteSpace, WingBlank, Picker, List, Provider, Modal} from '@ant-design/react-native';
 import {IconFill, IconOutline} from "@ant-design/icons-react-native";
+import UserStore from './../../mobx/userStore'
+import {observer} from 'mobx-react';
+
 
 
 const deviceW = Dimensions.get('window').width;
 const deviceH = Dimensions.get('window').height;
 
+@observer
 class ManageJobIntention extends Component {
   constructor(props) {
     super(props);
@@ -109,8 +113,8 @@ class ManageJobIntention extends Component {
               <View >
                 <Flex direction="column" justify="between" align="start" style={styles.manage_job_intention_account}
                       onPress={this.editJobIntention.bind(this)}>
-                  <Text style={styles.manage_job_intention_account_header}>[长沙]web前端</Text>
-                  <Text>5k-8k不限</Text>
+                  <Text style={styles.manage_job_intention_account_header}>[{UserStore.chooseCity}]{UserStore.chooseJobLabel}</Text>
+                  <Text>{UserStore.floorMoney}-{UserStore.upMoney}</Text>
                 </Flex>
               </View>
             </View>

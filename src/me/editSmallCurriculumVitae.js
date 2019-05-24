@@ -62,6 +62,7 @@ class editSmallCurriculumVitae extends Component {
             studyBackground: changeStudyBackground(res.data.data.studyBackground)
           });
           this.fixjobIntentionStatus(res.data.data.presentJobWantedIntention, false);
+          UserStore.changeTitImg(res.data.data.image);
           UserStore.changePersonAccount(res.data.data.personAccount);
           UserStore.changeWorkExperience(res.data.data.workExperience);
           UserStore.changeChooseJob(res.data.data.expectJobLabel, res.data.data.expectJobValue);
@@ -131,17 +132,17 @@ class editSmallCurriculumVitae extends Component {
   };
   
   addNewWorkExperienceItem() {
-    console.log(2);
-    
     this.props.navigation.navigate('addWorkExperience', {routeName: 'editSmallCurriculumVitae'});
   }
-  
+  onBackAndroid = () => {
+    this.props.navigation.navigate('personCenter');
+  };
   
   componentWillMount() {
     console.log('加载modal-operation');
     this.earnJobHunterCurriculumviate();
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+      // BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
     }
   }
   
@@ -151,7 +152,7 @@ class editSmallCurriculumVitae extends Component {
         <Provider>
           <ScrollView>
           <View style={styles.editSmallCurriculumViate_box}>
-            <HeaderComp navigation={navigation} title="我的简历" routeName="personCenter" rightText="预览"/>
+            <HeaderComp navigation={navigation} title="我的简历" routeName="personCenter"/>
             
             <Flex justify="between" style={styles.editSmallCurriculumViate_box_person_info}
                   onPress={this.editBasicInfo.bind(this)}>
@@ -161,8 +162,8 @@ class editSmallCurriculumVitae extends Component {
                 <Text
                     style={styles.editSmallCurriculumViate_box_person_basic_account}>{this.state.workYear}年以内.{this.state.age}岁.{this.state.studyBackground}</Text>
               </View>
-              {this.state.titimg ?
-                  <Image style={styles.editSmallCurriculumViate_box_person_titimg} source={{uri: this.state.titimg}}/> :
+              {UserStore.titImg ?
+                  <Image style={styles.editSmallCurriculumViate_box_person_titimg} source={{uri: UserStore.titImg}}/> :
                   <Image style={styles.editSmallCurriculumViate_box_person_titimg}
                          source={require('./../image/userPhoto.jpg')}/>}
             

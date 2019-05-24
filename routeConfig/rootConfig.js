@@ -44,6 +44,7 @@ import AllAttentionCompany from './../src/me/allAttentionCompany'
 import UpLoadCurriculumVitae from './../src/me/upLoadCurriculumVitae'
 import CompanyLeaderIntro from './../src/me/companyLeaderIntro'
 import CompanyProductIntro from './../src/me/companyProductIntro'
+import CollectJobHunter from './../src/me/collectJobHunter'
 
 
 
@@ -157,6 +158,10 @@ const RootStack = createStackNavigator({
   jobAddress: {
     screen: JobAddress
   },
+  collectJobHunter: {
+    screen: CollectJobHunter
+  },
+  
   
 }, {
   mode: 'modal',

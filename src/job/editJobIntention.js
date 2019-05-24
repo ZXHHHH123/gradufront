@@ -28,7 +28,7 @@ class EditJobIntention extends Component {
     this.state = {
       chooseCity: allCityData.data.locationCity.label,
       chooseCityValue: allCityData.data.locationCity.value,
-      chooseSalary: ['8k', '15k'],
+      chooseSalary: ['2k', '3k'],
       data: [],
       value: [],
       pickerCityValue: [101250000, 101250100],

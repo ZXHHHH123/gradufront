@@ -85,7 +85,11 @@ class personCenter extends Component {
   /*进入编写微简历界面*/
   editSmallCurriculumVitae() {
     console.log('进入编写微简历界面');
-    this.props.navigation.navigate('editSmallCurriculumVitae');
+    if(UserStore.isCompany) {
+      this.props.navigation.navigate('recruitManage');
+    }else {
+      this.props.navigation.navigate('editSmallCurriculumVitae');
+    }
   }
   intoRecruitManage() {
     console.log('点击进入招聘管理设置');
@@ -121,7 +125,21 @@ class personCenter extends Component {
   }
   
   render() {
-    let allCommunicateData = UserStore.allCommunicateData
+    let allCommunicateData = UserStore.allCommunicateData;
+    console.log(allCommunicateData);
+    console.log('aabbbbbbbbbb');
+    
+    let allCommunicateDataLength = allCommunicateData.allCommunicateData;
+    console.log(allCommunicateDataLength);
+    // console.log('aabbbbbbbbbb');
+    // let hadCurriculumVitaeDataLength = UserStore.allCommunicateData.hadCurriculumVitaeData.length;
+    // console.log(hadCurriculumVitaeDataLength);
+    // console.log('aabbbbbbbbbb');
+    // let interviewDataLength = UserStore.allCommunicateData.interviewData.length;
+    // console.log(interviewDataLength);
+    // console.log('aabbbbbbbbbb');
+    // let hasCurriculumVitaeDataLength = UserStore.allCommunicateData.hasCurriculumVitaeData.length;
+    // console.log(hasCurriculumVitaeDataLength);
     return (
         <Provider>
           <View style={styles.personCenter_box}>
@@ -139,7 +157,8 @@ class personCenter extends Component {
               <View style={styles.personCenter_box_basic_info}>
                 <Flex justify="between">
                   <View>
-                    <Text style={styles.personCenter_box_user_name}>{UserStore.nickName}</Text>
+                    {UserStore.nickName ?<Text style={styles.personCenter_box_user_name}>{UserStore.nickName}</Text>:                     <Text style={styles.personCenter_box_user_name}>自己的名字</Text>
+                    }
                     <Text onPress={this.editSmallCurriculumVitae.bind(this)} style={styles.personCenter_box_user_more}>我的个人主页></Text>
                   </View>
                   {UserStore.titImg ?   <Image style={styles.personCenter_box_user_photo} source={{uri: UserStore.titImg}}/>:   <Image style={styles.personCenter_box_user_photo} source={require('./../image/userPhoto.jpg')}/>}
@@ -153,26 +172,27 @@ class personCenter extends Component {
                 {UserStore.isCompany ?
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
                     <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                      <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.hasCurriculumVitaeData].length}</Text>
+                      <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.hasCurriculumVitaeData].length - 1}</Text>
                       <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}  onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
-                        <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.interviewData].length}</Text>
+                        <Text style={styles.personCenter_box_chat_record_num}>{[allCommunicateData.interviewData].length - 1}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>
-                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}>
-                      <Text style={styles.personCenter_box_chat_record_num}>0</Text>
+                      <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item} onPress={this.intoChatRecord.bind(this, 'collectJobHunter')}>
+                      <Text style={styles.personCenter_box_chat_record_num}>{UserStore.collectJobHunter}</Text>
                       <Text style={styles.personCenter_box_chat_record_type}>收藏牛人</Text>
                     </Flex>
                     </Flex> :
                     <Flex justify="between" style={styles.personCenter_box_chat_record}>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                                 onPress={this.intoChatRecord.bind(this, 'hadChat')}>
-                      <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.allCommunicateData].length}</Text>
+                        {[UserStore.allCommunicateData.allCommunicateData].length > 0 ?  <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.allCommunicateData].length}</Text> : <Text>0</Text>}
                       <Text style={styles.personCenter_box_chat_record_type}>未投递</Text>
                     </Flex>
                       <Flex direction="column" justify="between" style={styles.personCenter_box_chat_record_item}
                             onPress={this.intoChatRecord.bind(this, 'todayInterview')}>
+                        
                         <Text style={styles.personCenter_box_chat_record_num}>{[UserStore.allCommunicateData.interviewData].length}</Text>
                         <Text style={styles.personCenter_box_chat_record_type}>面试</Text>
                       </Flex>

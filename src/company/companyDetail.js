@@ -245,6 +245,7 @@ class CompanyDetail extends Component {
   }
   
   componentWillMount() {
+    console.log(999999999);
     let companyName = UserStore.companyDetailItem.companyName;
   
     // todo
@@ -253,8 +254,9 @@ class CompanyDetail extends Component {
   render() {
     const {navigation} = this.props;
     let presentItem = UserStore.companyDetailItem;
-    let workTimeArr = changeWorkTime(presentItem.companyWorkTimeValue);
     console.log('presentItem========');
+    console.log(UserStore.companyDetailItem.companyWorkTimeValue);
+    let workTimeArr = changeWorkTime(presentItem.companyWorkTimeValue);
     console.log(workTimeArr);
     console.log(presentItem);
     return (

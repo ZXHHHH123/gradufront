@@ -192,7 +192,7 @@ class jobDetail extends Component {
                 <Flex justify="between" align="center" style={styles.job_detail_company_intro_gate}>
                   <View>
                     <Flex>
-                    <Image style={styles.job_detail_hr_img} source={{uri: this.state.presentItem.companyLogo}}/>
+                      {this.state.presentItem.companyLogo ?<Image style={styles.job_detail_hr_img} source={{uri: this.state.presentItem.companyLogo}}/>:                     <Image style={styles.job_detail_hr_img} source={require('./../image/userPhoto.jpg')}/>}
                       <View>
                         <Text style={styles.job_detail_company_intro_text}>{this.state.presentItem.companyName}</Text>
                         <Text style={styles.job_detail_company_intro_text}>{this.state.presentItem.companyPeopleNum}.{this.state.presentItem.companyIndustry}</Text>

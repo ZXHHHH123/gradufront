@@ -64,6 +64,25 @@ class jobHunterDetail extends Component {
     });
   }
   
+  collectJobHunter() {
+    console.log('收藏牛人');
+    let url = axiosUtil.axiosUrl;
+    let jobHunterId = this.props.navigation.state.params.item._id;
+    axios.post(url + 'recruiter/collectJobHunter', {jobHunterId}, {
+          headers: {
+            'Authorization': 'Bearer ' + UserStore.userToken
+          }
+        }
+    ).then((res) => {
+      console.log(res);
+      if(res.data.code === 200) {
+        ToastAndroid.show('收藏成功', ToastAndroid.SHORT);
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+  
   sendInterviewDetail() {
     let url = axiosUtil.axiosUrl;
     console.log('发送面试邀请');
@@ -121,6 +140,7 @@ class jobHunterDetail extends Component {
     const {navigation} = this.props;
     let personData = this.props.navigation.state.params.item;
     console.log('jobhunter界面');
+    let routeName = this.props.navigation.state.params.routeName;
     
     console.log(this.props);
     return (
@@ -129,18 +149,25 @@ class jobHunterDetail extends Component {
           <View style={styles.jobHunterDetail_box}>
             <ScrollView>
               {this.props.navigation.state.params.routeName ?
-                  <HeaderComp navigation={navigation} title="求职者详情" routeName="hadChat"/> :
+                  <View>
+                    {this.props.navigation.state.params.routeName === 'hadChat' ?  <HeaderComp navigation={navigation} title="求职者详情" routeName='hadChat'/> :  <HeaderComp navigation={navigation} title="求职者详情" routeName='collectJobHunter'/> }
+                  </View>
+                 :
                   <HeaderComp navigation={navigation} title="求职者详情" routeName="BossMain"/>
               }
               
               <View style={styles.jobHunterDetail_box}>
                 
-                <Flex style={styles.jobHunterDetail_box_header}>
+                <Flex style={styles.jobHunterDetail_box_header} justify="between">
+                  <Flex>
                   {personData.image ?
                       <Image style={styles.jobHunterDetail_box_titImg} source={{uri: personData.image}}/> :
                       <Image style={styles.jobHunterDetail_box_titImg} source={require('./../image/userPhoto.jpg')}/>}
                   
                   <Text style={styles.jobHunterDetail_box_nickName}>{personData.nickName}</Text>
+                  </Flex>
+                  
+                  <IconOutline name="star" style={{fontSize: 18}} onPress={this.collectJobHunter.bind(this)}/>
                 </Flex>
                 
                 {/*期望求职行业、期望工资、期望工作城市等等*/}
@@ -219,7 +246,7 @@ class jobHunterDetail extends Component {
                 onClose={this.ModalClose}
                 maskClosable>
               <View>
-                <Flex direction="column" style={{paddingHorizontal: 15, height: deviceH * 0.8}}>
+                <Flex direction="column" style={{paddingHorizontal: 15, height: deviceH * 0.5}}>
                   
                   <InputItem
                       defaultValue=""

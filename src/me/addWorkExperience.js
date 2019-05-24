@@ -150,7 +150,7 @@ class addWorkExperience extends Component {
               <DatePicker
                   value={this.state.startTime}
                   mode="month"
-                  minDate={new Date(2000, 7)}
+                  minDate={new Date(2010, 7)}
                   maxDate={new Date(2026, 11)}
                   onChange={this.onChange1}
                   format="YYYY-MM"
@@ -163,7 +163,7 @@ class addWorkExperience extends Component {
               <DatePicker
                   value={this.state.endTime}
                   mode="month"
-                  minDate={new Date(2000, 7)}
+                  minDate={new Date(2010, 8)}
                   maxDate={new Date(2026, 11)}
                   onChange={this.onChange2}
                   format="YYYY-MM"

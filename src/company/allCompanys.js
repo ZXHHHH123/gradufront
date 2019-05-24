@@ -24,6 +24,7 @@ class allCompanys extends Component {
     super(props);
     this.state = {
       financingValue: [0],
+      refreshing: true,
       financingData: [{value: 0, label: '全部'}, {value: 1, label: '未融资'}, {value: 2, label: '天使轮'}, {
         value: 3, label: 'A轮'
       }, {value: 4, label: 'B轮'}, {value: 5, label: 'C轮'}, {value: 6, label: 'D轮及以上'}, {
@@ -31,7 +32,7 @@ class allCompanys extends Component {
       }, {value: 8, label: '不需要融资'}],
   
       sizeValue: [0],
-      sizeData: [{value: 0, label: '全部'}, {value: 1, label: '0-20人'}, {value: 2, label: '20-99人'}, {
+      sizeData: [{value: 0, label: '不限'}, {value: 1, label: '0-20人'}, {value: 2, label: '20-99人'}, {
         value: 3, label: '100-499人'
       }, {value: 4, label: '500-999人'}, {value: 5, label: '1000-9999人'}, {value: 6, label: '10000人以上'}],
   
@@ -76,6 +77,7 @@ class allCompanys extends Component {
     let params = {params: this.props.navigation};
     // let params = {params: this.props.navigation};
     UserStore.changeCompanyDetailItem(item);
+    UserStore.changeBackRouteName('');
     this.props.navigation.navigate('companyDetail', params);
   }
   
@@ -134,6 +136,7 @@ class allCompanys extends Component {
       console.log(res);
       if(res.data.code === 200) {
         this.setState({
+          refreshing: false,
           allcompanyData: res.data.data,
         })
       }
@@ -211,6 +214,8 @@ class allCompanys extends Component {
   
               <FlatList
                 data={this.state.allcompanyData}
+                onRefresh={() => this.earnRecommendCompany()}
+                refreshing={this.state.refreshing}
                 renderItem={({item}) => (
                     <TouchableOpacity onPress={this.intoCompanyDetail.bind(this, item)}>
                       <CompanyItemComp item={item}/>

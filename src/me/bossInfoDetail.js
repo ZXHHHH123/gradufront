@@ -109,7 +109,8 @@ class bossInfoDetail extends Component {
     };
     Promise.all([promiseImage(), promiseBossInfo()]).then((res) =>{
       console.log('成功');
-      this.props.navigation.navigate('publishJob', {routeName: 'bossInfoDetail'});
+      ToastAndroid.show('信息提交成功，待系统审核', ToastAndroid.SHORT);
+      // this.props.navigation.navigate('publishJob', {routeName: 'bossInfoDetail'});
     }).catch((err) => {
       console.log('promise_all 报错');
     });
@@ -148,7 +149,7 @@ class bossInfoDetail extends Component {
             <Flex justify="between" style={{width: deviceW * 0.93}}>
               <Text style={{color: 'black', fontSize: 16}}>头像</Text>
               <TouchableOpacity onPress={this.pickSingleWithCamera.bind(this, 'image')} style={styles.button}>
-                {!this.state.image ? <Text>请选择一张照片作为自己的头像</Text> :
+                {this.state.image.uri.length === 0 ? <Text>请选择一张照片作为自己的头像</Text> :
                     <Image style={styles.bossInfoDetail_box_photo} source={{uri: this.state.image.uri}}/>}
               </TouchableOpacity>
             </Flex>
@@ -243,7 +244,7 @@ class bossInfoDetail extends Component {
             <Flex direction="column" style={styles.bossInfoDetail_box_credit_item}>
               <Text style={{fontSize: 16, marginTop: 10}}>身份证正面</Text>
               <TouchableOpacity onPress={this.pickSingleWithCamera.bind(this, 'creditFrontSide')}>
-                {!this.state.creditFrontSide ?
+                {this.state.creditFrontSide.uri.length === 0 ?
                     <Flex justify="center" align="center" style={styles.bossInfoDetail_box_credit_item_photo}><Text>上传本人的身份证正面照</Text></Flex> :
                     <Image
                         style={styles.bossInfoDetail_box_credit_photo} source={{uri: this.state.creditFrontSide.uri}}/>
@@ -254,7 +255,7 @@ class bossInfoDetail extends Component {
             <Flex direction="column" style={styles.bossInfoDetail_box_credit_item}>
               <Text style={{fontSize: 16, marginTop: 10}}>身份证反面</Text>
               <TouchableOpacity onPress={this.pickSingleWithCamera.bind(this, 'creditReverseSide')}>
-                {!this.state.creditReverseSide ?
+                {this.state.creditReverseSide.uri.length === 0 ?
                     <Flex justify="center" align="center" style={styles.bossInfoDetail_box_credit_item_photo}><Text>上传本人的身份证反面照</Text></Flex> :
                     <Image
                         style={styles.bossInfoDetail_box_credit_photo}

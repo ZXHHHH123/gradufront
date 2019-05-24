@@ -234,6 +234,7 @@ class editCompanyIntro extends Component {
           'Authorization': 'Bearer ' + UserStore.userToken
         }
       }).then((res) => {
+        UserStore.changeCompanyLogo(companyLogo);
         console.log('上传公司产品信息接口所传res===');
       }).catch((err) => {
         console.log('上传公司产品信息接口所传报错===');
@@ -379,7 +380,6 @@ class editCompanyIntro extends Component {
               </View>
               <InputItem
                   defaultValue={this.state.companyPeopleNum}
-                  editable={false}
               >
                 公司大概人数
               </InputItem>

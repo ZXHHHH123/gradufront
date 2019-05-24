@@ -182,7 +182,7 @@ class recruitManage extends Component {
         UserStore.changeCompanyStar(res.data.data.companyStar);
         UserStore.changeCompanyAccount(res.data.data.companyAccount);
         UserStore.changeCompanyImage(res.data.data.companyImage);
-        UserStore.changeCompanyLogo(res.data.data.companyLogo);
+        UserStore.changeCompanyLogo({uri: res.data.data.companyLogo});
         UserStore.changeCompanyWebsite(res.data.data.companyWebsite);
         UserStore.changeCompanyWelfare(res.data.data.companyWelfare);
         UserStore.changeCompanyEmail(res.data.data.companyEmail);

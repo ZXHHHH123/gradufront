@@ -480,7 +480,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   publishJob_box_chooseItem_text: {
-    fontSize: 20,
+    fontSize: 16,
     color: '#818182',
   },
   

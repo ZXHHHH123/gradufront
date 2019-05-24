@@ -47,8 +47,11 @@ class changeStatus extends Component {
       
       if (res.data.code === 200) {
         console.log('userinfo成功');
+        console.log(user._id);
         Portal.remove(toastKey);
+        console.log(place);
         let isBoss = unit && place && creditFrontSide && creditReverseSide && userCreditCode;
+        console.log(isBoss);
         if (!isBoss) {
           let userInfo = {
             nickName,

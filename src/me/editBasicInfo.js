@@ -159,6 +159,9 @@ class editBasicInfo extends Component {
           }
         }).then((res) => {
           console.log('上传boss信息接口所传res===');
+          console.log(res);
+          let imgurl = res.data.data;
+          UserStore.changeTitImg(imgurl);
         }).catch((err) => {
           console.log('上传boss信息接口所传报错===');
           console.log(err);
@@ -226,14 +229,14 @@ class editBasicInfo extends Component {
               <Flex justify="between" style={styles.editBasicInfo_box_photo_item}
                     onPress={this.pickSingleWithCamera.bind(this, 'titImg')}>
                 <Text style={styles.editBasicInfo_box_item_content}>头像</Text>
-                {this.state.titImg ?
+                {this.state.titImg.uri ?
                     <Image style={styles.editBasicInfo_box_person_titimg} source={{uri: this.state.titImg.uri}}/> :
                     <Image style={styles.editBasicInfo_box_person_titimg} source={require('./../image/userPhoto.jpg')}/>
                 }
               </Flex>
               
               <InputItem
-                  defaultValue={this.state.nickName}
+                  defaultValue={UserStore.nickName}
                   placeholder="请填写姓名"
                   onChange={value => {
                     this.setState({
@@ -270,8 +273,8 @@ class editBasicInfo extends Component {
               <List>
                 <DatePicker
                     value={this.state.joinWorkTime}
-                    mode="datetime"
-                    minDate={new Date(2000, 7)}
+                    mode="date"
+                    minDate={new Date(2010, 7)}
                     maxDate={new Date(2026, 11)}
                     onChange={this.onChange1}
                     format="YYYY-MM"

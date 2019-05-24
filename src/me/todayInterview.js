@@ -44,15 +44,18 @@ class todayInterview extends Component {
   }
   intoCompanyDetail(item) {
     console.log(123);
+    console.log(item);
     let params = {params: this.props.navigation};
     // let params = {params: this.props.navigation};
-    UserStore.changeCompanyDetailItem(item);
+    UserStore.changeCompanyDetailItem(item.company);
     UserStore.changeBackRouteName('todayInterview');
     this.props.navigation.navigate('companyDetail', params);
   }
   earnInterviewData() {
     let allInerviewData = UserStore.allCommunicateData.interviewData;
   
+    console.log('abcdefg');
+    console.log(UserStore.allCommunicateData.interviewData);
     let url = axiosUtil.axiosUrl;
     let href;
     if(UserStore.isCompany == 1) {
@@ -92,7 +95,7 @@ class todayInterview extends Component {
     const {navigation} = this.props;
     return (
         <View>
-          <HeaderComp navigation={navigation} title="面试日程" rightText="全部" routeName="personCenter"/>
+          <HeaderComp navigation={navigation} title="面试日程" routeName="personCenter"/>
   
           <View style={{}}>
     

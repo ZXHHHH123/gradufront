@@ -29,7 +29,7 @@ class CompanyItemComp extends Component {
           <View style={styles.companyItem_main}>
             <View style={styles.companyItem_top}>
               <Flex>
-                <Image style={styles.companyItem_company_img} source={{uri: presentItem.companyLogo}}/>
+                {presentItem.companyLogo ?<Image style={styles.companyItem_company_img} source={{uri: presentItem.companyLogo}}/> : <Image style={styles.companyItem_company_img} source={require('./../image/userPhoto.jpg')}/>}
                 <View style={{width: deviceW* 0.8}}>
                   <Text style={styles.company_name}>{presentItem.companyName}</Text>
                   <Text style={styles.company_address}>公司地址 {presentItem.companyAddress}</Text>
@@ -41,7 +41,7 @@ class CompanyItemComp extends Component {
               {presentItem.isBelisted ?   <Text style={styles.companyItem_tag}>未上市</Text>: <Text style={styles.companyItem_tag}>已上市</Text>
               }
               <Text style={styles.companyItem_tag}>{presentItem.companyPeopleNum}</Text>
-              <Text style={styles.companyItem_tag}>不需要融资</Text>
+              {/*<Text style={styles.companyItem_tag}>不需要融资</Text>*/}
             </Flex>
           </View>
           
@@ -60,7 +60,6 @@ class CompanyItemComp extends Component {
               <Text style={styles.companyItem_jobtype}>{interviewData.interviewTime}</Text>
               <Text>面试地点：</Text>
               <Text style={styles.companyItem_jobtype}>{interviewData.interviewAddress}</Text>
-  
             </Flex>
             <IconOutline name="right" color="#818182"/>
           </Flex> : null}

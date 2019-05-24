@@ -196,14 +196,15 @@ class allJobHunter extends Component {
                   </Flex> : <Text></Text>}
               
               
-              <View>
+              {!UserStore.isCompany ? <View>
                 <Flex>
                   <Text onPress={this.manageJobIntention.bind(this)} style={styles.header_text}>+</Text>
                   <Text style={[styles.header_segment_line, styles.header_text]}>|</Text>
                   <IconOutline name="search" style={[styles.header_text, styles.header_search_icon]} color="white"/>
                   {/*<Text style={styles.header_text}></Text>*/}
                 </Flex>
-              </View>
+              </View>: null}
+              
             </Flex>
             {/*header end*/}
             
