@@ -13,7 +13,7 @@ const url = axiosUtil.axiosUrl;
 
 const testDevelopMaster = 'test';
 const testDevelopMaster1 = "test1";
-
+const testHotfixBranch = 'testHotfix'
 const testGitFunc = function () {
 	console.log('test git deff && branch')
 }
