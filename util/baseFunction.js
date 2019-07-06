@@ -11,6 +11,9 @@ import axiosUtil from './../config/system'
 const url = axiosUtil.axiosUrl;
 
 
+const testDevelopMaster = 'test';
+
+
 const testGitFunc = function () {
 	console.log('test git deff && branch')
 }
