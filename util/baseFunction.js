@@ -1,4 +1,4 @@
-/**
+*
  * Created by admin-pc on 2019/2/2.
  */
 import {StyleSheet, Text, View, TextInput, TouchableOpacity, ToastAndroid, Dimensions} from 'react-native'
