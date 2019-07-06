@@ -11,6 +11,10 @@ import axiosUtil from './../config/system'
 const url = axiosUtil.axiosUrl;
 
 
+const testGitFunc = function () {
+	console.log('test git deff && branch')
+}
+
 const earnSMSCode = function (phone) {
  axios.post(url + '', {phone}).then( res =>{
    console.log('获取验证码res---then')
